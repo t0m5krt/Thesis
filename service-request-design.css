@@ -1,39 +1,52 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ECECEC;
+}
+
 .form-group {
-    display: absolute;  
-    flex-direction: column;
-    margin-bottom: 1rem;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-  
-  input,
-  textarea {
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    border: 1px solid #ccc;
-  }
-  
-  button[type="submit"] {
-    background-color:#F02E24;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: none;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #F02E24;
-  }
-  
+  display: absolute;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  transform: translate(-50%, -50%);
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  margin: 5px;
+}
+
+input,
+textarea {
+  padding: 0.5rem;
+  border-radius: 5px;
+  background: #C0C0C0;
+  border: 1px solid #ccc;
+  position: absolute;
+  width: 350px;
+  height: 31px;
+}
+
+button[type="submit"] {
+  background-color: #f02e24;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #f02e24;
+}
