@@ -29,7 +29,7 @@
       </div>
       <div class="form-group">
         <label for="date-of-request">DATE OF REQUEST</label>
-        <input type="text" id="date-of-request" name="date-of-request" />
+        <input type="date" id="date-of-request" name="date-of-request" />
       </div>
       <div class="form-group">
         <label for="business-unit">BUSINESS UNIT</label>
@@ -68,9 +68,15 @@
         />
       </div>
       <div class="form-group">
-        <label for="name">TYPE OF REQUEST</label>
-        <input type="text" id="type-of-request" name="type-of-request" />
+        <label for="type-of-request">TYPE OF REQUEST</label>
+        <select id="type-of-request" name="type-of-request">
+          <option value="general">General Inquiry</option>
+          <option value="support">Technical Support</option>
+          <option value="billing">Billing Question</option>
+          <option value="other">Other</option>
+        </select>
       </div>
+      
       <div class="form-group">
         <label for="name">CHARGING</label>
         <input type="text" id="charging" name="charging" />

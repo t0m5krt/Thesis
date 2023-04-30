@@ -5,6 +5,8 @@
 }
 
 body {
+  min-height: 100vh;
+  display: grid;
   background-color: #ececec;
 }
 
@@ -13,10 +15,14 @@ form {
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  margin: auto;
+  width: 100%;
+
 }
 
-.form-title {
+.form-title h3 {
   padding: 30px;
+  font-weight: bold;
 }
 
 .form-group {
@@ -26,9 +32,10 @@ form {
 }
 
 label {
-  font-weight: bold;
-  margin-bottom: 0.6rem;
-  margin: 7px;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin: 5px;
+  font-size: 17px;
 }
 
 input,
@@ -41,8 +48,22 @@ textarea {
   width: 350px;
   height: 31px;
   align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+  display: inline-block;
 }
 
+.type-of-request select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #000;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+
+}
 button[type="submit"] {
   background-color: #f02e24;
   color: #fff;
