@@ -146,11 +146,8 @@
         <div class="head-title">
           <div class="left">
             <h1>Dashboard</h1>
-          
-            <div id="wwo-weather-widget-5"></div>
-            
-            <noscript><a href="https://www.worldweatheronline.com/taytay-weather/rizal/ph.aspx" alt="Hour by hour Taytay, Rizal weather">Taytay, Rizal weather forecast hourly</a></noscript>
-            
+          </div>
+        </div>
 
             <ul class="box-info">
               <li>
@@ -172,7 +169,35 @@
                 </span>
               </li>
             </ul>
-          </div>
+          
+            <!-- Weather -->
+            <div id="wwo-weather-widget-5"></div>
+            <noscript><a href="https://www.worldweatheronline.com/taytay-weather/rizal/ph.aspx" alt="Hour by hour Taytay, Rizal weather">Taytay, Rizal weather forecast hourly</a></noscript>
+            <!-- End of Weather -->
+
+            <!-- Calendar -->
+            <div class="calendar-container">
+              <div class="header">
+                <button class="prev-button">
+                  <i class='bx bx-chevron-left'></i>
+                </button>
+                <h3 class="month-year"></h3>
+                <button class="next-button">
+                  <i class='bx bx-chevron-right' ></i>
+                </button>
+              </div>
+              <div class="weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+              </div>
+              <div class="days"></div>
+            </div>
+            <!-- End of Calendar -->
       <!-- End of Main -->
     </section>
 
@@ -180,9 +205,10 @@
     
     
     <!-- End of Content -->
-
+    <script src="calendar.js"></script>
+    <script type='text/javascript' src='https://www.worldweatheronline.com/widget/v5/weather-widget.ashx?loc=1866459&wid=5&tu=1&div=wwo-weather-widget-5' async></script>
     <script src="script.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script type='text/javascript' src='https://www.worldweatheronline.com/widget/v5/weather-widget.ashx?loc=1866459&wid=5&tu=1&div=wwo-weather-widget-5' async></script>
+    
   </body>
 </html>

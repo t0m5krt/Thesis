@@ -303,13 +303,13 @@ body {
 /* MAIN */
 #content main {
   width: 100%;
-  padding: 10px 24px;
+  padding: 10px 20px;
   font-family: var(--poppins);
   max-height: calc(100vh - 56px);
   overflow-y: auto;
 }
 #content main .head-title {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-gap: 24px;
   margin-top: 36px;
@@ -317,14 +317,15 @@ body {
 #content main .head-title .left h1 {
   font-size: 36px;
   font-weight: 600;
-  margin-bottom: 10px;
+
   color: var(--dark);
 }
 #content main .box-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-gap: 24px;
-  margin-top: 36px;
+  margin-top: 24px;
+  padding-bottom: 20px;
 }
 #content main .box-info li {
   padding: 24px;
@@ -345,6 +346,72 @@ body {
   color: var(--dark);
   text-align: center;
 }
+#content main .box-info li:hover {
+  transform: scale(1.05);
+  border-top: 3px solid var(--red);
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Content/Main/Calendar */
+.calendar-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: var(--lato), sans-serif;
+  text-align: center;
+}
+
+.calendar-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-container .prev-button,
+.calendar-container .next-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.calendar-container .weekdays {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.calendar-container .weekdays div {
+  width: calc(100% / 7);
+  font-size: 14px;
+}
+
+.calendar-container .days {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.calendar-container .days div {
+  width: calc(100% / 7);
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+.calendar-container .days div:hover {
+  background-color: var(--fade-red);
+}
+
+.calendar-container .days .today {
+  background-color: var(--red);
+  color: var(--light);
+  font-weight: 100;
+}
+
+/* Content/Main/Calendar */
 
 /* MAIN */
 
