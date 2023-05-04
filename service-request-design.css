@@ -5,9 +5,12 @@
 }
 
 body {
-  min-height: 100vh;
-  display: grid;
+  height: 100vh;
   background-color: #ececec;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 form {
@@ -52,27 +55,37 @@ textarea {
   display: inline-block;
 }
 
-.type-of-request select {
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #000;
-  border-radius: 4px;
-  box-sizing: border-box;
+  transform: translateX(8%);
+}
+select {
+  text-align: center;
+}
+
+option {
+  text-align: center;
 }
 
 button[type="submit"] {
   background-color: #f02e24;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 8px;
   border-radius: 0.25rem;
   border: none;
   cursor: pointer;
+  transform: translate(90%, -50%);
+  line-height: 21px;
+  display: flex;
+
 }
 
 button[type="submit"]:hover {
   background-color: #f02e24;
+
 }
 
 button[type="submit"]:focus {

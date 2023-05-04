@@ -1,2 +1,2 @@
 # Thesis
-Help me Finish this thesis please!!
+Help me finish this thesis please!!
