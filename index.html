@@ -129,8 +129,6 @@
             <button type="submit" class="search-btn"><i class="bx bx-search"></i></button>
           </div>
         </form>
-        <input type="checkbox" id="switch-mode" hidden />
-        <label for="switch-mode" class="switch-mode"></label>
         <a href="#" class="notification">
           <i class="bx bxs-bell"></i>
           <span class="num">2</span>
@@ -170,34 +168,41 @@
               </li>
             </ul>
           
-            <!-- Weather -->
-            <div id="wwo-weather-widget-5"></div>
-            <noscript><a href="https://www.worldweatheronline.com/taytay-weather/rizal/ph.aspx" alt="Hour by hour Taytay, Rizal weather">Taytay, Rizal weather forecast hourly</a></noscript>
-            <!-- End of Weather -->
+            
+            <div class="weather-calendar-container">
+              <!-- Weather Widget -->
+              <div id="wwo-weather-widget-5"></div>
+              <noscript><a href="https://www.worldweatheronline.com/taytay-weather/rizal/ph.aspx" alt="Hour by hour Taytay, Rizal weather">Taytay, Rizal weather forecast hourly</a></noscript>
+              <!-- End of Weather Widget -->
 
-            <!-- Calendar -->
-            <div class="calendar-container">
-              <div class="header">
-                <button class="prev-button">
-                  <i class='bx bx-chevron-left'></i>
-                </button>
-                <h3 class="month-year"></h3>
-                <button class="next-button">
-                  <i class='bx bx-chevron-right' ></i>
-                </button>
+              <!-- Calendar -->
+              <div class="calendar-container">
+                <div class="header">
+                  <button class="prev-button">
+                    <i class='bx bx-chevron-left'></i>
+                  </button>
+                  <h3 class="month-year"></h3>
+                  <button class="next-button">
+                    <i class='bx bx-chevron-right' ></i>
+                  </button>
+                </div>
+                <div class="weekdays">
+                  <div>Sun</div>
+                  <div>Mon</div>
+                  <div>Tue</div>
+                  <div>Wed</div>
+                  <div>Thu</div>
+                  <div>Fri</div>
+                  <div>Sat</div>
+                </div>
+                <div class="days"></div>
               </div>
-              <div class="weekdays">
-                <div>Sun</div>
-                <div>Mon</div>
-                <div>Tue</div>
-                <div>Wed</div>
-                <div>Thu</div>
-                <div>Fri</div>
-                <div>Sat</div>
-              </div>
-              <div class="days"></div>
+            </div>
+            <div class="map-container">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.9096990010553!2d121.12343817413145!3d14.54715627838483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c7e8d5d3c81f%3A0x6001910e319481f3!2sMegawide%20Formworks%20Plant%20Office!5e0!3m2!1sen!2sph!4v1683184937794!5m2!1sen!2sph" width="1000" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <!-- End of Calendar -->
+            
       <!-- End of Main -->
     </section>
 
@@ -205,7 +210,6 @@
     
     
     <!-- End of Content -->
-    <script src="calendar.js"></script>
     <script type='text/javascript' src='https://www.worldweatheronline.com/widget/v5/weather-widget.ashx?loc=1866459&wid=5&tu=1&div=wwo-weather-widget-5' async></script>
     <script src="script.js"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
