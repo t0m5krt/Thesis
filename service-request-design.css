@@ -42,7 +42,7 @@ label {
 
 input,
 textarea {
-  padding: 0.5rem;
+  padding: 1rem;
   border-radius: 5px;
   background: #c0c0c0;
   border: 1px solid #ccc;
@@ -61,6 +61,7 @@ textarea {
   align-items: center;
   width: 100%;
   transform: translateX(8%);
+  padding: 0;
 }
 select {
   text-align: center;
@@ -80,12 +81,10 @@ button[type="submit"] {
   transform: translate(90%, -50%);
   line-height: 21px;
   display: flex;
-
 }
 
 button[type="submit"]:hover {
   background-color: #f02e24;
-
 }
 
 button[type="submit"]:focus {
@@ -94,4 +93,10 @@ button[type="submit"]:focus {
 .form-title1 h3 {
   padding-bottom: 47px;
   font-weight: bold;
+}
+
+.req-charging-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* updated value */
+  grid-gap: 20px;
 }
