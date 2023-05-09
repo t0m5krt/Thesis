@@ -22,6 +22,8 @@
     <form>
       <div class="form-title">
         <h3>Service Request Form</h3>
+        <p>Enter your concern details to a service request</p>
+        <br />
       </div>
       <div class="form-group">
         <label for="name">REQUESTOR</label>
@@ -61,11 +63,7 @@
       </div>
       <div class="form-group">
         <label for="name">SERVICE METER READING</label>
-        <input
-          type="text"
-          id="service-meter-reading"
-          name="service-meter-reading"
-        />
+        <input type="text" id="service-meter-reading" name="service-meter-reading" />
       </div>
       <div class="form-group">
         <label for="type-of-request">TYPE OF REQUEST</label>
@@ -76,10 +74,15 @@
           <option value="other">Other</option>
         </select>
       </div>
-      
+
       <div class="form-group">
-        <label for="name">CHARGING</label>
-        <input type="text" id="charging" name="charging" />
+        <label for="charging">CHARGING</label>
+        <select id="type-of-request" name="type-of-request">
+          <option value="general">Option 1</option>
+          <option value="support">Option 2</option>
+          <option value="billing">Option 3</option>
+          <option value="other">Other</option>
+        </select>
       </div>
       <button type="submit">Submit</button>
     </form>
