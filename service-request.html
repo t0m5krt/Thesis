@@ -26,7 +26,7 @@
         <br />
       </div>
       <div class="form-group">
-        <label for="name">REQUESTOR</label>
+        <label for="requestor">REQUESTOR</label>
         <input type="text" id="requestor" name="requestor" />
       </div>
       <div class="form-group">
@@ -35,26 +35,26 @@
       </div>
       <div class="form-group">
         <label for="business-unit">BUSINESS UNIT</label>
-        <input type="text" id="date-of-request" name="date-of-request" />
+        <input type="text" id="business-unit" name="business-unit" />
       </div>
       <div class="form-group">
-        <label for="name">CUST./PROJECT NAME</label>
+        <label for="cust-project-name">CUST./PROJECT NAME</label>
         <input type="text" id="cust-project-name" name="cust-project-name" />
       </div>
       <div class="form-group">
-        <label for="name">ASSET CODE</label>
+        <label for="asset-code">ASSET CODE</label>
         <input type="text" id="asset-code" name="asset-code" />
       </div>
       <div class="form-group">
-        <label for="name">MODEL</label>
+        <label for="model">MODEL</label>
         <input type="text" id="model" name="model" />
       </div>
       <div class="form-group">
-        <label for="name">SERIAL NO.</label>
+        <label for="serial-no">SERIAL NO.</label>
         <input type="text" id="serial-no" name="serial-no" />
       </div>
       <div class="form-group">
-        <label for="name">EQUIP DESC</label>
+        <label for="equip-desc">EQUIP DESC</label>
         <input type="text" id="equip-desc" name="equip-desc" />
       </div>
       <div class="form-group">
@@ -66,23 +66,58 @@
         <input type="text" id="service-meter-reading" name="service-meter-reading" />
       </div>
       <div class="form-group">
-        <label for="type-of-request">TYPE OF REQUEST</label>
-        <select id="type-of-request" name="type-of-request">
+          <label for="type-of-request">TYPE OF REQUEST</label>
+          <select id="type-of-request" name="type-of-request">
+            <option value="general">General Inquiry</option>
+            <option value="support">Technical Support</option>
+            <option value="billing">Billing Question</option>
+            <option value="other">Other</option>
+          </select>
+      </div>
+      <div class="form-group">
+        <label for="charging">CHARGING </label>
+        <select id="charging" name="charging">
           <option value="general">General Inquiry</option>
           <option value="support">Technical Support</option>
           <option value="billing">Billing Question</option>
           <option value="other">Other</option>
         </select>
       </div>
+      
+      </div>
 
+      <br />
+      <div class="form-title1">
+        <h3>Customer Service Request/Complaint</h3>
+      </div>
+      <br />
       <div class="form-group">
-        <label for="charging">CHARGING</label>
-        <select id="type-of-request" name="type-of-request">
-          <option value="general">Option 1</option>
-          <option value="support">Option 2</option>
-          <option value="billing">Option 3</option>
-          <option value="other">Other</option>
-        </select>
+        <label for="unit-problem">UNIT PROBLEM</label>
+        <input type="text" id="unit-problem" name="unit-problem" />
+      </div>
+      <div class="form-group">
+        <label for="others">OTHERS P/N</label>
+        <input type="text" id="others" name="others" />
+      </div>
+      <div class="form-group">
+        <label for="unit-operational">UNIT OPERATIONAL</label>
+        <input type="text" id="unit-operational" name="unit-operational" />
+      </div>
+      <div class="form-group">
+        <label for="specific-requirement">SPECIFIC REQUIREMENT</label>
+        <input type="text" id="specific-requirement" name="specific-requirement" />
+      </div>
+      <div class="form-group">
+        <label for="onsite-contact-person">ONSITE CONTACT PERSON</label>
+        <input type="text" id="onsite-contact-person" name="onsite-contact-person" />
+      </div>
+      <div class="form-group">
+        <label for="mobile-or-phone-no">MOBILE/PHONE NO.</label>
+        <input type="text" id="mobile-or-phone-no" name="mobile-or-phone-no" />
+      </div>
+      <div class="form-group">
+        <label for="fax-no">FAX NO.</label>
+        <input type="text" id="fax-no" name="fax-no" />
       </div>
       <button type="submit">Submit</button>
     </form>
