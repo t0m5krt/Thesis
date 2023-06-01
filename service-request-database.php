@@ -14,15 +14,27 @@ if (!$conn) {
 }
 
 // Get form data
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
-$companyname = $_POST['companyname'];
-$projectname = $_POST['projectname'];
-$emailaddress = $_POST['emailaddress'];
-$contactnumber = $_POST['contactnumber'];
-$pass_word = $_POST['pass_word'];
-$confirm_pass = $_POST['confirm_pass'];
+$requestor = $_POST['requestor'];
+$date_of_request = $_POST['date_of_request'];
+$business_unit = $_POST['business_unit'];
+$cust_of_project_name = $_POST['cust_of_project_name'];
+$asset_code = $_POST['asset_code'];
+$model = $_POST['model'];
+$serial_no = $_POST['serial_no'];
+$equip_desc = $_POST['equip_desc'];
+$brand = $_POST['brand'];
+$service_meter_reading = $_POST['service_meter_reading'];
+$type_of_request = $_POST['type_of_request'];
+$charging = $_POST['charging'];
+$unit_problem = $_POST['unit_problem'];
+$others = $_POST['others'];
+$unit_operational = $_POST['unit_operational'];
+$specific_requirement = $_POST['specific_requirement'];
+$onsite_contact_person = $_POST['onsite_contact_person'];
+$mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+$fax_no = $_POST['fax_no']; 
 
+    
 // Check if passwords match
 if ($pass_word !== $confirm_pass) {
     echo "Error: Passwords do not match";
