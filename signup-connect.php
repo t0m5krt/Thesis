@@ -29,17 +29,11 @@ if ($pass_word !== $confirm_pass) {
     exit;
 }
 
-// Check if email is valid
-if (strpos($emailaddress, '@') === false || strpos($emailaddress, 'gmail.com') === false) {
-    echo "Error: Invalid email address";
-    exit;
-}
-
 // Check if email already exists in the database
 $sql = "SELECT * FROM registration WHERE emailaddress = '$emailaddress'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
-    echo "Error: Email address already registered.";
+    echo "Error: Email address already registered";
     exit;
 }
 

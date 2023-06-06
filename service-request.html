@@ -9,7 +9,8 @@
   </head>
 
   <body>
-    <form>
+      <form action="service-request-database.php" method="post">
+
       <div class="form-title">
         <h3>Service Request Form</h3>
         <p>Enter your concern details to a service request</p>
@@ -21,31 +22,32 @@
       </div>
       <div class="form-group">
         <label for="date-of-request">DATE OF REQUEST</label>
-        <input type="date" id="date-of-request" name="date-of-request" required/>
+        <input type="date" id="date-of-request" name="date-of-request" />
       </div>
       <div class="form-group">
         <label for="business-unit">BUSINESS UNIT</label>
-        <input type="text" id="business-unit" name="business-unit" required/>
+        <input type="text" id="business-unit" name="business-unit" />
       </div>
       <div class="form-group">
         <label for="cust-project-name">CUST./PROJECT NAME</label>
-        <input type="text" id="cust-project-name" name="cust-project-name" required/>
+        <input type="text" id="cust-project-name" name="cust-project-name" />
       </div>
       <div class="form-group">
-        <label for="asset-code">ASSET CODE</label>
-        <input type="text" id="asset-code" name="asset-code" />
+        <label for="asset_code">ASSET CODE</label>
+        <input type="text" id="asset_code" name="asset_code" />
       </div>
+
       <div class="form-group">
         <label for="model">MODEL</label>
         <input type="text" id="model" name="model" required/>
       </div>
       <div class="form-group">
         <label for="serial-no">SERIAL NO.</label>
-        <input type="text" id="serial-no" name="serial-no" required/>
+        <input type="text" id="serial-no" name="serial-no" />
       </div>
       <div class="form-group">
         <label for="equip-desc">EQUIP DESC</label>
-        <input type="text" id="equip-desc" name="equip-desc" required/>
+        <input type="text" id="equip-desc" name="equip-desc" />
       </div>
       <div class="form-group">
         <label for="name">BRAND</label>
@@ -53,19 +55,14 @@
       </div>
       <div class="form-group">
         <label for="name">SERVICE METER READING</label>
-        <input type="text" id="service-meter-reading" name="service-meter-reading" required/>
+        <input type="text" id="service-meter-reading" name="service-meter-reading" />
       </div>
       <div class="form-group">
           <label for="type-of-request">TYPE OF REQUEST</label>
-          <select id="type-of-request" name="type-of-request" required>
-            <option value="Q_majorRepair">Quotation - Major Repair</option>
-            <option value="Q_minorRepair">Quotation - Minor Repair</option>
-            <option value="Q_Parts">Quotation - Parts</option>
-            <option value="preventiveMaintenance">Preventive Maintenance</option>
-            <option value="eqcInspection">EQC Inspection</option>
-            <option value="technicalEvaluationRequest">Technical Evaluation Request</option>
-            <option value="">Service Request</option>
-            <option value="emergencyCall">Emergency Call</option>
+          <select id="type-of-request" name="type-of-request">
+            <option value="general">General Inquiry</option>
+            <option value="support">Technical Support</option>
+            <option value="billing">Billing Question</option>
             <option value="other">Other</option>
           </select>
       </div>
@@ -87,7 +84,7 @@
       <br />
       <div class="form-group">
         <label for="unit-problem">UNIT PROBLEM</label>
-        <input type="text" id="unit-problem" name="unit-problem" required/>
+        <input type="text" id="unit-problem" name="unit-problem" />
       </div>
       <div class="form-group">
         <label for="others">OTHERS P/N</label>
@@ -95,25 +92,26 @@
       </div>
       <div class="form-group">
         <label for="unit-operational">UNIT OPERATIONAL</label>
-        <input type="text" id="unit-operational" name="unit-operational" required/>
+        <input type="text" id="unit-operational" name="unit-operational" />
       </div>
       <div class="form-group">
-        <label for="specific-requirement">SPECIFIC REQUIREMENT</label>
-        <input type="text" id="specific-requirement" name="specific-requirement" />
+        <label for="specific_requirement">SPECIFIC REQUIREMENT</label>
+        <input type="text" id="specific_requirement" name="specific_requirement" />
       </div>
       <div class="form-group">
         <label for="onsite-contact-person">ONSITE CONTACT PERSON</label>
-        <input type="text" id="onsite-contact-person" name="onsite-contact-person" required/>
+        <input type="text" id="onsite-contact-person" name="onsite-contact-person" />
       </div>
       <div class="form-group">
         <label for="mobile-or-phone-no">MOBILE/PHONE NO.</label>
-        <input type="text" id="mobile-or-phone-no" name="mobile-or-phone-no" required/>
+        <input type="text" id="mobile-or-phone-no" name="mobile-or-phone-no" />
       </div>
       <div class="form-group">
-        <label for="fax-no">FAX NO.</label>
-        <input type="text" id="fax-no" name="fax-no" />
+        <label for="fax_no">FAX NO.</label>
+        <input type="text" id="fax_no" name="fax_no" />
       </div>
       <button type="submit">Submit</button>
+
     </form>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

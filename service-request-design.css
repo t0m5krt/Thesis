@@ -112,5 +112,6 @@ button[type="submit"] {
     display: inline-block;
     width: calc(50% - 0.5rem); /* subtract margin from width */
     vertical-align: top;
+    background-color: #F02E24 !important;
   }
 }
