@@ -1,5 +1,5 @@
 <?php
-header('Location: http://' . $_SERVER['HTTP_HOST'] . '/test/service-request.html');
+header('Location: http://' . $_SERVER['HTTP_HOST'] . '/service-request.html');
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
