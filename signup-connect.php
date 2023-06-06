@@ -6,7 +6,7 @@ $password = "";
 $dbname = "test";
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname, $email);
 
 // Check connection
 if (!$conn) {
@@ -18,7 +18,7 @@ $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $companyname = $_POST['companyname'];
 $projectname = $_POST['projectname'];
-$emailaddress = $_POST['emailaddress'];
+$email = $_POST['email'];
 $contactnumber = $_POST['contactnumber'];
 $pass_word = $_POST['pass_word'];
 $confirm_pass = $_POST['confirm_pass'];
@@ -30,7 +30,7 @@ if ($pass_word !== $confirm_pass) {
 }
 
 // Check if email already exists in the database
-$sql = "SELECT * FROM registration WHERE emailaddress = '$emailaddress'";
+$sql = "SELECT * FROM registration WHERE email = '$email'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     echo "Error: Email address already registered";
@@ -41,8 +41,8 @@ if (mysqli_num_rows($result) > 0) {
 $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
 
 // Insert data into the database
-$sql = "INSERT INTO registration (firstname, lastname, companyname, projectname, emailaddress, contactnumber, pass_word) 
-        VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$emailaddress', '$contactnumber', '$hashed_password')";
+$sql = "INSERT INTO registration (firstname, lastname, companyname, projectname, email, contactnumber, pass_word) 
+        VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$email', '$contactnumber', '$hashed_password')";
 
 if ($pass_word === $confirm_pass && mysqli_query($conn, $sql)) {
     echo "CREATED SUCCESSFULLY";

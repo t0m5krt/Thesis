@@ -1,36 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Megawide C.E.L.S Login</title>
-    <link rel="stylesheet" href="login-design.css">
-  </head>
-  <body>
-    <div class="center">
-      <h1>Login</h1>
-      <form action="login.php" method="post">
+
+<head>
+  <meta charset="utf-8">
+  <title>Megawide C.E.L.S Login</title>
+  <link rel="stylesheet" href="login-design.css">
+</head>
+
+<body>
+  <div class="center">
+    <h1>Login</h1>
+    <form action="login.php" method="post">
       <div class="txt_field">
-          <input type="text" name="username" required>
-          <span></span>
-          <label>Username</label>
-        </div>
-        <div class="txt_field">
-          <input type="password" name="password" required>
-          <span></span>
-          <label>Password</label>
-        </div>
-        <div class="pass">Forgot Password?</div>
-        <input type="submit" name="submit"  value="Login" onclick="redirectToServiceRequest()">
-        <div class="signup_link">
-          Don't have an account? <a href="signup.html">Signup</a>
-        </div>
-      </form>
-    </div>
-    <script>
-      function redirectToServiceRequest() {
-        alert("Login Successful");
+        <input type="email" name="email" required>
+        <span></span>
+        <label>Email</label>
+      </div>
+      <div class="txt_field">
+        <input type="password" name="password" required>
+        <span></span>
+        <label>Password</label>
+      </div>
+      <div class="pass">Forgot Password?</div>
+      <input type="submit" name="submit" value="Login" onclick="redirectToServiceRequest()">
+      <div class="signup_link">
+        Don't have an account? <a href="signup.html">Signup</a>
+      </div>
+    </form>
+  </div>
+  <script>
+    function redirectToServiceRequest() {
+      alert("Login Successful");
     }
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>
