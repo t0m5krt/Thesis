@@ -9,7 +9,7 @@
 :root {
   --poppins: "Poppins", sans-serif;
   --lato: "Lato", sans-serif;
-  --light: #f9f9f9;
+  --light: #ffffff;
   --blue: #3c91e6;
   --light-blue: #cfe8ff;
   --grey: #eee;
@@ -25,7 +25,7 @@
 body {
   min-height: 100vh;
   display: grid;
-  background-color: #fff;
+  background-color: var(--light);
   font-family: var(--poppins);
 }
 
@@ -50,12 +50,14 @@ form {
 .form-group {
   margin-bottom: 1rem;
   width: -webkit-fill-available;
+  background-color: var(--light);
 }
 
 label {
   font-weight: 500;
   margin-bottom: 0.5rem;
   font-size: 1rem;
+  background-color: transparent;
 }
 
 input[type="text"],
@@ -73,11 +75,11 @@ select {
 button[type="submit"] {
   padding: 1rem;
   border-radius: 5px;
-  background-color: var(--red);
   color: #fff;
   border: none;
+  background-color: var(--blue);
   font-size: 1rem;
-  margin-top: 1.5rem;
+  /* margin-top: 1.5rem; */
   cursor: pointer;
   width: -webkit-fill-available;
 }
