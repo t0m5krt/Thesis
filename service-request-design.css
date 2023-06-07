@@ -108,6 +108,10 @@ button[type="submit"] {
     width: 350px;
   }
 
+  .form-group:not(:last-child) {
+    margin-right: 2rem;
+  }
+
   button[type="submit"] {
     display: inline-block;
     width: calc(50% - 0.5rem); /* subtract margin from width */

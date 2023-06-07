@@ -15,24 +15,65 @@ if (!$conn) {
 
 // Get form data
 $requestor = $_POST['requestor'];
-$date_of_request = $_POST['date_of_request'];
-$business_unit = $_POST['business_unit'];
-$cust_of_project_name = $_POST['cust_of_project_name'];
-$asset_code = $_POST['asset_code'];
+$date_of_request = $_POST['date-of-request'];
+$business_unit = $_POST['business-unit'];
+$cust_of_project_name = $_POST['cust-of-project-name'];
+$asset_code = $_POST['asset-code'];
 $model = $_POST['model'];
-$serial_no = $_POST['serial_no'];
-$equip_desc = $_POST['equip_desc'];
+$serial_no = $_POST['serial-no'];
+$equip_desc = $_POST['equip-desc'];
 $brand = $_POST['brand'];
-$service_meter_reading = $_POST['service_meter_reading'];
-$type_of_request = $_POST['type_of_request'];
-$charging = $_POST['charging'];
-$unit_problem = $_POST['unit_problem'];
+$service_meter_reading = $_POST['service-meter-reading'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve the selected value from the $_POST array
+    $type_of_request = $_POST['type-of-request'];
+
+    // Perform further processing or validation based on the selected value
+    if ($type_of_request === 'Q_majorRepair') {
+        // Handle Quotation - Major Repair
+    } elseif ($type_of_request === 'Q_minorRepair') {
+        // Handle Quotation - Minor Repair
+    } elseif ($type_of_request === 'Q_Parts') {
+        // Handle Quotation - Parts
+    } elseif ($type_of_request === 'preventiveMaintenance') {
+        // Handle Preventive Maintenance
+    } elseif ($type_of_request === 'eqcInspection') {
+        // Handle EQC Inspection
+    } elseif ($type_of_request === 'technicalEvaluationRequest') {
+        // Handle Technical Evaluation Request
+    } elseif ($type_of_request === 'emergencyCall') {
+        // Handle Emergency Call
+    } elseif ($type_of_request === 'other') {
+        // Handle Other
+    } else {
+        // Handle Service Request or empty value
+    }
+
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Retrieve the selected value from the $_POST array
+    $charging = $_POST['charging'];
+
+    // Perform further processing or validation based on the selected value
+    if ($charging === 'lease') {
+        // Handle Lease (Buyback)
+    } elseif ($charging === 'rental') {
+        // Handle Rental
+    } elseif ($charging === 'warranty') {
+        // Handle Warranty
+    } else {
+        // Handle other cases or empty value
+    }
+
+    // Perform any other actions or redirections as needed
+}
+$unit_problem = $_POST['unit-problem'];
 $others = $_POST['others'];
-$unit_operational = $_POST['unit_operational'];
-$specific_requirement = $_POST['specific_requirement'];
-$onsite_contact_person = $_POST['onsite_contact_person'];
-$mobile_or_phone_no = $_POST['mobile_or_phone_no'];
-$fax_no = $_POST['fax_no']; 
+$unit_operational = $_POST['unit-operational'];
+$specific_requirement = $_POST['specific-requirement'];
+$onsite_contact_person = $_POST['onsite-contact-person'];
+$mobile_or_phone_no = $_POST['mobile-or-phone-no'];
+$fax_no = $_POST['fax-no']; 
 
     
 // Check if passwords match
