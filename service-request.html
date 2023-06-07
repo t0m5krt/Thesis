@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <title>Service Request Form</title>
@@ -17,19 +22,19 @@
       </div>
       <div class="form-group">
         <label for="requestor">REQUESTOR</label>
-        <input type="text" id="requestor" name="requestor" required/>
+        <input type="text" id="requestor" name="requestor" required />
       </div>
       <div class="form-group">
         <label for="date-of-request">DATE OF REQUEST</label>
-        <input type="date" id="date-of-request" name="date-of-request" required/>
+        <input type="date" id="date-of-request" name="date-of-request" required />
       </div>
       <div class="form-group">
         <label for="business-unit">BUSINESS UNIT</label>
-        <input type="text" id="business-unit" name="business-unit" required/>
+        <input type="text" id="business-unit" name="business-unit" required />
       </div>
       <div class="form-group">
         <label for="cust-project-name">CUST./PROJECT NAME</label>
-        <input type="text" id="cust-project-name" name="cust-project-name" required/>
+        <input type="text" id="cust-project-name" name="cust-project-name" required />
       </div>
       <div class="form-group">
         <label for="asset-code">ASSET CODE</label>
@@ -37,47 +42,56 @@
       </div>
       <div class="form-group">
         <label for="model">MODEL</label>
-        <input type="text" id="model" name="model" required/>
+        <input type="text" id="model" name="model" required />
       </div>
       <div class="form-group">
         <label for="serial-no">SERIAL NO.</label>
-        <input type="text" id="serial-no" name="serial-no" required/>
+        <input type="text" id="serial-no" name="serial-no" required />
       </div>
       <div class="form-group">
         <label for="equip-desc">EQUIP DESC</label>
-        <input type="text" id="equip-desc" name="equip-desc" required/>
+        <input type="text" id="equip-desc" name="equip-desc" required />
       </div>
       <div class="form-group">
         <label for="name">BRAND</label>
-        <input type="text" id="brand" name="brand" required/>
+        <input type="text" id="brand" name="brand" required />
       </div>
       <div class="form-group">
         <label for="name">SERVICE METER READING</label>
-        <input type="text" id="service-meter-reading" name="service-meter-reading" required/>
+        <input type="text" id="service-meter-reading" name="service-meter-reading" required />
       </div>
       <div class="form-group">
-          <label for="type-of-request">TYPE OF REQUEST</label>
-          <select id="type-of-request" name="type-of-request" required>
-            <option value="Q_majorRepair">Quotation - Major Repair</option>
-            <option value="Q_minorRepair">Quotation - Minor Repair</option>
-            <option value="Q_Parts">Quotation - Parts</option>
-            <option value="preventiveMaintenance">Preventive Maintenance</option>
-            <option value="eqcInspection">EQC Inspection</option>
-            <option value="technicalEvaluationRequest">Technical Evaluation Request</option>
-            <option value="">Service Request</option>
-            <option value="emergencyCall">Emergency Call</option>
+        <label for="type-of-request">TYPE OF REQUEST</label>
+        <select id="type-of-request" name="type-of-request" required onchange="toggleAdditionalOption()">
+          <option value="Q_majorRepair">Quotation - Major Repair</option>
+          <option value="Q_minorRepair">Quotation - Minor Repair</option>
+          <option value="Q_Parts">Quotation - Parts</option>
+          <option value="preventiveMaintenance">Preventive Maintenance</option>
+          <option value="eqcInspection">EQC Inspection</option>
+          <option value="technicalEvaluationRequest">Technical Evaluation Request</option>
+          <option value="serviceRequest">Service Request</option>
+        </select>
+        <div id="additional-option-group" class="form-group" style="display: none">
+          <label for="additional-option"> Select:</label>
+          <select name="additional-option-service-request" id="additional-option-service-request">
+            <option value="emergencyCall">Emergency Call (Waver Required)</option>
             <option value="other">Other</option>
           </select>
-      </div>
-      <div class="form-group">
-        <label for="charging">CHARGING </label>
-        <select id="charging" name="charging" required>
-          <option value="lease">Lease (Buyback)</option>
-          <option value="rental">Rental</option>
-          <option value="warranty">Warranty</option>
-        </select>
-      </div>
-      
+        </div>
+
+        <div id="other-service-request-input" class="form-group" style="display: none">
+          <label for="other-input-servreq">(OTHERS)</label>
+          <input type="text" id="other-input-servreq" name="other-input-servreq" placeholder="Specify Here:" />
+        </div>
+
+        <div class="form-group">
+          <label for="charging">CHARGING </label>
+          <select id="charging" name="charging" required>
+            <option value="lease">Lease (Buyback)</option>
+            <option value="rental">Rental</option>
+            <option value="warranty">Warranty</option>
+          </select>
+        </div>
       </div>
 
       <br />
@@ -87,7 +101,7 @@
       <br />
       <div class="form-group">
         <label for="unit-problem">UNIT PROBLEM</label>
-        <input type="text" id="unit-problem" name="unit-problem" required/>
+        <input type="text" id="unit-problem" name="unit-problem" required />
       </div>
       <div class="form-group">
         <label for="others">OTHERS P/N</label>
@@ -95,7 +109,7 @@
       </div>
       <div class="form-group">
         <label for="unit-operational">UNIT OPERATIONAL</label>
-        <input type="text" id="unit-operational" name="unit-operational" required/>
+        <input type="text" id="unit-operational" name="unit-operational" required />
       </div>
       <div class="form-group">
         <label for="specific-requirement">SPECIFIC REQUIREMENT</label>
@@ -103,21 +117,24 @@
       </div>
       <div class="form-group">
         <label for="onsite-contact-person">ONSITE CONTACT PERSON</label>
-        <input type="text" id="onsite-contact-person" name="onsite-contact-person" required/>
+        <input type="text" id="onsite-contact-person" name="onsite-contact-person" required />
       </div>
       <div class="form-group">
         <label for="mobile-or-phone-no">MOBILE/PHONE NO.</label>
-        <input type="text" id="mobile-or-phone-no" name="mobile-or-phone-no" required/>
+        <input type="text" id="mobile-or-phone-no" name="mobile-or-phone-no" required />
       </div>
       <div class="form-group">
         <label for="fax-no">FAX NO.</label>
         <input type="text" id="fax-no" name="fax-no" />
       </div>
-      <button type="button">Submit</button>
+      <button type="submit">Submit</button>
     </form>
+
+    <script src="Scripts/script.js"></script>
+
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
       crossorigin="anonymous"
     ></script>
   </body>

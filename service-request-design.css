@@ -29,6 +29,10 @@ body {
   font-family: var(--poppins);
 }
 
+.hide {
+  display: none;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -77,9 +81,9 @@ button[type="submit"] {
   border-radius: 5px;
   color: #fff;
   border: none;
-  background-color: var(--blue);
+  background-color: var(--red);
   font-size: 1rem;
-  /* margin-top: 1.5rem; */
+  margin-top: 1.5rem;
   cursor: pointer;
   width: -webkit-fill-available;
 }
@@ -104,14 +108,10 @@ button[type="submit"] {
     width: 350px;
   }
 
-  .form-group:not(:last-child) {
-    margin-right: 2rem;
-  }
-
   button[type="submit"] {
     display: inline-block;
     width: calc(50% - 0.5rem); /* subtract margin from width */
     vertical-align: top;
-    background-color: #F02E24 !important;
+    background-color: var(--red) !important;
   }
 }
