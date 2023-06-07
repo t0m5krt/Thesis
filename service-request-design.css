@@ -116,10 +116,9 @@ button[type="submit"] {
   }
 }
 
-  button {
-    display: inline-block;
-    width: calc(50% - 0.5rem); /* subtract margin from width */
-    vertical-align: top;
-    background-color: #F02E24 !important;
-  }
+button {
+  display: inline-block;
+  width: calc(50% - 0.5rem); /* subtract margin from width */
+  vertical-align: top;
+  background-color: #f02e24 !important;
 }
