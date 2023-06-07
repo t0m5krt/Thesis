@@ -108,14 +108,18 @@ button[type="submit"] {
     width: 350px;
   }
 
-  .form-group:not(:last-child) {
-    margin-right: 2rem;
-  }
-
   button[type="submit"] {
     display: inline-block;
     width: calc(50% - 0.5rem); /* subtract margin from width */
     vertical-align: top;
     background-color: var(--red) !important;
+  }
+}
+
+  button {
+    display: inline-block;
+    width: calc(50% - 0.5rem); /* subtract margin from width */
+    vertical-align: top;
+    background-color: #F02E24 !important;
   }
 }
