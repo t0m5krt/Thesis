@@ -34,3 +34,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// favicon on header
+
+document.addEventListener("DOMContentLoaded", function () {
+  var link = document.createElement("link");
+  link.rel = "icon";
+  link.type = "image/x-icon";
+  link.href = "images/favicon.png";
+
+  var head = document.querySelector("head");
+  head.appendChild(link);
+});
