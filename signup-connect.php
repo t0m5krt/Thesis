@@ -6,7 +6,7 @@ $password = "";
 $dbname = "test";
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname, $email);
+$conn = mysqli_connect($servername, $username, $password, $dbname,);
 
 // Check connection
 if (!$conn) {
@@ -45,7 +45,8 @@ $sql = "INSERT INTO registration (firstname, lastname, companyname, projectname,
         VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$email', '$contactnumber', '$hashed_password')";
 
 if ($pass_word === $confirm_pass && mysqli_query($conn, $sql)) {
-    echo "CREATED SUCCESSFULLY";
+    header("Location: signup-success.html");
+
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 }

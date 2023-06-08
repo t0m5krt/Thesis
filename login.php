@@ -1,5 +1,4 @@
 <?php
-header('Location: http://' . $_SERVER['HTTP_HOST'] . '/service-request.html');
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -18,18 +17,29 @@ $conn = mysqli_connect($servername, $email, $password, $dbname);
 
 if (isset($_POST['login'])) {
   $email = $_POST['email'];
-  $password = $_POST['password'];
-  $password = md5($password);
-  $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-  $result = mysqli_query($conn, $sql);
-  if (mysqli_num_rows($result) == 1) {
-    $_SESSION['email'] = $email;
-    $_SESSION['success'] = "You are now logged in";
-    header('location: index.html');
-    exit();
-  } else {
-    array_push($errors, "Wrong email/password combination");
-  }
+  $pass_word = $_POST['password'];
+  $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
+  $sql = "SELECT * FROM registration WHERE email='$email' AND pass_word='$pass_word'";
+  echo $sql;
+  $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
+                    if ($result->num_rows == 1) {
+                        if (session_status() === PHP_SESSION_ACTIVE) {
+                            $_SESSION['email'] = $row['email'];
+                            $_SESSION['password'] = $row['pass_word'];
+                            header("Location: login-success.html");
+                            header('Location: http://' . $_SERVER['HTTP_HOST'] . '/test/service-request.html');
+                            
+                            // $_SESSION['password'] = $row['Password'];
+                        } else {
+                            echo "not started";
+                        }
+                    }else{
+                      $message = "Incorrect username/password";
+                      echo "<script>alert('$message');</script>";
+                        header('Location: http://' . $_SERVER['HTTP_HOST'] . '/test/login.html');
+                        echo "Incorrect username/password";
+                    }
 }
-echo ("You are now logged in");
+
 ?>
