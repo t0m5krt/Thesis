@@ -65,8 +65,7 @@ body {
 }
 
 #loader {
-  border: 16px solid var(--dark-grey);
-  border-top: 16px solid var(--red);
+  border-top: 20px solid var(--red);
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -479,6 +478,27 @@ body {
 /* End of MAIN */
 
 /* End of CONTENT */
+
+/* Footer */
+
+.bottom center {
+  font-family: var(--lato);
+  padding: 5px;
+  font-size: 0.9375rem;
+  background: var(--light);
+}
+.bottom center span {
+  color: var(--red);
+}
+.bottom center a {
+  color: var(--primarycolor3);
+  text-decoration: none;
+}
+.bottom center a:hover {
+  text-decoration: underline;
+}
+
+/* End of Footer */
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
