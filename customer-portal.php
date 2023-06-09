@@ -16,7 +16,7 @@
     ></script>
     <link rel="stylesheet" href="signupdesign.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>User Dashboard</title>
+    <title>Customer Portal | Dashboard</title>
   </head>
   <body>
     <div class="container">
