@@ -47,6 +47,7 @@ form {
   padding: 1rem;
   font-weight: 600;
 }
+
 .form-title p {
   color: var(--dark-grey);
 }
@@ -110,7 +111,8 @@ button[type="submit"] {
 
   button[type="submit"] {
     display: inline-block;
-    width: calc(50% - 0.5rem); /* subtract margin from width */
+    width: calc(50% - 0.5rem);
+    /* subtract margin from width */
     vertical-align: top;
     background-color: var(--red) !important;
   }
@@ -118,7 +120,8 @@ button[type="submit"] {
 
 button {
   display: inline-block;
-  width: calc(50% - 0.5rem); /* subtract margin from width */
+  width: calc(50% - 0.5rem);
+  /* subtract margin from width */
   vertical-align: top;
-  background-color: #f02e24 !important;
+  background-color: #F02E24 !important;
 }
