@@ -155,7 +155,7 @@ require_once('config/db.php');
 
         </div>
       </div>
-
+    </main>
       <!-- End of Main -->
   </section>
 

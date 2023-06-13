@@ -153,7 +153,7 @@ require_once('config/db.php');
 	</table> 
         </div>
       </div>
-
+          </main>
       <!-- End of Main -->
   </section>
 
