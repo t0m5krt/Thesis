@@ -1,3 +1,10 @@
+<?php
+
+require_once('config/db.php');
+//$query = "select * from inventory";
+//$result = mysqli_query($con, $query);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,6 +117,40 @@
       <div class="head-title">
         <div class="left">
           <h1>Employees</h1>
+          <table align="center" border="1px" style="width:600px; line-height:40px;"> 
+	<tr> 
+		<th colspan="4"><h2>Employees</h2></th> 
+		</tr> 
+			  <th> ITEM CODE</th> 
+			  <th> ITEM DESCRIPTION </th> 
+			  <th> QTY </th> 
+			  <th> OUM </th> 
+			  
+		</tr> 
+		
+		<?php
+    $query = "select * from manpower";
+    $result = $conn->query($query);
+
+            if ($result->num_rows > 0) {
+              while($row = $result->fetch_assoc()) {
+                $A = $row['A'];
+                $B = $row['B'];
+                $C = $row['C'];
+                $D = $row['D'];
+                echo "<tr> <td>$A</td>"; 
+                echo " <td>$B</td>"; 
+                echo " <td>$C</td>"; 
+                echo " <td>$D</td></tr>"; 
+              }
+            }
+
+		?> 
+		 <!-- <tr> <td><?php echo $rows['A']; ?></td> 
+		</tr>  -->
+	
+
+	</table> 
         </div>
       </div>
 
