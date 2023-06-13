@@ -121,10 +121,10 @@ require_once('config/db.php');
 	<tr> 
 		<th colspan="4"><h2>Employees</h2></th> 
 		</tr> 
-			  <th> ITEM CODE</th> 
-			  <th> ITEM DESCRIPTION </th> 
-			  <th> QTY </th> 
-			  <th> OUM </th> 
+			  <th>EMPLOYEE ID</th> 
+			  <th>EMPLOYEE NAME</th> 
+			  <th>POSITION</th> 
+			  <th>DEPARTMENT</th> 
 			  
 		</tr> 
 		
