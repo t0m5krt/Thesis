@@ -117,44 +117,33 @@ require_once('config/db.php');
       <div class="head-title">
         <div class="left">
           <h1>Employees</h1>
-          <table align="center" border="1px" style="width:600px; line-height:40px;"> 
-	<tr> 
-		<th colspan="4"><h2>Employees</h2></th> 
-		</tr> 
-			  <th>EMPLOYEE ID</th> 
-			  <th>EMPLOYEE NAME</th> 
-			  <th>POSITION</th> 
-			  <th>DEPARTMENT</th> 
-			  
-		</tr> 
-		
-		<?php
-    $query = "select * from manpower";
-    $result = $conn->query($query);
+          <table class="table-container">
+            <?php
+            $query = "select * from manpower";
+            $result = $conn->query($query);
 
             if ($result->num_rows > 0) {
-              while($row = $result->fetch_assoc()) {
+              while ($row = $result->fetch_assoc()) {
                 $A = $row['A'];
                 $B = $row['B'];
                 $C = $row['C'];
                 $D = $row['D'];
-                echo "<tr> <td>$A</td>"; 
-                echo " <td>$B</td>"; 
-                echo " <td>$C</td>"; 
-                echo " <td>$D</td></tr>"; 
+                echo "<tr> <td>$A</td>";
+                echo " <td>$B</td>";
+                echo " <td>$C</td>";
+                echo " <td>$D</td></tr>";
               }
             }
 
-		?> 
-		 <!-- <tr> <td><?php echo $rows['A']; ?></td> 
-		</tr>  -->
-	
+            ?>
 
-	</table> 
+
+
+          </table>
         </div>
       </div>
-          </main>
-      <!-- End of Main -->
+    </main>
+    <!-- End of Main -->
   </section>
 
   <!-- End of Content -->

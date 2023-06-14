@@ -12,6 +12,7 @@ require_once('config/db.php');
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="Styles/style.css" />
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
@@ -66,7 +67,7 @@ require_once('config/db.php');
           <i class="bx bxs-cabinet"></i>
 
           <span class="text">Inventory</span>
-        
+
         </a>
       </li>
 
@@ -118,45 +119,32 @@ require_once('config/db.php');
         <div class="left">
           <h1>Inventory</h1>
 
-          <table align="center" border="1px" style="width:600px; line-height:40px;"> 
-	<tr> 
-		<th colspan="4"><h2>Inventory</h2></th> 
-		</tr> 
-			  <th> ITEM CODE</th> 
-			  <th> ITEM DESCRIPTION </th> 
-			  <th> QTY </th> 
-			  <th> OUM </th> 
-			  
-		</tr> 
-		
-		<?php
-    $query = "select * from inventory";
-    $result = $conn->query($query);
+          <div class="table-container">
+            <table>
+              <?php
+              $query = "select * from inventory";
+              $result = $conn->query($query);
 
-            if ($result->num_rows > 0) {
-              while($row = $result->fetch_assoc()) {
-                $A = $row['A'];
-                $B = $row['B'];
-                $C = $row['C'];
-                $D = $row['D'];
-                echo "<tr> <td>$A</td>"; 
-                echo " <td>$B</td>"; 
-                echo " <td>$C</td>"; 
-                echo " <td>$D</td></tr>"; 
+              if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                  $A = $row['A'];
+                  $B = $row['B'];
+                  $C = $row['C'];
+                  $D = $row['D'];
+                  echo "<tr> <td>$A</td>";
+                  echo " <td>$B</td>";
+                  echo " <td>$C</td>";
+                  echo " <td>$D</td></tr>";
+                }
               }
-            }
 
-		?> 
-		 <!-- <tr> <td><?php echo $rows['A']; ?></td> 
-		</tr>  -->
-	
-
-	</table> 
-
+              ?>
+            </table>
+          </div>
         </div>
       </div>
     </main>
-      <!-- End of Main -->
+    <!-- End of Main -->
   </section>
 
 

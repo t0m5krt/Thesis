@@ -475,6 +475,31 @@ body {
 
 /* End of Map */
 
+/* Table */
+.table-container {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+tr:nth-of-type(even) {
+  background-color: #f2f2f2;
+}
+/* End of Table */
+
 /* End of MAIN */
 
 /* End of CONTENT */
