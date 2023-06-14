@@ -65,8 +65,8 @@ body {
 }
 
 #loader {
-  border-top: 20px solid var(--red);
-  border-radius: 50%;
+  border-top: 5px solid var(--red);
+  border-radius: 100%;
   width: 120px;
   height: 120px;
   animation: spin 1.5s linear infinite;
@@ -493,10 +493,10 @@ td {
 }
 
 th {
-  background-color: #f0f0f0;
+  background-color: #ff0000;
 }
 tr:nth-of-type(even) {
-  background-color: #f2f2f2;
+  background-color: #b8b8b8;
 }
 /* End of Table */
 

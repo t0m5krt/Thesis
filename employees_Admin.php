@@ -20,7 +20,6 @@ require_once('config/db.php');
 </head>
 
 <body>
-
   <!-- Sidebar -->
   <section id="sidebar">
     <a href="employees_Admin.php" class="brand">
