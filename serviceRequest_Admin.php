@@ -135,6 +135,7 @@ require_once('config/db.php');
             <th>UNIT OPERATIONAL</th>
             <th>SPECIFIC REQUIREMENT</th>
             <th>ONSITE CONTACT PERSON</th>
+            <th>MOBILE/PHONE NO.</th> 
             <th>FAX NO.</th>
 
             </tr>
