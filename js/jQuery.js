@@ -3,6 +3,6 @@ Swal.fire({
   title: "Invalid",
   text: "Invalid username or password!",
   onClose: function () {
-    // window.location.href = "admin_login.php";
+    window.location.href = "admin_login.php";
   },
 });
