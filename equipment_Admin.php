@@ -1,3 +1,22 @@
+<?php
+session_start();
+
+// Check if the user is not logged in
+if (!isset($_SESSION['username'])) {
+  // Redirect the user to the login page
+  header('Location: admin_login.php');
+  exit();
+}
+
+// Logout logic
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header('Location: admin_login.php');
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +32,11 @@
 </head>
 
 <body>
+
+  <div class="loader">
+    <div class="custom-loader"></div>
+  </div>
+
   <section id="sidebar">
     <a href="equipment_Admin.php" class="brand">
       <span class="icon img-fluid">
@@ -72,7 +96,7 @@
 
     <ul class="side-menu">
       <li>
-        <a href="#" class="logout">
+        <a href="admin_login.php?logout=1" class="logout">
           <i class="bx bx-log-out"></i>
 
           <span class="text"> Logout </span>
@@ -113,9 +137,9 @@
     <!-- End of Content -->
   </section>
 
-  <script type="text/javascript" src="https://www.worldweatheronline.com/widget/v5/weather-widget.ashx?loc=1866459&wid=5&tu=1&div=wwo-weather-widget-5" async></script>
   <script src="js/script.js"></script>
   <script src="js/favicon.js"></script>
+  <script src="js/preloader.js"></script>
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </body>
 

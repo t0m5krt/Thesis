@@ -133,12 +133,3 @@ const calendar = {
 };
 
 calendar.init();
-
-document.addEventListener("DOMContentLoaded", function () {
-  var loader = document.getElementById("preloader");
-
-  // Simulating a delay of 2 seconds before hiding the loader
-  setTimeout(function () {
-    loader.style.display = "none";
-  }, 2000);
-});
