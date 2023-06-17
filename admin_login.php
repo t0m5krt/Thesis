@@ -1,5 +1,4 @@
 <?php
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Get the submitted username and password
   $username = $_POST['username'];
@@ -10,15 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Example validation (replace this with your own logic)
   if ($username === 'admin' && $password === 'password') {
     // Successful login
-    $_SESSION['username'] = $username;
-    header('Location: dashboard.php');
-    exit(); // End the script
+    echo "<script>
+            alert('Login Successful!');
+                window.location.href = 'dashboard.php';
+          </script>";
+    exit; // End the script
   } else {
     // Invalid username or password
     echo "<script>
-            alert('Invalid username or password!');
-            window.location.href = 'admin_login.php';
-          </script>";
+    alert('Invalid username or password!');
+    window.location.href = 'admin_login.php';</script>";
   }
 }
 ?>

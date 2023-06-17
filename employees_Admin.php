@@ -9,13 +9,6 @@ require_once('config/db.php');
 <?php
 session_start();
 
-// Check if the user is not logged in
-if (!isset($_SESSION['username'])) {
-  // Redirect the user to the login page
-  header('Location: admin_login.php');
-  exit();
-}
-
 // Logout logic
 if (isset($_GET['logout'])) {
   // Destroy the session and redirect to the login page
