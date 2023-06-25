@@ -15,7 +15,7 @@ $password = "";
 $dbname = "test";
 $conn = mysqli_connect($servername, $email, $password, $dbname);
 
-if (isset($_POST['login'])) {
+if (isset($_POST['email']) && isset($_POST['password'])) {
   $email = $_POST['email'];
   $pass_word = $_POST['password'];
   $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
