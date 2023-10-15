@@ -43,6 +43,15 @@
 
 <?php
 
+// TO BE CONTINUED IF LOGIN SESSIONS ARE DONE
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+if (isset($_SESSION['username'])) {
+  header("location:logout.php");
+}
 include 'includes/connection.php';
 
 if (isset($_POST['submit'])) {
@@ -58,8 +67,18 @@ if (isset($_POST['submit'])) {
   mysqli_stmt_fetch($stmt);
   mysqli_stmt_close($stmt);
 
-  // Verify the password entered by the user
+  // Verify the password
   if ($hashedPassword && password_verify($password, $hashedPassword)) {
+    // After verifying the username and password
+    if ($hashedPassword && password_verify($password, $hashedPassword)) {
+      // Set the username in the session
+      $_SESSION['username'] = $username;
+
+      // Redirect to the dashboard
+      header('Location: dashboard.php');
+      exit();
+    } else {
+    }
 ?>
     <script>
       Swal.fire({
