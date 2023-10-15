@@ -348,6 +348,7 @@ body {
 #content main .head-title {
   display: flex;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-content: space-between;
   grid-gap: 24px;
   margin-top: 36px;
 }
