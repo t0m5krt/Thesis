@@ -1,25 +1,22 @@
 <!DOCTYPE html />
 <html lang="en">
 
-
 <head>
-  <link rel="stylesheet" href="design.css" />
+  <link rel="stylesheet" href="styles/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://unpkg.com/htmx.org@1.9.2"
-    integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous">
-    </script>
-  <title>Megawide C.E.L.S</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous">
+  </script>
+  <script src="src/js/bootstrap.bundle.min.js"></script>
+  <title>Repair and Maintenance Management System | Megawide C.E.L.S</title>
 </head>
 
 <body>
@@ -27,200 +24,213 @@
     <nav>
       <section class="header">
         <div class="logo-wrapper">
-          <img src="images/logo.png" alt="Logo" class="logo">
+          <a href="index.html">
+            <img src="images/logo.png" alt="Logo" class="logo">
+          </a>
         </div>
-        <div class="loginbtn">
-          <a href="login.html" class="login-btn">Log In</a>
+        <div class="nav-toggle">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
         </div>
         <ul class="nav-links">
-          <li><a href="#">ABOUT</a></li>
-          <li><a href="#">SERVICES</a></li>
-          <li><a href="#">CONTACT</a></li>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="#about-us">ABOUT US</a></li>
+          <li><a href="#services"> OTHER SERVICES</a></li>
+          <li><a href="#contact-us">CONTACT US</a></li>
         </ul>
+        <div class="loginbtn">
+          <a href="users/login.php" class="login-btn">Log In</a>
+        </div>
+      </section>
     </nav>
-    <div class="background">
-      <img src="images/image2.jpg" alt="Background" class="background-image">
+
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 p-5">
+      <div class="col-10 col-sm-8 col-lg-6">
+        <img src="images/login_background.jpg" class="d-block mx-lg-auto img-fluid background-image" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+      </div>
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">REPAIR AND MAINTENANCE MANAGEMENT SYSTEM</h1>
+        <p class="lead">Megawide CELS provides clients with convenience by providing a team of certified technicians who can provide
+          on-site heavy equipment repairs and support
+          ranging from basic equipment repairs to major machine breakdowns.</p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+          <a href="users/signup.html" class="btn btn-primary btn-lg px-4 me-md-2 text-white">Make an account <i class="fa-solid fa-arrow-right-to-bracket"></i></a>
+        </div>
+      </div>
     </div>
-    <div class="textbox">
-      <h1>DEPENDABLE EQUIPMENT SOLUTIONS FOR YOUR BUSINESS NEEDS </h1>
-      <p>Megawide CELS provides clients with convenience by providing a team of certified technicians who can provide
-        on-site heavy equipment repairs and support
-        ranging from basic equipment repairs to major machine breakdowns.
-      </p>
-    </div>
-    <a href="service-request.html" class="service-req-btn">FILE A SERVICE REQUEST</a>
+
     </section>
   </header>
 
-
   <!--ABOUT US-->
-  <section class="about-US">
-    <div class="about-us-wrapper">
-      <div class="about-us-title">
-        <h1>About Us</h1>
-      </div>
-      <br>
+  <section id="about-us" class="about-us">
+    <div class="content-title">
+      <h1>About Us</h1>
+    </div>
+    <div class="about-us-content">
       <div class="about-us-image">
-        <img src="images/about-pic-1.jpg" alt="About Us" class="about-us-image">
+        <img src="images/about-pic-1.jpg" alt="About Us">
       </div>
       <div class="about-us-text">
-        <span>Megawide Construction Equipment, Logistics, and Services (CELS) provides superior and cost-effective
-          end-to-end services by utilizing a large inventory of first-rate construction, material handling, earthmoving,
-          concrete delivery, transport and logistics vehicles. These world-class construction solutions allow for
-          maximum efficiency while working on shorter timelines. Megawide CELS also offers equipment leasing to
-          clients.</span>
+        <p>Megawide Construction Equipment, Logistics, and Services (CELS) provides superior and cost-effective end-to-end services by utilizing a large inventory of first-rate construction, material handling, earthmoving, concrete delivery, transport and logistics vehicles. These world-class construction solutions allow for maximum efficiency while working on shorter timelines. Megawide CELS also offers equipment leasing to clients.</p>
       </div>
     </div>
   </section>
 
-  <!--SERVICES-->
-  <section class="other-services">
-    <div class="other-services-wrapper">
-      <div class="other-services-title">
+
+  <section id="services">
+    <div class="row g-3 p-3">
+      <div class="content-title">
         <h1>Other Services</h1>
       </div>
-      <br>
-      <div class="other-services-cards">
-        <article class="card">
-          <img src="images/excavator.jpg" alt="excavator">
-          <h4>Heavy Equipment Leasing</h4>
-          <li>Excavators</li>
-          <li>Skit Steer Loaders</li>
-          <li>Track Type Tractor</li>
-          <li>Telehandler</li>
-        </article>
-        <article class="card">
-          <img src="images/equipment.jpg" alt="equipment">
-          <h4>Truck & Hauling Equipment</h4>
-          <li>Cargo Trucks</li>
-          <li>6W Cargo Drop Side Trucks</li>
-          <li>Dump Truck</li>
-          <li>6W Dump Truck</li>
-          <li>Flat Bed Trailer</li>
-          <li>Water Trucks</li>
-          <li>Trailer Dump</li>
-        </article>
-        <article class="card">
-          <img src="images/paving.jpg" alt="paving">
-          <h4>Paving & Compacting Equipment</h4>
-          <li>Road Compactor</li>
-          <li>Motor Grader</li>
-        </article>
-        <article class="card">
-          <img src="images/lifting.jpg" alt="lifting">
-          <h4>Lifting & Material Handling Equipment</h4>
-          <li>Mobile Crane</li>
-          <li>Forklift</li>
-          <li>Tower Crane</li>
-          <li>Telescopic Crane</li>
-          <li>Truck Mounted Crane</li>
-          <li>Crawler Crane</li>
-        </article>
-        <article class="card">
-          <img src="images/generator.jpg" alt="generator">
-          <h4>Light Equipment</h4>
-          <li>Generators</li>
-          <li>Air Compressors</li>
-          <li>Tower Light</li>
-          <li>Trash Pump</li>
-        </article>
+      <div class="col-12 col-md-6 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="images/excavator.jpg" class="card-img-top" alt="excavator-png">
+          <div class="card-body">
+            <h5 class="card-title">Heavy Equipment Leasing</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Excavators</li>
+            <li class="list-group-item">Skit Steer Loaders</li>
+            <li class="list-group-item">Track Type Tractor</li>
+            <li class="list-group-item">Telehandler</li>
+          </ul>
+        </div>
       </div>
-    </div>
+
+      <div class="col-12 col-md-6 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="images/equipment.jpg" class="card-img-top" alt="equipment-jpg">
+          <div class="card-body">
+            <h5 class="card-title">Truck & Hauling Equipment</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cargo Trucks</li>
+            <li class="list-group-item">6W Cargo Drop Side Trucks</li>
+            <li class="list-group-item">Dump Truck</li>
+            <li class="list-group-item">6W Dump Truck</li>
+            <li class="list-group-item">Flat Bed Trailer</li>
+            <li class="list-group-item">Water Trucks</li>
+            <li class="list-group-item">Trailer Dump</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="images/paving.jpg" class="card-img-top" alt="paving-jpg">
+          <div class="card-body">
+            <h5 class="card-title">Paving & Compacting Equipment</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Road Compacto</li>
+            <li class="list-group-item">Motor Grader</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="images/lifting.jpg" class="card-img-top" alt="lifting-jpg">
+          <div class="card-body">
+            <h5 class="card-title">Lifting & Material Handling Equipment</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Mobile Crane</li>
+            <li class="list-group-item">Forklift</li>
+            <li class="list-group-item">Tower Crane</li>
+            <li class="list-group-item">Telescopic Crane</li>
+            <li class="list-group-item">Truck Mounted Crane</li>
+            <li class="list-group-item">Crawler Crane</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-md-6 col-lg-4">
+        <div class="card">
+          <img src="images/generator.jpg" class="card-img-top" alt="generator-jpg">
+          <div class="card-body">
+            <h5 class="card-title">Light Equipment</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Generators</li>
+            <li class="list-group-item">Air Compressors</li>
+            <li class="list-group-item">Tower Light</li>
+            <li class="list-group-item">Trash Pump</li>
+          </ul>
+        </div>
+      </div>
+
   </section>
 
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="contact-us">
-            <div class="contact-us-wrapper">
-              <div class="contact-us-title">
-                <h1>Contact Us</h1>
-              </div>
-              <br>
-              <div class="contact-us-info">
-                <div class="head-office">
-                  <span class="fa-solid fa-location-dot fa-fw fa-xl" style="color: #f0242e;"></span>
-                  <span class="contact-us-text">Head Office:</span>
-                  <p>#20 N. Domingo St., Valencia, 1112 Quezon City Philippines</p>
-                </div>
+  <div class="container">
+    <footer class="py-5">
+      <div class="row bg-secondary-subtle">
 
-                <br>
-
-                <div class="warehouse-location">
-                  <span class="fa-solid fa-location-dot fa-fw fa-xl" style="color: #f0242e;"></span>
-                  <span class="contact-us-text">Warehouse & Logistics Office and Motorpool:</span>
-                  <p>#4 Velasquez St., Sitio Bangiad, Brgy. San Juan, 1920 Taytay, Rizal</p>
-                </div>
-
-                <br>
-
-
-                <div class="phone-number">
-                  <span class="fa-solid fa-phone fa-fw fa-xl" style="color: #f0242e;"></span>
-                  <span class="contact-us-text">Phone Number:</span>
-                  <p>+63 02 86551111 , +63 9178735172</p>
-                </div>
-
-
-                <div class="email-address">
-                  <span class="fa-solid fa-envelope fa-fw fa-xl" style="color: #f0242e;"></span>
-                  <span class="contact-us-text">Email Address:</span>
-                  <p>cels.salesandmarketing@megawide.com.ph</p>
-                </div>
-              </div>
-
-              <div class="socials">
-                <a href="https://www.facebook.com/MegawideCELS/"><span class="fa-brands fa-facebook fa-fw fa-lg"
-                    style="color: #f0242e;"></span></a>
-                <a href="https://megawide.com.ph/"><span class="fa-solid fa-globe fa-fw fa-lg"
-                    style="color: #f0242e;"></span></a>
-                <a href="https://twitter.com/MegawideBuilds"><span class="fa-brands fa-twitter fa-fw fa-lg"
-                    style="color: #f0242e;"></span></a>
-                <a href="https://www.linkedin.com/company/megawide-construction-corporation"><span
-                    class="fa-brands fa-linkedin fa-fw fa-lg" style="color: #f0242e;"></span></a>
-              </div>
-
-            </div>
-          </div>
+        <div class="content-title">
+          <h1>Contact Us</h1>
         </div>
-        <div class="col-md-6">
-          <div class="right-box">
-            <div class="content">
-              <form action="#">
-                <div>
-                  <span class="text">Name:</span>
-                  <input type="text" name="name" required="" placeholder="Name">
-                </div>
-                <div>
-                  <span class="text">Email:</span>
-                  <input type="email" name="email" required="" placeholder="Email">
-                </div>
-                <div>
-                  <span class="text">Company Name:</span>
-                  <input type="text" name="company_name" required="" placeholder="Company Name">
-                </div>
-                <div>
-                  <span class="text">Contact Number:</span>
-                  <input type="text" name="contact_no" placeholder="Contact Number">
-                </div>
-                <div>
-                  <span class="text">Subject:</span>
-                  <input type="text" name="subject" placeholder="Subject">
-                </div>
-                <div>
-                  <span class="text">Message:</span>
-                  <textarea cols="25" rows="5" required></textarea>
-                </div>
-                <button type="submit">Submit</button>
-              </form>
-            </div>
+
+        <div class="col-12 col-md-6 col-lg-12 p-lg-5">
+          <div class="head-office">
+            <a href="https://goo.gl/maps/aRxS9xfAAcCzjG36A" target="_blank" class="fa-solid fa-location-dot fa-fw fa-xl link-primary"></a>
+            <span class="contact-us-text">Head Office:</span>
+            <p>#20 N. Domingo St., Valencia, 1112 Quezon City Philippines</p>
+          </div>
+
+          <div class="warehouse">
+            <a href="https://goo.gl/maps/v1wcXz9hGpTXKAVKA" target="_blank" class="fa-solid fa-location-dot fa-fw fa-xl link-primary"></a>
+            <span class="contact-us-text">Warehouse & Logistics Office and Motorpool:</span>
+            <p>#4 Velasquez St., Sitio Bangiad, Brgy. San Juan, 1920 Taytay, Rizal</p>
+          </div>
+
+          <div class="phone-number">
+            <span class="fa-solid fa-phone fa-fw fa-xl link-primary"></span>
+            <span class="contact-us-text">Phone Number:</span>
+            <p>+63 02 86551111 , +63 9178735172</p>
+          </div>
+
+          <div class="email-address">
+            <span class="fa-solid fa-envelope fa-fw fa-xl link-primary"></span>
+            <span class="contact-us-text">Email Address:</span>
+            <p>cels.salesandmarketing@megawide.com.ph</p>
           </div>
         </div>
 
-  </footer>
+      </div>
+
+      <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+        <p>© 2023 Megawide - CELS. All rights reserved.</p>
+        <ul class="list-unstyled d-flex">
+          <li class="ms-3">
+            <a class="link-primary" href="//www.facebook.com/people/Megawide-CELS-Construction-Equipment-Logistics-Services/100083134601512/" target="_blank">
+              <span class="fa-brands fa-facebook fa-fw fa-lg"></span>
+            </a>
+
+          </li>
+          <li class="ms-3">
+            <a class="link-primary" href="https://megawide.com.ph/" target="_blank">
+              <span class="fa-solid fa-globe fa-fw fa-lg"></span>
+            </a>
+          </li>
+          <li class="ms-3">
+            <a class="link-primary" href="https://www.linkedin.com/company/megawide-construction-corporation" target="_blank">
+              <span class="fa-brands fa-linkedin fa-fw fa-lg"></span>
+            </a>
+          </li>
+          <li class="ms-3">
+            <a class="link-primary" href="https://www.youtube.com/@officialmegawide5894" target="_blank">
+              <span class="fa-brands fa-youtube fa-fw fa-lg"></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </div>
+
 </body>
 
-
+<script src="js/script.js"></script>
 
 </html>

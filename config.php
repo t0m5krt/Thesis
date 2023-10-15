@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "test";
+$dbname = "rmma";
  
 /* connect to MySQL database */
 $conn = mysqli_connect($servername, $username, $password, $dbname);

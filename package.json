@@ -1,0 +1,11 @@
+{
+  "name": "repair-and-maintenance-management-system",
+  "version": "1.0.0",
+  "description": "Help me finish this thesis please!!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

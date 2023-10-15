@@ -1,2 +1,4 @@
 # Thesis
-Help me finish this thesis please!!
+
+DB MIGRATION:
+Import test.sql on PHP MyAdmin
