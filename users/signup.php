@@ -38,21 +38,45 @@ if (isset($_POST['submit'])) {
                 }
             })
         </script>
-<?php
+    <?php
         exit;
     }
     // Check if passwords match
     if ($pass_word !== $confirm_pass) {
-        echo "Error: Passwords do not match";
-        exit;
+    ?>
+
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Passwords do not match',
+                showConfirmButton: true,
+                onClose: function() {
+                    exit();
+                    window.location = "signup.php";
+                }
+            })
+        </script>
+    <?php
     }
 
     // Check if email already exists in the database
     $sql = "SELECT * FROM user_accounts WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
-        echo "Error: Email address already registered";
-        exit;
+    ?>
+
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Email address already registered',
+                showConfirmButton: true,
+                onClose: function() {
+                    exit();
+                    window.location = "signup.php";
+                }
+            })
+        </script>
+    <?php
     }
 
     // Hash the password
@@ -62,8 +86,22 @@ if (isset($_POST['submit'])) {
     $sql = "INSERT INTO user_accounts (firstname, lastname, companyname, projectname, email, contactnumber, pass_word) 
         VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$email', '$contactnumber', '$hashed_password')";
 
-    if ($password === $confirm_pass && mysqli_query($conn, $sql)) {
-        header("Location: login.php");
+    if (mysqli_query($conn, $sql)) {
+    ?>
+
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Account created successfully',
+                text: .concat('Welcome ', '<?php echo $firstname ?>'),
+                showConfirmButton: true,
+                onClose: function() {
+                    exit();
+                    window.location = "login.php";
+                }
+            })
+        </script>
+<?php
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
@@ -116,7 +154,7 @@ if (isset($_POST['submit'])) {
                     </div>
                     <div class="input-box">
                         <span class="details">Contact No.</span>
-                        <input type="text" placeholder="Type Here" id="contactnumber" name="contactnumber" required>
+                        <input type="text" placeholder="09XX-XXX-XXXX" id="contactnumber" name="contactnumber" maxlength="11" required>
                     </div>
                     <div class="input-box">
                         <span class="details">Password</span>
@@ -139,10 +177,13 @@ if (isset($_POST['submit'])) {
             </form>
         </div>
     </div>
+    <?php
+    include 'includes/scripts.php';
+    ?>
     <script>
-        <?php
-        include 'includes/scripts.php';
-        ?>
+        document.getElementById('contactnumber').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
     </script>
 </body>
 
