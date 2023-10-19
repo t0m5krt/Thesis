@@ -44,6 +44,7 @@ if (isset($_GET['logout'])) {
                         <tbody>
 
                             <?php
+                            //sql should read the service reqeust status
                             $sql = "SELECT * FROM submit_requests WHERE user_id = '" . $_SESSION['user_id'] . "'";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
@@ -74,6 +75,11 @@ if (isset($_GET['logout'])) {
 
 
     <?php include 'includes/scripts.php' ?>
+    <script>
+        // add an active list on the side bar when this page is loaded
+        const active = document.querySelector(".side-menu li:nth-child(3)");
+        active.classList.add("active");
+    </script>
 </body>
 
 </html>
