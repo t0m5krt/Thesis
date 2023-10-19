@@ -198,12 +198,15 @@ if (isset($_GET['logout'])) {
             VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
           $sqlServiceRequest = "INSERT INTO service_request_status(SERVICE_REQUEST_ID,STATUS_VALUE) VALUES('$SERVICE_REQUEST_ID','In progress');";
           if ($conn->query($sql) === TRUE) {
-            echo "Record Deleted Successfully";
+            echo "Assigning Successful";
           }
           if ($conn->query($sqlServiceRequest) === TRUE) {
-            echo "Record Deleted Successfully";
+            echo "Assigning Successful";
           }
+          echo "<script>window.location.href = 'workOrder_Admin.php';
+          </script>";
         }
+
         ?>
       </div>
       <!-- End of 1st column -->

@@ -19,7 +19,9 @@ if ($conn->connect_error) {
 }
 
 // Query to get the count of service requests
-$sql = "SELECT COUNT(*) AS request_count FROM submit_requests";
+$sql = "SELECT COUNT(*) AS request_count FROM submit_requests
+WHERE SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM work_order)";
+
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -29,7 +31,21 @@ if ($result->num_rows > 0) {
   $requestCount = 0;
 }
 
+
+
+
+$sql = "SELECT COUNT(*) AS work_count FROM work_order";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $workCount = $row["work_count"];
+} else {
+  $workCount = 0;
+}
+
 $conn->close();
+
 
 ?>
 
@@ -88,7 +104,7 @@ $conn->close();
         <li>
           <a class="text" href="workOrder_Admin.php">
             <p>Work Orders Pending</p>
-            <h1>0</h1>
+            <h1><?php echo $workCount; ?></h1>
           </a>
         </li>
       </ul>
