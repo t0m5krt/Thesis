@@ -1,7 +1,7 @@
 <?php
 include('config/db.php');
 
-$sql = "SELECT * FROM submit_request";
+$sql = "SELECT * FROM work_order";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>

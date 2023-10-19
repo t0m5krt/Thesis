@@ -29,9 +29,9 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body>
-  <div class="loader">
+  <!-- <div class="loader">
     <div class="custom-loader"></div>
-  </div>
+  </div> -->
 
   <!-- SIDEBAR -->
   <?php include 'includes/sidebar.php'; ?>
@@ -84,85 +84,95 @@ if (isset($_GET['logout'])) {
               return 'Unknown'; // Handle any unexpected values
           }
         }
-
+        // $_POST['sort'] = '';
         if (isset($_POST['sort'])) {
           $sortOption = $_POST['sort'];
+        } else
+          $sortOption = '';
+        // Modify the SQL query based on the selected sorting option
+        switch ($sortOption) {
+          case 'sortValue':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.sort_value ASC;";
+            break;
+          case 'dateRequest':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.date_of_request ASC;";
+            break;
+          case 'ByID':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.SERVICE_REQUEST_ID ASC;";
+            break;
+          default:
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.sort_value ASC;";
+            break;
+        }
 
-          // Modify the SQL query based on the selected sorting option
-          switch ($sortOption) {
-            case 'sortValue':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`sort_value` ASC;";
-              break;
-            case 'dateRequest':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`date_of_request` ASC;";
-              break;
-            case 'ByID':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`SERVICE_REQUEST_ID` ASC;";
-              break;
-            default:
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`sort_value` ASC;";
-              break;
-          }
+        $result = $conn->query($sql);
 
-          $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo '<div class="card mt-2 mx-2 mb-15">';
+            echo '<div class="card-header">';
+            echo 'Reqeust ID: ' . $row['SERVICE_REQUEST_ID'];
+            echo '</div>';
+            echo '<div class="card-body">';
+            echo '<div class="row">';
+            echo '<div class="col-md-8">';
+            echo '<div class="card-title">Request Info: ' . $row['requestor'] . '</div>';
 
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo '<div class="card mt-2 mx-2 mb-15">';
-              echo '<div class="card-header">';
-              echo 'Reqeust ID: ' . $row['SERVICE_REQUEST_ID'];
-              echo '</div>';
-              echo '<div class="card-body">';
-              echo '<div class="row">';
-              echo '<div class="col-md-8">';
-              echo '<div class="card-title">Request Info: ' . $row['requestor'] . '</div>';
+            // Convert sort_value to priority string
+            $priorityString = mapSortValueToString($row['sort_value']);
 
-              // Convert sort_value to priority string
-              $priorityString = mapSortValueToString($row['sort_value']);
-
-              echo '<div class="card-text">Priority Level: ' . $priorityString . '</div>';
-              echo '<p class="card-text">' . $row['type_of_request'] . '</p>';
-              echo '<p class="card-text">Request Date: ' . $row['date_of_request'] . '</p>';
-              echo '</div>';
-              echo '<div class="col-md-4 text-right">';
-              echo '<form action="" method="POST">';
-              echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
-              echo '<button class="btn btn-danger view-bot" 
+            echo '<div class="card-text">Priority Level: ' . $priorityString . '</div>';
+            echo '<p class="card-text">' . $row['type_of_request'] . '</p>';
+            echo '<p class="card-text">Request Date: ' . $row['date_of_request'] . '</p>';
+            echo '</div>';
+            echo '<div class="col-md-4 text-right">';
+            echo '<form action="" method="POST">';
+            echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
+            echo '<button class="btn btn-danger view-bot" 
         onclick="fillForm('
-                . $row["SERVICE_REQUEST_ID"] . ', \''
-                . $row["requestor"] . '\', \''
-                . $row["date_of_request"] . '\', \''
-                . $row["mobile_or_phone_no"] . '\', \''
-                . $row["business_unit"] . '\', \''
-                . $row["cust_project_name"] . '\', \''
-                . $row["asset_code"] . '\', \''
-                . $row["model"] . '\', \''
-                . $row["serial_no"] . '\', \''
-                . $row["equip_desc"] . '\', \''
-                . $row["brand"] . '\', \''
-                . $row["service_meter_reading"] . '\', \''
-                . $row["type_of_request"] . '\', \''
-                . $row["additional_option"] . '\', \''
-                . $row["charging"] . '\', \''
-                . $row["unit_problem"] . '\', \''
-                . $row["others"] . '\', \''
-                . $row["unit_operational"] . '\', \''
-                . $row["specific_requirement"] . '\', \''
-                . $row["onsite_contact_person"] . '\', \''
-                . $row["fax_no"] . '\')">
+              . $row["SERVICE_REQUEST_ID"] . ', \''
+              . $row["requestor"] . '\', \''
+              . $row["date_of_request"] . '\', \''
+              . $row["mobile_or_phone_no"] . '\', \''
+              . $row["business_unit"] . '\', \''
+              . $row["cust_project_name"] . '\', \''
+              . $row["asset_code"] . '\', \''
+              . $row["model"] . '\', \''
+              . $row["serial_no"] . '\', \''
+              . $row["equip_desc"] . '\', \''
+              . $row["brand"] . '\', \''
+              . $row["service_meter_reading"] . '\', \''
+              . $row["type_of_request"] . '\', \''
+              . $row["additional_option"] . '\', \''
+              . $row["charging"] . '\', \''
+              . $row["unit_problem"] . '\', \''
+              . $row["others"] . '\', \''
+              . $row["unit_operational"] . '\', \''
+              . $row["specific_requirement"] . '\', \''
+              . $row["onsite_contact_person"] . '\', \''
+              . $row["fax_no"] . '\')">
           VIEW</button>';
-              echo '<button class="btn btn-secondary close-bot" type="button"
-          onclick="closeRequest(' . $row["SERVICE_REQUEST_ID"] . ')">CLOSED</button>';
-              echo '</form>';
-              echo '</div>';
-              echo '</div>';
-              echo '</div>';
-              echo '</div>';
-            }
+            echo '</form>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
           }
         }
 
@@ -178,13 +188,20 @@ if (isset($_GET['logout'])) {
         }
 
         if (isset($_REQUEST['assign'])) {
-          $sql = "UPDATE submit_requests 
-                WHERE SERVICE_REQUEST_ID = {$_REQUEST['SERVICE_REQUEST_ID']}";
+          $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
+          $requestor = $_POST['requestor'];
+          $date_of_request = $_POST['date_of_request'];
+          $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+          $assign_tech = $_POST['assign_tech'];
+          $assign_date = $_POST['assignDate'];
+          $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no,assign_tech, assign_date)
+            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
+          $sqlServiceRequest = "INSERT INTO service_request_status(SERVICE_REQUEST_ID,STATUS_VALUE) VALUES('$SERVICE_REQUEST_ID','In progress');";
           if ($conn->query($sql) === TRUE) {
-
             echo "Record Deleted Successfully";
-          } else {
-            echo "Error deleting record: " . $conn->error;
+          }
+          if ($conn->query($sqlServiceRequest) === TRUE) {
+            echo "Record Deleted Successfully";
           }
         }
         ?>
@@ -291,8 +308,8 @@ if (isset($_GET['logout'])) {
               <input type="text" class="form-control" id="fax_no" name="fax_no">
             </div>
             <div class="form-group col -md-6">
-              <label for="assignDate">ASSIGN TO</label>
-              <input type="text" class="form-control" id="assignDate" name="assignDate">
+              <label for="assign_tech">ASSIGN TO</label>
+              <input type="text" class="form-control" id="assign_tech" name="assign_tech">
 
             </div>
             <div class="form-group col -md-6">

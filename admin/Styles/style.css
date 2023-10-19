@@ -351,6 +351,7 @@ body {
   justify-content: space-between;
   grid-gap: 24px;
   margin-top: 36px;
+  justify-content: space-between;
 }
 #content main .head-title .left h1 {
   font-size: 36px;
