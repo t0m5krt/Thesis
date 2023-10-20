@@ -52,9 +52,9 @@
                         color:#f02e24;
                         position: relative;
                         bottom: 50%;
-                        left: 17rem;
+                        left: 16rem;
                         transform: translateY(100%);
-                        cursor: pointer;"></i>
+                        cursor:pointer;"></i>
                     </div>
                     <div class="input-box">
                         <span class="details">Confirm Password</span>
@@ -63,7 +63,7 @@
                         color:#f02e24;
                         position: relative;
                         bottom: 50%;
-                        left: 17rem;
+                        left: 16rem;
                         transform: translateY(100%);
                         cursor: pointer;">
                         </i>

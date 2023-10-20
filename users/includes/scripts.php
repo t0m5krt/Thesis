@@ -44,10 +44,4 @@
         icon.classList.toggle("fa-eye");
         icon.classList.toggle("fa-eye-slash");
     }
-
-    // prevent form submit
-    const form = document.querySelector("form");
-    form.addEventListener("submit", function(e) {
-        e.preventDefault();
-    });
 </script>
