@@ -1,4 +1,5 @@
 <?php
+
 define('TITLE', 'Request History | Repair and Maintence Management System');
 include_once 'includes/connection.php';
 
@@ -8,6 +9,14 @@ if (isset($_GET['logout'])) {
     session_destroy();
     header('Location:login.php');
     exit();
+    
+}
+session_start();
+
+if (!isset($_SESSION['email'])) {
+  // If the user is not logged in, redirect to the login page
+  header('Location: login.php');
+  exit();
 }
 ?>
 

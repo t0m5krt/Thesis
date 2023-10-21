@@ -43,7 +43,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 if (isset($_SESSION['email'])) {
-  header("location:service-request.html");
+  header("location:logout.php");
 }
 include 'includes/connection.php';
 
@@ -62,7 +62,19 @@ if (isset($_POST['submit'])) {
 
   // Verify the password
   if ($hashedPassword && password_verify($password, $hashedPassword)) {
+  // After verifying the email and password
+  if ($hashedPassword && password_verify($password, $hashedPassword)) {
+  // Set the email in the session
+  $_SESSION['email'] = $email;
+
+  // Redirect to the dashboard
+  header('Location: dashboard.php');
+  exit();
+} else {
+  // Handle login failure
+}
 ?>
+
     <script>
       Swal.fire({
         icon: 'success',
@@ -91,4 +103,5 @@ if (isset($_POST['submit'])) {
 <?php
   }
 }
+
 ?>
