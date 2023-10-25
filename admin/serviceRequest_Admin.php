@@ -21,7 +21,6 @@ if (isset($_GET['logout'])) {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
@@ -29,9 +28,9 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body>
-  <!-- <div class="loader">
+  <div class="loader">
     <div class="custom-loader"></div>
-  </div> -->
+  </div>
 
   <!-- SIDEBAR -->
   <?php include 'includes/sidebar.php'; ?>
@@ -49,16 +48,23 @@ if (isset($_GET['logout'])) {
         <div class="left">
           <h1><?php echo PAGE ?></h1>
         </div>
-        <form action="" method="post">
-          <div class="sort-container">
-            <select name="sort" id="sort" onchange="this.form.submit()">
-              <option value="sortValue">Sort By: Priority</option>
-              <option value="ByID">Sort By: SRN</option>
-              <option value="dateRequest">Sort By: Date</option>
-            </select>
+
+        <form action="serviceRequest_Admin.php" method="post">
+          <div class="radio-inputs">
+            <label class="radio">
+              <input type="radio" name="sort" value="ByID" onchange="this.form.submit();">
+              <span class="name">Sort By: Default</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="sort" value="sortValue" onchange="this.form.submit();">
+              <span class="name">Sort By: Priority</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="sort" value="dateRequest" onchange="this.form.submit();">
+              <span class="name">Sort By: Date</span>
+            </label>
           </div>
         </form>
-
       </div>
 
 
@@ -88,7 +94,7 @@ if (isset($_GET['logout'])) {
         if (isset($_POST['sort'])) {
           $sortOption = $_POST['sort'];
         } else
-          $sortOption = '';
+          $sortOption = 'ByID';
         // Modify the SQL query based on the selected sorting option
         switch ($sortOption) {
           case 'sortValue':
@@ -176,17 +182,6 @@ if (isset($_GET['logout'])) {
           }
         }
 
-        if (isset($_REQUEST['close'])) {
-          $sql = "UPDATE submit_requests 
-                WHERE SERVICE_REQUEST_ID = {$_REQUEST['SERVICE_REQUEST_ID']}";
-          if ($conn->query($sql) === TRUE) {
-
-            echo "Record Deleted Successfully";
-          } else {
-            echo "Error deleting record: " . $conn->error;
-          }
-        }
-
         if (isset($_REQUEST['assign'])) {
           $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
           $requestor = $_POST['requestor'];
@@ -198,13 +193,40 @@ if (isset($_GET['logout'])) {
             VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
           $sqlServiceRequest = "INSERT INTO service_request_status(SERVICE_REQUEST_ID,STATUS_VALUE) VALUES('$SERVICE_REQUEST_ID','In progress');";
           if ($conn->query($sql) === TRUE) {
-            echo "Assigning Successful";
+        ?>
+            <script>
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Assigning Successful',
+                showConfirmButton: true,
+              }).then(function() {
+                window.location = "serviceRequest_Admin.php";
+                exit();
+              });
+            </script>
+          <?php
           }
           if ($conn->query($sqlServiceRequest) === TRUE) {
-            echo "Assigning Successful";
+          ?>
+            <script>
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Assigning Successful',
+                showConfirmButton: true,
+              }).then(function() {
+                window.location = "serviceRequest_Admin.php";
+                exit();
+              });
+            </script>
+          <?php
           }
-          echo "<script>window.location.href = 'workOrder_Admin.php';
-          </script>";
+          ?>
+          <script>
+            window.location.href = 'serviceRequest_Admin.php';
+          </script>
+        <?php
         }
 
         ?>
@@ -335,6 +357,10 @@ if (isset($_GET['logout'])) {
       <style>
         .sort-container {
           width: 100%;
+        }
+
+        ul {
+          padding-left: 0rem;
         }
 
         /* Start of 1st column */
@@ -552,25 +578,8 @@ if (isset($_GET['logout'])) {
           document.getElementById('onsite_contact_person').value = onsiteContact;
           document.getElementById('fax_no').value = faxNumber;
         }
-
-        function closeRequest(requestId) {
-          if (confirm("Are you sure you want to close this request?")) {
-            // Send an AJAX request to delete the request
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "close_request.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response here, e.g., show a success message
-                alert(xhr.responseText);
-                // Reload the page or perform any other necessary actions
-                location.reload();
-              }
-            };
-            xhr.send("SERVICE_REQUEST_ID=" + requestId);
-          }
-        }
       </script>
+
 
     </main>
 
@@ -585,6 +594,18 @@ if (isset($_GET['logout'])) {
     // add an active list on the side bar when this page is loaded
     const dashboard = document.querySelector(".side-menu li:nth-child(2)");
     dashboard.classList.add("active");
+
+    // JavaScript code to update the selected radio button based on the current sorting option
+    document.addEventListener("DOMContentLoaded", function() {
+      var selectedSort = "<?php echo $sortOption; ?>";
+      var radioButtons = document.querySelectorAll('input[name="sort"]');
+      for (var i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].value === selectedSort) {
+          radioButtons[i].checked = true;
+          break;
+        }
+      }
+    });
   </script>
 </body>
 

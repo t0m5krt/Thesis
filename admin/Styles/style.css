@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: var(--poppins), sans-serif;
 }
 
 a {
@@ -44,6 +45,7 @@ body {
   max-width: 100%;
   height: auto;
 }
+
 .loader {
   width: 100%;
   min-height: 100vh;
@@ -69,7 +71,6 @@ body {
   }
 }
 
-/*#region*/
 /* Sidebar */
 #sidebar {
   position: fixed;
@@ -472,6 +473,12 @@ body {
   width: 100%;
 }
 
+#map {
+  height: 100%;
+  width: 100%;
+  margin: 2rem 0rem 0rem 0rem;
+}
+
 /* End of Map */
 
 /* Table */
@@ -498,6 +505,48 @@ tr:nth-of-type(even) {
   background-color: #b8b8b8;
 }
 /* End of Table */
+
+/* Service Request */
+.radio-inputs {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 0.5rem;
+  background-color: #eee;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: 24rem;
+  font-size: 14px;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #fff;
+  font-weight: 600;
+}
+
+/* End of Service Request */
 
 /* End of MAIN */
 
