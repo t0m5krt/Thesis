@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['email'])) {
+  // If the user is not logged in, redirect to the login page
+  header('Location: login.php');
+  exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -134,7 +143,9 @@
     <button type="submit">Submit</button>
   </form>
 
-  <?php include 'includes/scripts.php'; ?>
+  <?php include 'includes/scripts.php';
+
+  ?>
   <script>
     // For Hiding option group on creating service request
     document.addEventListener("DOMContentLoaded", function() {

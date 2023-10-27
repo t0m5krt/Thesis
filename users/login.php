@@ -14,7 +14,7 @@
     <h1>RMMS | User Login</h1>
     <form action="login.php" method="post">
       <div class="txt_field">
-        <input type="email" name="email">
+        <input type="text" name="email">
         <span></span>
         <label>Email</label>
       </div>
@@ -37,13 +37,14 @@
 
 <?php
 // TO BE CONTINUED IF LOGIN SESSIONS ARE DONE
+
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 if (isset($_SESSION['email'])) {
-  header("location:service-request.html");
+  header("location:logout.php");
 }
 include 'includes/connection.php';
 
@@ -62,7 +63,20 @@ if (isset($_POST['submit'])) {
 
   // Verify the password
   if ($hashedPassword && password_verify($password, $hashedPassword)) {
+  // After verifying the email and password
+  if ($hashedPassword && password_verify($password, $hashedPassword)) {
+  // Set the email in the session
+  $_SESSION['email'] = $email;
+
+  // Redirect to the dashboard
+  header('Location: dashboard.php');
+  exit();
+} else {
+  // Handle login failure
+}
 ?>
+
+
     <script>
       Swal.fire({
         icon: 'success',
@@ -74,10 +88,56 @@ if (isset($_POST['submit'])) {
         exit();
       });
     </script>
-  <?php
+
+    <?php
   } else {
-  ?>
-    <script>
+    $username = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = $_POST['password'];
+
+    // Use prepared statements to prevent SQL injection
+    $sql = "SELECT * FROM registration WHERE username = '$username' AND password = '$password'";
+
+    $stmt = mysqli_prepare($conn, $sql);
+    // mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    // mysqli_stmt_execute($stmt);
+    $result = $conn->query($sql);
+
+    if (mysqli_num_rows($result) > 0) {
+      $row = mysqli_fetch_array($result);
+
+      // Verify the password using password_verify if using a secure password hashing method
+      // Replace this with your hashing method (e.g., password_hash)
+      if ($row['password'] == ($password)) {
+        $_SESSION['username'] = $row['username'];
+        $account_type = $row['account_type'];
+
+        if ($account_type == 'admin') {
+          header('location: ../admin/dashboard.php');
+        } elseif ($account_type == 'employee') {
+          header('location: ../employee/dashboard.php');
+        }
+      } else {
+        // $error[] = 'Incorrect email or password!';
+      }
+    } else {
+      $error[] = 'User not found!';
+    ?>
+      <script>
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Email or Password',
+          text: 'Please double-check your email and password and try again.',
+          showConfirmButton: true,
+        }).then(function() {
+          window.location = "login.php";
+          exit();
+        });
+      </script>
+    <?php
+    }
+    ?>
+
+    <!-- <script>
       Swal.fire({
         icon: 'error',
         title: 'Invalid Email or Password',
@@ -87,8 +147,9 @@ if (isset($_POST['submit'])) {
         window.location = "login.php";
         exit();
       });
-    </script>
+    </script> -->
 <?php
   }
 }
+
 ?>

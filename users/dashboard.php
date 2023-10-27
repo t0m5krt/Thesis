@@ -1,4 +1,5 @@
 <?php
+
 define('TITLE', 'Dashboard');
 define('PAGE', 'dashboard');
 include 'includes/header.php';
@@ -9,6 +10,14 @@ if (isset($_GET['logout'])) {
   // Destroy the session and redirect to the login page
   session_destroy();
   header('Location:login.php');
+  exit();
+  
+}
+session_start();
+
+if (!isset($_SESSION['email'])) {
+  // If the user is not logged in, redirect to the login page
+  header('Location: login.php');
   exit();
 }
 ?>
