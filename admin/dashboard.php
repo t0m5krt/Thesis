@@ -1,16 +1,11 @@
 <?php
 // [IMPORTANT!] Define database connection parameters once for this file
 include_once('includes/connection.php');
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
-session_start();
-
-// Logout logic
-if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
+if (!isset($_SESSION['username']))
+  header("Location: admin_login.php");
 ?>
 
 <?php
