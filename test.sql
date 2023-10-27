@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2023 at 11:59 PM
+-- Generation Time: Oct 27, 2023 at 06:00 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -5508,23 +5508,24 @@ CREATE TABLE `office_accounts` (
   `admin_name` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `user_type` enum('superadmin','admin','employee','N/A') DEFAULT 'N/A'
+  `user_type` enum('superadmin','admin','employee','N/A') DEFAULT 'N/A',
+  `isDelete` tinyint(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `office_accounts`
 --
 
-INSERT INTO `office_accounts` (`admin_accounts_ID`, `admin_name`, `username`, `password`, `user_type`) VALUES
-(1, 'SAMUEL GANTALA ', 'admin_gantala', '$2y$10$A6Nm9oVUEiWqp.eZpmBjFuBdU7DC.5HRe3S7QwB56WJ8yVszT.5W.', 'admin'),
-(2, 'SAMUEL GANTALA ', 'admin_gantala', '$2y$10$wnlsyEIxx7NP7wo/ttmr3eXozzcuzlYY5.Yrlh23VsN5H3qo0ZPnS', 'N/A'),
-(3, 'Samuel Gantala', 'admin_gantala', '$2y$10$wxHzNwZFSkGACY9xyKTDe.lWnEZ4Bq7b7ttezd8QXyDtZQSbuEmPG', 'N/A'),
-(4, 'Samuel Gantala', 'admin_gantala', '$2y$10$anPvuyL8oAfhjMplrE/PbO7mRYYnqbs7uaajNTFMvKQ3ZWFujWLzm', 'N/A'),
-(5, 'Van Halen Viola', 'admin_viola', '$2y$10$mE5zNJ3avXVvTfjm0D4r5udf09NpCkHDGiVMagbhrCXIhD9uy1LY6', 'N/A'),
-(6, 'Test Admin', 'admin_test', '$2y$10$4fP9c1AYd4SMbLw//kQg5e834/rTXTtUCS0Nb/HzwrTe0rjOSQG8K', 'N/A'),
-(7, 'Boy Dela Cruz', 'admin_delacruz', '$2y$10$pI9xnPXnEjale3i//OhWFOcySEvNmQr2cSkPhRAyWHkp6Jv6VhDh6', 'N/A'),
-(8, 'Boy Dela Cruz', 'admin_delacruz', '$2y$10$/7PFgdUONftDEfJyBorxcOdbm5Q/mTWcJ2EvlOkL5IxRmnlIbPjEu', 'N/A'),
-(9, 'Admin_Name', 'admin', '$2y$10$UMW8ApBU3JwDetNe/CdUYOrcxyjHRuDzHHtyOw5MRVKwvtxHixgdq', 'N/A');
+INSERT INTO `office_accounts` (`admin_accounts_ID`, `admin_name`, `username`, `password`, `user_type`, `isDelete`) VALUES
+(1, 'SAMUEL GANTALA ', 'admin_gantala', '$2y$10$A6Nm9oVUEiWqp.eZpmBjFuBdU7DC.5HRe3S7QwB56WJ8yVszT.5W.', 'admin', 0),
+(2, 'SAMUEL GANTALA ', 'admin_gantala', '$2y$10$wnlsyEIxx7NP7wo/ttmr3eXozzcuzlYY5.Yrlh23VsN5H3qo0ZPnS', 'N/A', 0),
+(3, 'Samuel Gantala', 'admin_gantala', '$2y$10$wxHzNwZFSkGACY9xyKTDe.lWnEZ4Bq7b7ttezd8QXyDtZQSbuEmPG', 'N/A', 0),
+(4, 'Samuel Gantala', 'admin_gantala', '$2y$10$anPvuyL8oAfhjMplrE/PbO7mRYYnqbs7uaajNTFMvKQ3ZWFujWLzm', 'N/A', 0),
+(5, 'Van Halen Viola', 'admin_viola', '$2y$10$mE5zNJ3avXVvTfjm0D4r5udf09NpCkHDGiVMagbhrCXIhD9uy1LY6', 'N/A', 0),
+(6, 'Test Admin', 'admin_test', '$2y$10$4fP9c1AYd4SMbLw//kQg5e834/rTXTtUCS0Nb/HzwrTe0rjOSQG8K', 'N/A', 0),
+(7, 'Boy Dela Cruz', 'admin_delacruz', '$2y$10$pI9xnPXnEjale3i//OhWFOcySEvNmQr2cSkPhRAyWHkp6Jv6VhDh6', 'N/A', 0),
+(8, 'Boy Dela Cruz', 'admin_delacruz', '$2y$10$/7PFgdUONftDEfJyBorxcOdbm5Q/mTWcJ2EvlOkL5IxRmnlIbPjEu', 'N/A', 0),
+(9, 'Admin_Name', 'admin', '$2y$10$UMW8ApBU3JwDetNe/CdUYOrcxyjHRuDzHHtyOw5MRVKwvtxHixgdq', 'N/A', 0);
 
 -- --------------------------------------------------------
 
@@ -5551,6 +5552,30 @@ INSERT INTO `registration` (`REGISTRATION_ID`, `user_name`, `pass_word`, `accoun
 (24, 'viola.022602', '1234567', 'admin', 0),
 (28, 'sjkas', 'password', 'employee', 0),
 (30, 'waswas.0101', 'user', 'admin', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service_request_status`
+--
+
+CREATE TABLE `service_request_status` (
+  `STATUS_ID` int(11) NOT NULL,
+  `SERVICE_REQUEST_ID` int(11) NOT NULL,
+  `STATUS_VALUE` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `service_request_status`
+--
+
+INSERT INTO `service_request_status` (`STATUS_ID`, `SERVICE_REQUEST_ID`, `STATUS_VALUE`) VALUES
+(1, 17, 'In progress'),
+(2, 19, 'In progress'),
+(3, 18, 'In progress'),
+(4, 0, 'In progress'),
+(5, 21, 'In progress'),
+(6, 22, 'In progress');
 
 -- --------------------------------------------------------
 
@@ -5589,7 +5614,6 @@ CREATE TABLE `submit_request` (
 --
 
 INSERT INTO `submit_request` (`SERVICE_REQUEST_ID`, `sort_value`, `requestor`, `date_of_request`, `mobile_or_phone_no`, `business_unit`, `cust_project_name`, `asset_code`, `model`, `serial_no`, `equip_desc`, `brand`, `service_meter_reading`, `type_of_request`, `additional_option`, `other_service_request`, `charging`, `unit_problem`, `others`, `unit_operational`, `specific_requirement`, `onsite_contact_person`, `fax_no`) VALUES
-(17, 1, 'John Doe', '2023-10-15', '09562138923', 'Qui aliqua Velit fu', 'Ian Zamora', 'Magni rerum officia ', 'Ut deserunt temporib', 'Rem similique rem ul', 'Enim consequuntur un', 'Quis tempore commod', 'Velit eius deleniti ', 'Technical Evaluation Request', '', '', 'Rental', 'Praesentium labore l', 'Ea facere debitis du', 'Yes', 'Veniam aut quas cup', 'Et Nam doloribus ali', '+1 (471) 715-8092'),
 (18, 4, 'Nisi in soluta conse', '1981-09-18', '11151355252', 'Sit facere do sunt ', 'Marcia Hubbard', 'Est consequuntur ut', 'Dignissimos incididu', 'Nihil odit reprehend', 'Impedit sed dicta i', 'Voluptatibus nisi vo', 'Officia earum offici', 'Service Request', '', '', 'Lease', 'Suscipit sunt ullam', 'Voluptatem hic quia', 'Yes', 'Eum repudiandae rati', 'Vitae labore pariatu', '+1 (495) 266-5332'),
 (19, 1, 'Quas voluptatibus la', '2023-10-15', '19857932012', 'Quasi deserunt incid', 'Beverly Hawkins', 'Voluptates sunt amet', 'Officiis accusamus v', 'Sit omnis voluptate', 'Aperiam nulla dolore', 'Incidunt suscipit a', 'Aliqua Eum nulla mo', 'Service Request', 'Emergency Call', '', 'Warranty', 'Et quae dolore totam', 'Duis harum non imped', 'No', 'Nostrud ipsa quod i', 'Hic laboris ratione ', '+1 (542) 789-9039');
 
@@ -5622,19 +5646,23 @@ CREATE TABLE `submit_requests` (
   `unit_operational` varchar(255) NOT NULL,
   `specific_requirement` varchar(255) NOT NULL,
   `onsite_contact_person` varchar(255) NOT NULL,
-  `fax_no` varchar(255) NOT NULL
+  `fax_no` varchar(255) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `submit_requests`
 --
 
-INSERT INTO `submit_requests` (`SERVICE_REQUEST_ID`, `sort_value`, `requestor`, `date_of_request`, `mobile_or_phone_no`, `business_unit`, `cust_project_name`, `asset_code`, `model`, `serial_no`, `equip_desc`, `brand`, `service_meter_reading`, `type_of_request`, `additional_option`, `other_service_request`, `charging`, `unit_problem`, `others`, `unit_operational`, `specific_requirement`, `onsite_contact_person`, `fax_no`) VALUES
-(17, 1, 'John Doe', '2023-10-15', '09562138923', 'Qui aliqua Velit fu', 'Ian Zamora', 'Magni rerum officia ', 'Ut deserunt temporib', 'Rem similique rem ul', 'Enim consequuntur un', 'Quis tempore commod', 'Velit eius deleniti ', 'Technical Evaluation Request', '', '', 'Rental', 'Praesentium labore l', 'Ea facere debitis du', 'Yes', 'Veniam aut quas cup', 'Et Nam doloribus ali', '+1 (471) 715-8092'),
-(18, 4, 'Nisi in soluta conse', '1981-09-18', '11151355252', 'Sit facere do sunt ', 'Marcia Hubbard', 'Est consequuntur ut', 'Dignissimos incididu', 'Nihil odit reprehend', 'Impedit sed dicta i', 'Voluptatibus nisi vo', 'Officia earum offici', 'Service Request', '', '', 'Lease', 'Suscipit sunt ullam', 'Voluptatem hic quia', 'Yes', 'Eum repudiandae rati', 'Vitae labore pariatu', '+1 (495) 266-5332'),
-(19, 1, 'Quas voluptatibus la', '2023-10-15', '19857932012', 'Quasi deserunt incid', 'Beverly Hawkins', 'Voluptates sunt amet', 'Officiis accusamus v', 'Sit omnis voluptate', 'Aperiam nulla dolore', 'Incidunt suscipit a', 'Aliqua Eum nulla mo', 'Service Request', 'Emergency Call', '', 'Warranty', 'Et quae dolore totam', 'Duis harum non imped', 'No', 'Nostrud ipsa quod i', 'Hic laboris ratione ', '+1 (542) 789-9039'),
-(20, 4, 'Juan Dela Cruz', '2023-10-15', '09123123123', 'Sint minim rerum con', 'Christian Whitley', 'Ad iure sit cupidita', 'Reiciendis consequat', 'Et unde porro eligen', 'Ut pariatur Vel rec', 'Maiores nostrum elit', 'Molestiae accusamus ', 'Service Request', 'Emergency Call', '', 'Rental', 'Minus neque culpa e', 'Quidem numquam ut sa', 'Yes', 'Et vel tempora cumqu', 'Itaque tenetur non s', '+1 (422) 316-4851'),
-(21, 4, 'In voluptatibus sit ', '2023-10-15', '09123901239', '1ADJHAJKSHDJK', 'Mara Hardy', 'Voluptate libero dic', 'Delectus deleniti m', 'Est nihil dolor ea a', 'Et velit sapiente e', 'Rem aliquip qui mini', 'Laborum nesciunt qu', 'Quotation Parts', '', '', 'Lease', 'Consequatur sed vol', 'Est id qui error a', 'Yes', 'Amet aut laboriosam', 'Quidem at officia vo', '123Y12Y3SHDJK');
+INSERT INTO `submit_requests` (`SERVICE_REQUEST_ID`, `sort_value`, `requestor`, `date_of_request`, `mobile_or_phone_no`, `business_unit`, `cust_project_name`, `asset_code`, `model`, `serial_no`, `equip_desc`, `brand`, `service_meter_reading`, `type_of_request`, `additional_option`, `other_service_request`, `charging`, `unit_problem`, `others`, `unit_operational`, `specific_requirement`, `onsite_contact_person`, `fax_no`, `user_id`) VALUES
+(17, 1, 'John Doe', '2023-10-15', '09562138923', 'Qui aliqua Velit fu', 'Ian Zamora', 'Magni rerum officia ', 'Ut deserunt temporib', 'Rem similique rem ul', 'Enim consequuntur un', 'Quis tempore commod', 'Velit eius deleniti ', 'Technical Evaluation Request', '', '', 'Rental', 'Praesentium labore l', 'Ea facere debitis du', 'Yes', 'Veniam aut quas cup', 'Et Nam doloribus ali', '+1 (471) 715-8092', NULL),
+(18, 4, 'Nisi in soluta conse', '1981-09-18', '11151355252', 'Sit facere do sunt ', 'Marcia Hubbard', 'Est consequuntur ut', 'Dignissimos incididu', 'Nihil odit reprehend', 'Impedit sed dicta i', 'Voluptatibus nisi vo', 'Officia earum offici', 'Service Request', '', '', 'Lease', 'Suscipit sunt ullam', 'Voluptatem hic quia', 'Yes', 'Eum repudiandae rati', 'Vitae labore pariatu', '+1 (495) 266-5332', NULL),
+(19, 1, 'Quas voluptatibus la', '2023-10-15', '19857932012', 'Quasi deserunt incid', 'Beverly Hawkins', 'Voluptates sunt amet', 'Officiis accusamus v', 'Sit omnis voluptate', 'Aperiam nulla dolore', 'Incidunt suscipit a', 'Aliqua Eum nulla mo', 'Service Request', 'Emergency Call', '', 'Warranty', 'Et quae dolore totam', 'Duis harum non imped', 'No', 'Nostrud ipsa quod i', 'Hic laboris ratione ', '+1 (542) 789-9039', NULL),
+(20, 4, 'Juan Dela Cruz', '2023-10-15', '09123123123', 'Sint minim rerum con', 'Christian Whitley', 'Ad iure sit cupidita', 'Reiciendis consequat', 'Et unde porro eligen', 'Ut pariatur Vel rec', 'Maiores nostrum elit', 'Molestiae accusamus ', 'Service Request', 'Emergency Call', '', 'Rental', 'Minus neque culpa e', 'Quidem numquam ut sa', 'Yes', 'Et vel tempora cumqu', 'Itaque tenetur non s', '+1 (422) 316-4851', NULL),
+(21, 4, 'In voluptatibus sit ', '2023-10-15', '09123901239', '1ADJHAJKSHDJK', 'Mara Hardy', 'Voluptate libero dic', 'Delectus deleniti m', 'Est nihil dolor ea a', 'Et velit sapiente e', 'Rem aliquip qui mini', 'Laborum nesciunt qu', 'Quotation Parts', '', '', 'Lease', 'Consequatur sed vol', 'Est id qui error a', 'Yes', 'Amet aut laboriosam', 'Quidem at officia vo', '123Y12Y3SHDJK', NULL),
+(22, 1, 'Aut eos similique e', '1978-04-20', '14071124253', 'Officiis reprehender', 'Reed Martin', 'Laborum in modi quas', 'Et eum sint ducimus', 'Itaque commodi dolor', 'At perferendis fugit', 'In voluptas facilis ', 'Nulla sed aliquid vo', 'Preventive Maintenance', '', '', 'Rental', 'Error doloribus qui ', 'Adipisicing quis et ', 'No', 'Ipsum pariatur Con', 'Dolores dolorum et e', '+1 (213) 889-9455', NULL),
+(23, 1, 'Iusto sint labore nu', '2023-10-16', '09568787897', 'Sit blanditiis pari', 'Roary Nash', 'Eum velit libero cor', 'Aut repellendus Et ', 'Nulla cupiditate vol', 'Non accusantium culp', 'Quo tenetur itaque r', 'Architecto consequat', 'Service Request', '', '', 'Rental', 'In magni et quis ut ', 'Quia mollitia offici', 'No', 'Est doloribus quo ve', 'Non consectetur sed', '+1 (184) 589-8785', NULL),
+(24, 4, 'John Sings', '2023-10-25', '09123123190', 'Reiciendis dolores o', 'Nerea Reyes', 'Quidem lorem debitis', 'Fuga Aspernatur eos', 'Labore beatae vero i', 'Impedit earum provi', 'Consequatur dolores ', 'Esse consectetur pe', 'Quotation Parts', '', '', 'Rental', 'Et aut aut ad ut max', 'Eu voluptatem Velit', 'Yes', 'Doloribus temporibus', 'Itaque officia quibu', '10293ADU2', NULL);
 
 -- --------------------------------------------------------
 
@@ -5649,7 +5677,7 @@ CREATE TABLE `user_accounts` (
   `companyname` varchar(255) NOT NULL,
   `projectname` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `contactnumber` int(11) NOT NULL,
+  `contactnumber` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_nopad_ci;
 
@@ -5658,24 +5686,91 @@ CREATE TABLE `user_accounts` (
 --
 
 INSERT INTO `user_accounts` (`user_ID`, `firstname`, `lastname`, `companyname`, `projectname`, `email`, `contactnumber`, `password`) VALUES
-(1, 'adsfadsfad', 'fadsfasdfasd', 'fadsfadsfa', 'sdfadsfasdf', 'panchatr23r@gmail.com', 2147483647, '123'),
-(2, 'Van', 'Viola', 'Nike', 'Nyordan Er1', 'vanviola08@gmail.com', 2147483647, '$2y$10$XHunmNansY0t10uaFhCa9OobiRIgnEUzPNoVNPHmI3mRd4xU2Uk26'),
-(3, 'Van', 'Viola', 'WAWEY', 'WIEIY', 'vanviola026@gmail.com', 2147483647, '$2y$10$fj5mALoRe2R0oU28zHOr6uXsATkvn5A61ms8uIE1EUhDzKmy1tl1a'),
-(4, 'heinz', 'mateluk', 'STi', 'Parking', 'stiwanabe@gmail.com', 93243284, '$2y$10$zXqs3vhZ0hCETiRPBExDEe7ASF2.cfte1EPJGfVWrZUq4lcbUYMJ2'),
-(5, 'JOMAR', 'RAWANDING', 'PIATTOS', 'CHEESE FLAVOR', 'fsdflk@gmail.com', 2147483647, '$2y$10$FdJYW6KrXzpbbxPkJz9bSe/RhSamgS7HOh9wWCNCawcYaxmoNBABi'),
-(6, 'job', 'garciaa', 'STi', 'Parking', 'job@gmail.com', 910239232, '$2y$10$I9L1lYOpqMnrhXEPyVnTn.ORpcSa/QlXWYQMo4z6HxoxI8KV4ws36'),
-(7, 'jared', 'cortado', 'lotus plus', '2nd', 'cortadojared@gmail.com', 2147483647, '$2y$10$YNWmpMLKQts34GoR4kSBxO1agvrVc48jJRVV5q/Dw5qw3s0FEXOa2'),
-(8, 'Miguel ', 'Navarro', 'STI', 'House', 'testgmail@gmail.com', 990123123, '$2y$10$M0zjsPnsfiuVUv/3/sdHJOQOMOepS4gDjNEQl4ohb.0GiPzUds6Gy'),
-(9, 'Andy', 'Lectana Jr.', 'Migzy', 'Hero', 'migzy@yahoo.com', 2147483647, '$2y$10$ew.AUVxudKuqHA/PkxDjt.85jtYRwqPSbJ3QSDPsnNhO7UOxLx2sa'),
-(10, 'a', '345345', '4556456', '345345', '1@gmail.com', 345345, '$2y$10$ZY31xsn0IdPtEAnhSISxzuMJlTo783elqlWxlIz7aYycPYbJ0COeu'),
-(11, 'asd', 'asd', 'asd', 'asd', 'asd@gmail.com', 0, '$2y$10$aw.0fmyhssn3ViOr3rZOguGfFFno2yoKjwh8prclr2yJDLFuKHBM2'),
-(12, 'Bryan Ken', 'Altes', 'STI', 'asd', 'awsd@gmail.com', 12321, '$2y$10$tLrFFbhDPoW2tr4gq4iI4uhRDgq/sSuJ1qf5DyRa1f1.0Oy63NSn.'),
-(13, 'Heinz', 'Cabilisa', 'HODLA', 'PROJECT UNKNOWN', 'ajsdasd@gmail.om', 945456898, '$2y$10$tZ9jOEkk5gqXuVtpSzxE0uN0huh/IkgSvg8RcTtKAI43oGGZT0QAm'),
-(14, 'Van', 'Viola', 'WAWEY', 'CHEESE FLAVOR', 'admin@gmail.com', 12345678, '$2y$10$bHwuZUetoi1rD5D6.LEBKO9pyc1tDJeVqlPe.pGSL.D.wKy2IKJcu'),
-(15, 'MADS', 'WADEN', 'ADDIDAS', 'Shoenis', 'yummy123@gmail.com', 9456789, '$2y$10$jhKyPlQeLVMRg8RU4NOtMuC/7MAZvyvyvSUov7kZpr/LYCwbset4.'),
-(17, 'John', 'Wick', 'VIVA', 'FILMS', 'dummy@gmail.com', 12335678, '$2y$10$oGcb5HrTH4x5HnoyhjwXWeCFTTdk0uyQhRvvxTCQUyU2AZgdhPGMW'),
-(18, 'jared', 'cortado', 'sasd', 'asdas', 'email@gmail.com', 123455678, '$2y$10$3t62ZS5oD2qEVZ7iDs52eeLEWp48UvG7pmWCA2j1AiTzz5.BkFvIq'),
-(19, '', '', '', '', '', 0, '$2y$10$M4uGPelLrow/d6WPaV4KOu0RObQ0.4Ci33uYQ1j1wnUQ..26G5OKi');
+(1, 'adsfadsfad', 'fadsfasdfasd', 'fadsfadsfa', 'sdfadsfasdf', 'panchatr23r@gmail.com', '2147483647', '123'),
+(2, 'Van', 'Viola', 'Nike', 'Nyordan Er1', 'vanviola08@gmail.com', '2147483647', '$2y$10$XHunmNansY0t10uaFhCa9OobiRIgnEUzPNoVNPHmI3mRd4xU2Uk26'),
+(3, 'Van', 'Viola', 'WAWEY', 'WIEIY', 'vanviola026@gmail.com', '2147483647', '$2y$10$fj5mALoRe2R0oU28zHOr6uXsATkvn5A61ms8uIE1EUhDzKmy1tl1a'),
+(4, 'heinz', 'mateluk', 'STi', 'Parking', 'stiwanabe@gmail.com', '93243284', '$2y$10$zXqs3vhZ0hCETiRPBExDEe7ASF2.cfte1EPJGfVWrZUq4lcbUYMJ2'),
+(5, 'JOMAR', 'RAWANDING', 'PIATTOS', 'CHEESE FLAVOR', 'fsdflk@gmail.com', '2147483647', '$2y$10$FdJYW6KrXzpbbxPkJz9bSe/RhSamgS7HOh9wWCNCawcYaxmoNBABi'),
+(6, 'job', 'garciaa', 'STi', 'Parking', 'job@gmail.com', '910239232', '$2y$10$I9L1lYOpqMnrhXEPyVnTn.ORpcSa/QlXWYQMo4z6HxoxI8KV4ws36'),
+(7, 'jared', 'cortado', 'lotus plus', '2nd', 'cortadojared@gmail.com', '2147483647', '$2y$10$YNWmpMLKQts34GoR4kSBxO1agvrVc48jJRVV5q/Dw5qw3s0FEXOa2'),
+(8, 'Miguel ', 'Navarro', 'STI', 'House', 'testgmail@gmail.com', '990123123', '$2y$10$M0zjsPnsfiuVUv/3/sdHJOQOMOepS4gDjNEQl4ohb.0GiPzUds6Gy'),
+(9, 'Andy', 'Lectana Jr.', 'Migzy', 'Hero', 'migzy@yahoo.com', '2147483647', '$2y$10$ew.AUVxudKuqHA/PkxDjt.85jtYRwqPSbJ3QSDPsnNhO7UOxLx2sa'),
+(10, 'a', '345345', '4556456', '345345', '1@gmail.com', '345345', '$2y$10$ZY31xsn0IdPtEAnhSISxzuMJlTo783elqlWxlIz7aYycPYbJ0COeu'),
+(11, 'asd', 'asd', 'asd', 'asd', 'asd@gmail.com', '0', '$2y$10$aw.0fmyhssn3ViOr3rZOguGfFFno2yoKjwh8prclr2yJDLFuKHBM2'),
+(12, 'Bryan Ken', 'Altes', 'STI', 'asd', 'awsd@gmail.com', '12321', '$2y$10$tLrFFbhDPoW2tr4gq4iI4uhRDgq/sSuJ1qf5DyRa1f1.0Oy63NSn.'),
+(13, 'Heinz', 'Cabilisa', 'HODLA', 'PROJECT UNKNOWN', 'ajsdasd@gmail.om', '945456898', '$2y$10$tZ9jOEkk5gqXuVtpSzxE0uN0huh/IkgSvg8RcTtKAI43oGGZT0QAm'),
+(14, 'Van', 'Viola', 'WAWEY', 'CHEESE FLAVOR', 'admin@gmail.com', '12345678', '$2y$10$bHwuZUetoi1rD5D6.LEBKO9pyc1tDJeVqlPe.pGSL.D.wKy2IKJcu'),
+(15, 'MADS', 'WADEN', 'ADDIDAS', 'Shoenis', 'yummy123@gmail.com', '9456789', '$2y$10$jhKyPlQeLVMRg8RU4NOtMuC/7MAZvyvyvSUov7kZpr/LYCwbset4.'),
+(17, 'John', 'Wick', 'VIVA', 'FILMS', 'dummy@gmail.com', '12335678', '$2y$10$oGcb5HrTH4x5HnoyhjwXWeCFTTdk0uyQhRvvxTCQUyU2AZgdhPGMW'),
+(18, 'jared', 'cortado', 'sasd', 'asdas', 'email@gmail.com', '123455678', '$2y$10$3t62ZS5oD2qEVZ7iDs52eeLEWp48UvG7pmWCA2j1AiTzz5.BkFvIq'),
+(19, '', '', '', '', '', '0', '$2y$10$M4uGPelLrow/d6WPaV4KOu0RObQ0.4Ci33uYQ1j1wnUQ..26G5OKi'),
+(20, 'Van', 'Viola', 'NYEK', 'WEK', 'adminemail@gmail.com', '921254548', '$2y$10$XeE6.wMz7CfkO7SNzY7Du.KX.FuwCwfppQhyE/fs8Egq66Rotg49m'),
+(21, 'John', 'Doe', 'Google', 'Bard', 'johndoe@gmail.com', '2147483647', '$2y$10$/LlBHzHLisQgSovRGZ0PT.yVcJzOacgvsfBln.g9ea2I9nTbs6jDK'),
+(22, 'Customer Thom', 'Pancha', 'Aria', 'Label', 'thomskirt@gmail.com', '2147483647', '$2y$10$tusunOfzlbHuemY9nA3hdeWqgrBqmPr7P2o5BrfBwoXNgNy5RIYtG'),
+(23, 'Leah', 'Dale', 'Barrett and Baker Associates', 'Ezekiel Osborne', 'thomemail@gmail.com', '2147483647', '$2y$10$armt6R3mJKwPllhXS1MrUOEvyOH.8LVt2dnDXEHldWyQRTQTE91Ci'),
+(24, 'Jonathan', 'Vargas', 'Wanda Inc', 'Lollipop', 'jonathan.wanda@gmail.com', '2147483647', '$2y$10$3/MvxD8a1E50bBHfJYJTw.bDqANKdg/kG7.DwpX/OELOexseVUL4q'),
+(25, 'Bry', 'Altis', 'nike', 'wasing', 'bry@gmail.com', '2147483647', '$2y$10$DNtbHDRCen708iOVIQ72c.UsIqAZcSDsxlEWl4S61JRnV3rQVNTmC'),
+(26, 'Eliana', 'Spencer', 'Rivers and Sims Associates', 'Maite Shannon', 'eliana@gmail.com', '2147483647', '$2y$10$/asufJinC975km0HLqDbSunhK4bsrnW8RBIluOkIg6INXU4oHTWPm');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `work_order`
+--
+
+CREATE TABLE `work_order` (
+  `SERVICE_REQUEST_ID` int(11) NOT NULL,
+  `requestor` varchar(255) NOT NULL,
+  `date_of_request` varchar(255) NOT NULL,
+  `mobile_or_phone_no` varchar(255) NOT NULL,
+  `assign_tech` varchar(255) NOT NULL,
+  `assign_date` datetime(6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `work_order`
+--
+
+INSERT INTO `work_order` (`SERVICE_REQUEST_ID`, `requestor`, `date_of_request`, `mobile_or_phone_no`, `assign_tech`, `assign_date`) VALUES
+(0, 'Thomas', '2023-10-19', '090322222', 'VAN VIOLA', '2023-10-19 00:00:00.000000'),
+(1, 'John Doe', '09/28/2023', '098099322', 'Thomas', '0000-00-00 00:00:00.000000'),
+(17, 'John Doe', '2023-10-15', '09562138923', 'Thomas', '2023-10-18 00:00:00.000000'),
+(18, 'Nisi in soluta conse', '1981-09-18', '11151355252', 'Thomas', '2023-10-19 00:00:00.000000'),
+(19, 'Quas voluptatibus la', '2023-10-15', '19857932012', 'Altes', '2023-10-19 00:00:00.000000'),
+(21, 'In voluptatibus sit ', '2023-10-15', '09123901239', '', '0000-00-00 00:00:00.000000'),
+(22, 'Aut eos similique e', '1978-04-20', '14071124253', 'Juan', '2023-10-25 00:00:00.000000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `work_orders_backup`
+--
+
+CREATE TABLE `work_orders_backup` (
+  `Work_Order_ID` int(11) NOT NULL,
+  `sort_value` tinyint(4) NOT NULL,
+  `requestor` varchar(255) NOT NULL,
+  `date_of_request` date NOT NULL,
+  `mobile_or_phone_no` varchar(20) NOT NULL,
+  `business_unit` varchar(255) NOT NULL,
+  `cust_project_name` varchar(255) NOT NULL,
+  `asset_code` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `serial_no` varchar(255) NOT NULL,
+  `equip_desc` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `service_meter_reading` varchar(255) NOT NULL,
+  `type_of_request` varchar(255) NOT NULL,
+  `additional_option` varchar(255) NOT NULL,
+  `other_service_request` varchar(255) NOT NULL,
+  `charging` varchar(255) NOT NULL,
+  `unit_problem` varchar(255) NOT NULL,
+  `others` varchar(255) NOT NULL,
+  `unit_operational` varchar(255) NOT NULL,
+  `specific_requirement` varchar(255) NOT NULL,
+  `onsite_contact_person` varchar(255) NOT NULL,
+  `fax_no` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Indexes for dumped tables
@@ -5706,6 +5801,12 @@ ALTER TABLE `registration`
   ADD PRIMARY KEY (`REGISTRATION_ID`);
 
 --
+-- Indexes for table `service_request_status`
+--
+ALTER TABLE `service_request_status`
+  ADD PRIMARY KEY (`STATUS_ID`);
+
+--
 -- Indexes for table `submit_request`
 --
 ALTER TABLE `submit_request`
@@ -5715,13 +5816,26 @@ ALTER TABLE `submit_request`
 -- Indexes for table `submit_requests`
 --
 ALTER TABLE `submit_requests`
-  ADD PRIMARY KEY (`SERVICE_REQUEST_ID`);
+  ADD PRIMARY KEY (`SERVICE_REQUEST_ID`),
+  ADD KEY `FK_user` (`user_id`);
 
 --
 -- Indexes for table `user_accounts`
 --
 ALTER TABLE `user_accounts`
   ADD PRIMARY KEY (`user_ID`);
+
+--
+-- Indexes for table `work_order`
+--
+ALTER TABLE `work_order`
+  ADD PRIMARY KEY (`SERVICE_REQUEST_ID`);
+
+--
+-- Indexes for table `work_orders_backup`
+--
+ALTER TABLE `work_orders_backup`
+  ADD PRIMARY KEY (`Work_Order_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -5740,6 +5854,12 @@ ALTER TABLE `registration`
   MODIFY `REGISTRATION_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
+-- AUTO_INCREMENT for table `service_request_status`
+--
+ALTER TABLE `service_request_status`
+  MODIFY `STATUS_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `submit_request`
 --
 ALTER TABLE `submit_request`
@@ -5749,13 +5869,29 @@ ALTER TABLE `submit_request`
 -- AUTO_INCREMENT for table `submit_requests`
 --
 ALTER TABLE `submit_requests`
-  MODIFY `SERVICE_REQUEST_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `SERVICE_REQUEST_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user_accounts`
 --
 ALTER TABLE `user_accounts`
-  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `user_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `work_orders_backup`
+--
+ALTER TABLE `work_orders_backup`
+  MODIFY `Work_Order_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `submit_requests`
+--
+ALTER TABLE `submit_requests`
+  ADD CONSTRAINT `FK_user` FOREIGN KEY (`user_id`) REFERENCES `user_accounts` (`user_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
