@@ -8,6 +8,7 @@ if (!isset($_SESSION['email'])) {
   header('Location: login.php');
   exit();
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -22,6 +23,10 @@ if (!isset($_SESSION['email'])) {
 </head>
 
 <body>
+
+  <div class="loader">
+    <div class="custom-loader"></div>
+  </div>
   <form action="request_form.php" method="post">
     <div class="form-title">
       <h3>Service Request Form</h3>
@@ -42,7 +47,19 @@ if (!isset($_SESSION['email'])) {
     </div>
     <div class="form-group">
       <label for="business_unit">BUSINESS UNIT</label>
-      <input type="text" id="business_unit" name="business_unit" required />
+      <select id="business_unit" name="business_unit" required>
+        <option value="" disabled selected>Select option</option>
+        <option value="Commercial Construction">Commercial construction</option>
+        <option value="Residential Construction">Residential construction</option>
+        <option value="Infrastructure Construction">Infrastructure construction</option>
+        <option value="Heavy Construction">Heavy construction</option>
+        <option value="Specialty Construction">Specialty construction</option>
+        <option value="Industrial">Industrial</option>
+        <option value="Power Generation">Power generation</option>
+        <option value="Mining">Mining</option>
+        <option value="Oil & Gas">Oil & Gas</option>
+        <option value="Others">Others</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="cust_project_name">CUST./PROJECT NAME</label>
@@ -61,12 +78,24 @@ if (!isset($_SESSION['email'])) {
       <input type="text" id="serial_no" name="serial_no" required />
     </div>
     <div class="form-group">
-      <label for="equip_desc">EQUIP DESC</label>
+      <label for="equip_desc">EQUIPMENT DESCRIPTION</label>
       <input type="text" id="equip_desc" name="equip_desc" required />
     </div>
     <div class="form-group">
-      <label for="name">BRAND</label>
-      <input type="text" id="brand" name="brand" required />
+      <label for="brand">BRAND</label>
+      <select id="brand" name="brand" required>
+        <option value="" disabled selected>Select option</option>
+        <option value="Caterpillar">Caterpillar</option>
+        <option value="Komatsu">Komatsu</option>
+        <option value="Hitachi">Hitachi</option>
+        <option value="John Deere">John Deere</option>
+        <option value="Volvo CE">Volvo CE</option>
+        <option value="Case">Case</option>
+        <option value="Liebherr">Liebherr</option>
+        <option value="Doosan">Doosan</option>
+        <option value="JCB">JCB</option>
+        <option value="SANY">SANY</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="name">SERVICE METER READING</label>
@@ -116,7 +145,17 @@ if (!isset($_SESSION['email'])) {
     <br />
     <div class="form-group">
       <label for="unit_problem">UNIT PROBLEM</label>
-      <input type="text" id="unit_problem" name="unit_problem" required />
+      <select id="unit_problem" name="unit_problem" required>
+        <option value="" disabled selected>Select option</option>
+        <option value="Engine failure">Engine failure</option>
+        <option value="Hydraulic leaks">Hydraulic leaks</option>
+        <option value="Electrical malfunctions">Electrical malfunctions</option>
+        <option value="Braking problems">Braking problems</option>
+        <option value="Transmission problems">Transmission problems</option>
+        <option value="Tire problems">Tire problems</option>
+        <option value="Attachment problems">Attachment problems</option>
+        <option value="Others">Others</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="others">OTHERS P/N</label>
@@ -136,7 +175,7 @@ if (!isset($_SESSION['email'])) {
     </div>
     <div class="form-group">
       <label for="onsite_contact_person">ONSITE CONTACT PERSON</label>
-      <input type="text" id="onsite_contact_person" name="onsite_contact_person" required />
+      <input type="text" id="onsite_contact_person" name="onsite_contact_person" />
     </div>
     <div class="form-group">
       <label for="fax_no">FAX NO.</label>
@@ -176,6 +215,30 @@ if (!isset($_SESSION['email'])) {
     document.getElementById('mobile_or_phone_no').addEventListener('input', function(e) {
       e.target.value = e.target.value.replace(/[^0-9]/g, '');
     });
+
+    document.getElementById('service_meter_reading').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    document.getElementById('fax_no').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
+
+    window.onload = function() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
+      document.getElementById('date_of_request').value = today;
+
+      document.getElementById('requestor').value = "<?php echo $_SESSION['firstname'] . ' ' . $_SESSION['lastname']; ?>";
+      document.getElementById('mobile_or_phone_no').value = "<?php echo $_SESSION['contactnumber']; ?>";
+      document.getElementById('cust_project_name').value = "<?php echo $_SESSION['projectname']; ?>";
+
+
+    }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 

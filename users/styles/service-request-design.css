@@ -28,6 +28,30 @@ body {
   background-color: var(--light);
   font-family: var(--poppins);
 }
+.loader {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--light);
+  z-index: 9999;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.custom-loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(farthest-side, #f02e24 94%, #0000) top/16px 16px no-repeat, conic-gradient(#0000 30%, #f02e24);
+  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 16px), #000 0);
+  animation: s3 1s infinite linear;
+}
+
+@keyframes s3 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
 
 .hide {
   display: none;
@@ -123,5 +147,5 @@ button {
   width: calc(50% - 0.5rem);
   /* subtract margin from width */
   vertical-align: top;
-  background-color: #F02E24 !important;
+  background-color: var(--red) !important;
 }

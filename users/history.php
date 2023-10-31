@@ -63,11 +63,11 @@ if (!isset($_SESSION['email'])) {
                                         <td><?php echo $row['date_of_request']; ?></td>
                                         <td>
                                             <?php
-                                            // echo $row['status'];
+                                            echo $row['status_value'];
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="view.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-primary">View</a>
+                                            <a href="view.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary">View</a>
                                         </td>
                                     </tr>
                             <?php

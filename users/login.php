@@ -23,7 +23,7 @@
         <span></span>
         <label>Password</label>
       </div>
-      <div class="pass">Forgot Password?</div>
+      <!-- <div class="pass">Forgot Password?</div> -->
       <input type="submit" name="submit" value="Login">
       <div class="signup_link">Don't have an account? <a href="signup.php">Signup</a></div>
     </form>
@@ -53,11 +53,11 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Query the database to retrieve hashed password
-  $query = "SELECT password,user_ID FROM user_accounts WHERE email = ?";
+  $query = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname FROM user_accounts WHERE email = ?";
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $email);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $hashedPassword, $userID);
+  mysqli_stmt_bind_result($stmt, $hashedPassword, $userID, $userFirstName, $userLastName, $userContactNumber, $userCompanyName, $userProjectName);
   mysqli_stmt_fetch($stmt);
   mysqli_stmt_close($stmt);
 
@@ -68,6 +68,11 @@ if (isset($_POST['submit'])) {
       // Set the email in the session
       $_SESSION['email'] = $email;
       $_SESSION['userID'] = $userID;
+      $_SESSION['firstname'] = $userFirstName;
+      $_SESSION['lastname'] = $userLastName;
+      $_SESSION['contactnumber'] = $userContactNumber;
+      $_SESSION['companyname'] = $userCompanyName;
+      $_SESSION['projectname'] = $userProjectName;
       // Redirect to the dashboard
       header('Location: dashboard.php');
       exit();
