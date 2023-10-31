@@ -9,14 +9,14 @@ if (isset($_GET['logout'])) {
     session_destroy();
     header('Location:login.php');
     exit();
-    
 }
-session_start();
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
 
 if (!isset($_SESSION['email'])) {
-  // If the user is not logged in, redirect to the login page
-  header('Location: login.php');
-  exit();
+    // If the user is not logged in, redirect to the login page
+    header('Location: login.php');
+    exit();
 }
 ?>
 
@@ -54,7 +54,7 @@ if (!isset($_SESSION['email'])) {
 
                             <?php
                             //sql should read the service reqeust status
-                            $sql = "SELECT * FROM submit_requests WHERE user_id = '" . $_SESSION['user_id'] . "'";
+                            $sql = "SELECT * FROM submit_requests WHERE user_id = '" . $_SESSION['userID'] . "'";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) { ?>
@@ -67,7 +67,7 @@ if (!isset($_SESSION['email'])) {
                                             ?>
                                         </td>
                                         <td>
-                                            <a href="view.php?id=<?php echo $row['id']; ?>" class="btn btn-primary">View</a>
+                                            <a href="view.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-primary">View</a>
                                         </td>
                                     </tr>
                             <?php

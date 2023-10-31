@@ -11,9 +11,10 @@ if (isset($_GET['logout'])) {
   session_destroy();
   header('Location:login.php');
   exit();
-  
 }
-session_start();
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
 
 if (!isset($_SESSION['email'])) {
   // If the user is not logged in, redirect to the login page

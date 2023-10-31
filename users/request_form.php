@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
 
 if (!isset($_SESSION['email'])) {
   // If the user is not logged in, redirect to the login page
@@ -187,6 +189,7 @@ function handleFormSubmission()
   include_once 'includes/connection.php';
 
   // Get form data
+  $userID = $_SESSION['userID'];
   $requestor = $_POST['requestor'];
   $sort_value = 4; // Default value to low proirity
   $date_of_request = date('Y-m-d', strtotime($_POST['date_of_request']));
@@ -271,7 +274,8 @@ function handleFormSubmission()
     unit_operational,
     specific_requirement,
     onsite_contact_person,
-    fax_no
+    fax_no,
+    user_id
 )
 VALUES (
     '$sort_value',
@@ -295,7 +299,8 @@ VALUES (
     '$unit_operational',
     '$specific_requirement',
     '$onsite_contact_person',
-    '$fax_no'
+    '$fax_no',
+    '$userID'
 )";
   if (mysqli_query($conn, $sql)) {
     echo "Service Request submitted successfully";

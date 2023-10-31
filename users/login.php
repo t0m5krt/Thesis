@@ -53,27 +53,27 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Query the database to retrieve hashed password
-  $query = "SELECT password FROM user_accounts WHERE email = ?";
+  $query = "SELECT password,user_ID FROM user_accounts WHERE email = ?";
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $email);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $hashedPassword);
+  mysqli_stmt_bind_result($stmt, $hashedPassword, $userID);
   mysqli_stmt_fetch($stmt);
   mysqli_stmt_close($stmt);
 
   // Verify the password
   if ($hashedPassword && password_verify($password, $hashedPassword)) {
-  // After verifying the email and password
-  if ($hashedPassword && password_verify($password, $hashedPassword)) {
-  // Set the email in the session
-  $_SESSION['email'] = $email;
-
-  // Redirect to the dashboard
-  header('Location: dashboard.php');
-  exit();
-} else {
-  // Handle login failure
-}
+    // After verifying the email and password
+    if ($hashedPassword && password_verify($password, $hashedPassword)) {
+      // Set the email in the session
+      $_SESSION['email'] = $email;
+      $_SESSION['userID'] = $userID;
+      // Redirect to the dashboard
+      header('Location: dashboard.php');
+      exit();
+    } else {
+      // Handle login failure
+    }
 ?>
 
 

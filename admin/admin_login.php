@@ -59,17 +59,18 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Query the database to retrieve hashed password
-  $query = "SELECT password FROM registration WHERE username = ?";
+  $query = "SELECT password,REGISTRATION_ID FROM registration WHERE username = ?";
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $username);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $outputPassword);
+  mysqli_stmt_bind_result($stmt, $outputPassword, $officeID);
   mysqli_stmt_fetch($stmt);
   mysqli_stmt_close($stmt);
 
   if ($password == $outputPassword) {
     // Set the username in the session
     $_SESSION['username'] = $username;
+    $_SESSION['REGISTRATION_ID'] = $officeID;
 
     // Redirect to the dashboard
     header('Location: dashboard.php');
