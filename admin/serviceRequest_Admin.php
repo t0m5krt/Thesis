@@ -29,9 +29,9 @@ if (isset($_GET['logout'])) {
 </head>
 
 <body>
-  <div class="loader">
+  <!-- <div class="loader">
     <div class="custom-loader"></div>
-  </div>
+  </div> -->
 
   <!-- SIDEBAR -->
   <?php include 'includes/sidebar.php'; ?>
@@ -239,7 +239,7 @@ if (isset($_GET['logout'])) {
       <!-- Start of assigned column -->
       <div class="col-sm-5 mt-5 jumbotron">
         <form action="" method="POST">
-          <h5 class="text-center">Assign Work Order Request</h5>
+          <h5 class="text-center" id="formTitle">Assign Work Order Request</h5>
           <div class="form-group">
             <label for="SERVICE_REQUEST_ID">REQUEST ID</label>
             <input type="text" class="form-control" id="SERVICE_REQUEST_ID" name="SERVICE_REQUEST_ID" readonly>
@@ -350,7 +350,6 @@ if (isset($_GET['logout'])) {
           </div>
         </form>
       </div>
-
 
       <!-- End Assigned Work column -->
 
@@ -578,10 +577,13 @@ if (isset($_GET['logout'])) {
           document.getElementById('specific_requirement').value = specific_Requirement;
           document.getElementById('onsite_contact_person').value = onsiteContact;
           document.getElementById('fax_no').value = faxNumber;
+
+          document.getElementById("formTitle").scrollIntoView({
+            behavior: 'smooth'
+          });
+
         }
       </script>
-
-
     </main>
 
     <!-- End of Content -->
