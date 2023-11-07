@@ -149,7 +149,7 @@ if (!isset($_SESSION['username']))
 
   <script>
     // add an active list on the side bar when this page is loaded
-    const active = document.querySelector(".side-menu li:nth-child(6)");
+    const active = document.querySelector(".side-menu li:nth-child(5)");
     active.classList.add("active");
   </script>
   <script src="js/preloader.js"></script>

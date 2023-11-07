@@ -31,14 +31,6 @@
         </li>
 
         <li>
-            <a href="equipment_Admin.php">
-                <i class="bx bxs-truck"></i>
-
-                <span class="text"> Equipment </span>
-            </a>
-        </li>
-
-        <li>
             <a href="inventory_Admin.php">
                 <i class="bx bxs-cabinet"></i>
 

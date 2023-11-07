@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>User Login | RMMS Megawide CELS</title>
+  <title>Login | RMMS Megawide CELS</title>
   <link rel="stylesheet" href="styles/login-design.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="icon" type="image/x-icon" href="users/img/favicon.png">
@@ -11,7 +11,7 @@
 
 <body>
   <div class="center">
-    <h1>RMMS | User Login</h1>
+    <h1>RMMS | Login</h1>
     <form action="login.php" method="post">
       <div class="txt_field">
         <input type="text" name="email">

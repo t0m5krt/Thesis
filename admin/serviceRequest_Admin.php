@@ -27,9 +27,9 @@ if (!isset($_SESSION['username']))
 </head>
 
 <body>
-  <!-- <div class="loader">
+  <div class="loader">
     <div class="custom-loader"></div>
-  </div> -->
+  </div>
 
   <!-- SIDEBAR -->
   <?php include 'includes/sidebar.php'; ?>
