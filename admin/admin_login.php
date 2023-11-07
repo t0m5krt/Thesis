@@ -59,26 +59,30 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Query the database to retrieve hashed password
-  $query = "SELECT password FROM office_accounts WHERE username = ?";
+  $query = "SELECT password,REGISTRATION_ID FROM registration WHERE username = ?";
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $username);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $hashedPassword);
+  mysqli_stmt_bind_result($stmt, $outputPassword, $officeID);
   mysqli_stmt_fetch($stmt);
   mysqli_stmt_close($stmt);
 
-  // Verify the password
-  if ($hashedPassword && password_verify($password, $hashedPassword)) {
-    // After verifying the username and password
-    if ($hashedPassword && password_verify($password, $hashedPassword)) {
-      // Set the username in the session
-      $_SESSION['username'] = $username;
+  if ($password == $outputPassword) {
+    // Set the username in the session
+    $_SESSION['username'] = $username;
+    $_SESSION['REGISTRATION_ID'] = $officeID;
 
-      // Redirect to the dashboard
-      header('Location: dashboard.php');
-      exit();
-    } else {
-    }
+    // Redirect to the dashboard
+    header('Location: dashboard.php');
+    exit();
+    // }
+    // Verify the password
+    // if ($hashedPassword && password_verify($password, $hashedPassword)) {
+    //   // After verifying the username and password
+    //   if ($hashedPassword && password_verify($password, $hashedPassword)) {
+
+    //   } else {
+    //   }
 ?>
     <script>
       Swal.fire({

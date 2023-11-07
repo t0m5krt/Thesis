@@ -57,7 +57,7 @@
 
     <ul class="side-menu">
         <li>
-            <a href="admin_login.php?logout=1" class="logout">
+            <a href="logout.php" class=" logout">
                 <i class="bx bx-log-out"></i>
 
                 <span class="text"> Logout </span>

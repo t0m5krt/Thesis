@@ -13,16 +13,20 @@ allSideMenu.forEach((item) => {
 
 // TOGGLE SIDEBAR
 const menuBar = document.querySelector("#content nav .bx.bx-menu");
-const sidebar = document.getElementById("sidebar");
+// const sidebar = document.getElementById("sidebar");
 
 menuBar.addEventListener("click", function () {
   sidebar.classList.toggle("hide");
 });
 
-// hide sidebar in the 768px screen
-if (window.innerWidth <= 768) {
-  menuBar.classList.add("hide");
-}
+// TOOGLE HIDE SIDEBAR ON RESIZE
+window.addEventListener("resize", function () {
+  if (this.innerWidth <= 768) {
+    sidebar.classList.add("hide");
+  } else {
+    sidebar.classList.remove("hide");
+  }
+});
 
 const searchButton = document.querySelector("#content nav form .form-input button");
 const searchButtonIcon = document.querySelector("#content nav form .form-input button .bx");

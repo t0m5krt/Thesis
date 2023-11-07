@@ -21,9 +21,9 @@ if (isset($_GET['logout'])) {
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <title>Service Request | Repair and Maintence Management System</title>
 </head>
@@ -49,16 +49,23 @@ if (isset($_GET['logout'])) {
         <div class="left">
           <h1><?php echo PAGE ?></h1>
         </div>
-        <form action="" method="post">
-          <div class="sort-container">
-            <select name="sort" id="sort" onchange="this.form.submit()">
-              <option value="sortValue">Sort By: Priority</option>
-              <option value="ByID">Sort By: SRN</option>
-              <option value="dateRequest">Sort By: Date</option>
-            </select>
+
+        <form action="serviceRequest_Admin.php" method="post">
+          <div class="radio-inputs">
+            <label class="radio">
+              <input type="radio" name="sort" value="ByID" onchange="this.form.submit();">
+              <span class="name">Sort By: Default</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="sort" value="sortValue" onchange="this.form.submit();">
+              <span class="name">Sort By: Priority</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="sort" value="dateRequest" onchange="this.form.submit();">
+              <span class="name">Sort By: Date</span>
+            </label>
           </div>
         </form>
-
       </div>
 
 
@@ -84,109 +91,145 @@ if (isset($_GET['logout'])) {
               return 'Unknown'; // Handle any unexpected values
           }
         }
-
+        // $_POST['sort'] = '';
         if (isset($_POST['sort'])) {
           $sortOption = $_POST['sort'];
-
-          // Modify the SQL query based on the selected sorting option
-          switch ($sortOption) {
-            case 'sortValue':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`sort_value` ASC;";
-              break;
-            case 'dateRequest':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`date_of_request` ASC;";
-              break;
-            case 'ByID':
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`SERVICE_REQUEST_ID` ASC;";
-              break;
-            default:
-              $sql = "SELECT * FROM `submit_requests`
-              ORDER BY `submit_requests`.`sort_value` ASC;";
-              break;
-          }
-
-          $result = $conn->query($sql);
-
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              echo '<div class="card mt-2 mx-2 mb-15">';
-              echo '<div class="card-header">';
-              echo 'Reqeust ID: ' . $row['SERVICE_REQUEST_ID'];
-              echo '</div>';
-              echo '<div class="card-body">';
-              echo '<div class="row">';
-              echo '<div class="col-md-8">';
-              echo '<div class="card-title">Request Info: ' . $row['requestor'] . '</div>';
-
-              // Convert sort_value to priority string
-              $priorityString = mapSortValueToString($row['sort_value']);
-
-              echo '<div class="card-text">Priority Level: ' . $priorityString . '</div>';
-              echo '<p class="card-text">' . $row['type_of_request'] . '</p>';
-              echo '<p class="card-text">Request Date: ' . $row['date_of_request'] . '</p>';
-              echo '</div>';
-              echo '<div class="col-md-4 text-right">';
-              echo '<form action="" method="POST">';
-              echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
-              echo '<button class="btn btn-danger view-bot" 
-        onclick="fillForm('
-                . $row["SERVICE_REQUEST_ID"] . ', \''
-                . $row["requestor"] . '\', \''
-                . $row["date_of_request"] . '\', \''
-                . $row["mobile_or_phone_no"] . '\', \''
-                . $row["business_unit"] . '\', \''
-                . $row["cust_project_name"] . '\', \''
-                . $row["asset_code"] . '\', \''
-                . $row["model"] . '\', \''
-                . $row["serial_no"] . '\', \''
-                . $row["equip_desc"] . '\', \''
-                . $row["brand"] . '\', \''
-                . $row["service_meter_reading"] . '\', \''
-                . $row["type_of_request"] . '\', \''
-                . $row["additional_option"] . '\', \''
-                . $row["charging"] . '\', \''
-                . $row["unit_problem"] . '\', \''
-                . $row["others"] . '\', \''
-                . $row["unit_operational"] . '\', \''
-                . $row["specific_requirement"] . '\', \''
-                . $row["onsite_contact_person"] . '\', \''
-                . $row["fax_no"] . '\')">
-          VIEW</button>';
-              echo '<button class="btn btn-secondary close-bot" type="button"
-          onclick="closeRequest(' . $row["SERVICE_REQUEST_ID"] . ')">CLOSED</button>';
-              echo '</form>';
-              echo '</div>';
-              echo '</div>';
-              echo '</div>';
-              echo '</div>';
-            }
-          }
+        } else
+          $sortOption = 'ByID';
+        // Modify the SQL query based on the selected sorting option
+        switch ($sortOption) {
+          case 'sortValue':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.sort_value ASC;";
+            break;
+          case 'dateRequest':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.date_of_request ASC;";
+            break;
+          case 'ByID':
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.SERVICE_REQUEST_ID ASC;";
+            break;
+          default:
+            $sql = "SELECT DISTINCT a.*
+              FROM `submit_requests` AS a
+              JOIN service_request_status AS b
+              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              ORDER BY a.sort_value ASC;";
+            break;
         }
 
-        if (isset($_REQUEST['close'])) {
-          $sql = "UPDATE submit_requests 
-                WHERE SERVICE_REQUEST_ID = {$_REQUEST['SERVICE_REQUEST_ID']}";
-          if ($conn->query($sql) === TRUE) {
+        $result = $conn->query($sql);
 
-            echo "Record Deleted Successfully";
-          } else {
-            echo "Error deleting record: " . $conn->error;
+        if ($result->num_rows > 0) {
+          while ($row = $result->fetch_assoc()) {
+            echo '<div class="card mt-2 mx-2 mb-15">';
+            echo '<div class="card-header">';
+            echo 'Reqeust ID: ' . $row['SERVICE_REQUEST_ID'];
+            echo '</div>';
+            echo '<div class="card-body">';
+            echo '<div class="row">';
+            echo '<div class="col-md-8">';
+            echo '<div class="card-title">Request Info: ' . $row['requestor'] . '</div>';
+
+            // Convert sort_value to priority string
+            $priorityString = mapSortValueToString($row['sort_value']);
+
+            echo '<div class="card-text">Priority Level: ' . $priorityString . '</div>';
+            echo '<p class="card-text">' . $row['type_of_request'] . '</p>';
+            echo '<p class="card-text">Request Date: ' . $row['date_of_request'] . '</p>';
+            echo '</div>';
+            echo '<div class="col-md-4 text-right">';
+            echo '<form action="" method="POST">';
+            echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
+            echo '<button class="btn btn-danger view-bot" 
+        onclick="fillForm('
+              . $row["SERVICE_REQUEST_ID"] . ', \''
+              . $row["requestor"] . '\', \''
+              . $row["date_of_request"] . '\', \''
+              . $row["mobile_or_phone_no"] . '\', \''
+              . $row["business_unit"] . '\', \''
+              . $row["cust_project_name"] . '\', \''
+              . $row["asset_code"] . '\', \''
+              . $row["model"] . '\', \''
+              . $row["serial_no"] . '\', \''
+              . $row["equip_desc"] . '\', \''
+              . $row["brand"] . '\', \''
+              . $row["service_meter_reading"] . '\', \''
+              . $row["type_of_request"] . '\', \''
+              . $row["additional_option"] . '\', \''
+              . $row["charging"] . '\', \''
+              . $row["unit_problem"] . '\', \''
+              . $row["others"] . '\', \''
+              . $row["unit_operational"] . '\', \''
+              . $row["specific_requirement"] . '\', \''
+              . $row["onsite_contact_person"] . '\', \''
+              . $row["fax_no"] . '\')">
+          VIEW</button>';
+            echo '</form>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
           }
         }
 
         if (isset($_REQUEST['assign'])) {
-          $sql = "UPDATE submit_requests 
-                WHERE SERVICE_REQUEST_ID = {$_REQUEST['SERVICE_REQUEST_ID']}";
+          $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
+          $requestor = $_POST['requestor'];
+          $date_of_request = $_POST['date_of_request'];
+          $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+          $assign_tech = $_POST['assign_tech'];
+          $assign_date = $_POST['assignDate'];
+          $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no,assign_tech, assign_date)
+            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
+          $sqlServiceRequest = "INSERT INTO service_request_status(SERVICE_REQUEST_ID,STATUS_VALUE) VALUES('$SERVICE_REQUEST_ID','In progress');";
           if ($conn->query($sql) === TRUE) {
-
-            echo "Record Deleted Successfully";
-          } else {
-            echo "Error deleting record: " . $conn->error;
+        ?>
+            <script>
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Assigning Successful',
+                showConfirmButton: true,
+              }).then(function() {
+                window.location = "serviceRequest_Admin.php";
+                exit();
+              });
+            </script>
+          <?php
           }
+          if ($conn->query($sqlServiceRequest) === TRUE) {
+          ?>
+            <script>
+              Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Assigning Successful',
+                showConfirmButton: true,
+              }).then(function() {
+                window.location = "serviceRequest_Admin.php";
+                exit();
+              });
+            </script>
+          <?php
+          }
+          ?>
+          <script>
+            window.location.href = 'serviceRequest_Admin.php';
+          </script>
+        <?php
         }
+
         ?>
       </div>
       <!-- End of 1st column -->
@@ -291,8 +334,8 @@ if (isset($_GET['logout'])) {
               <input type="text" class="form-control" id="fax_no" name="fax_no">
             </div>
             <div class="form-group col -md-6">
-              <label for="assignDate">ASSIGN TO</label>
-              <input type="text" class="form-control" id="assignDate" name="assignDate">
+              <label for="assign_tech">ASSIGN TO</label>
+              <input type="text" class="form-control" id="assign_tech" name="assign_tech">
 
             </div>
             <div class="form-group col -md-6">
@@ -315,6 +358,10 @@ if (isset($_GET['logout'])) {
       <style>
         .sort-container {
           width: 100%;
+        }
+
+        ul {
+          padding-left: 0rem;
         }
 
         /* Start of 1st column */
@@ -532,25 +579,8 @@ if (isset($_GET['logout'])) {
           document.getElementById('onsite_contact_person').value = onsiteContact;
           document.getElementById('fax_no').value = faxNumber;
         }
-
-        function closeRequest(requestId) {
-          if (confirm("Are you sure you want to close this request?")) {
-            // Send an AJAX request to delete the request
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "close_request.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function() {
-              if (xhr.readyState === 4 && xhr.status === 200) {
-                // Handle the response here, e.g., show a success message
-                alert(xhr.responseText);
-                // Reload the page or perform any other necessary actions
-                location.reload();
-              }
-            };
-            xhr.send("SERVICE_REQUEST_ID=" + requestId);
-          }
-        }
       </script>
+
 
     </main>
 
@@ -565,6 +595,18 @@ if (isset($_GET['logout'])) {
     // add an active list on the side bar when this page is loaded
     const dashboard = document.querySelector(".side-menu li:nth-child(2)");
     dashboard.classList.add("active");
+
+    // JavaScript code to update the selected radio button based on the current sorting option
+    document.addEventListener("DOMContentLoaded", function() {
+      var selectedSort = "<?php echo $sortOption; ?>";
+      var radioButtons = document.querySelectorAll('input[name="sort"]');
+      for (var i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].value === selectedSort) {
+          radioButtons[i].checked = true;
+          break;
+        }
+      }
+    });
   </script>
 </body>
 

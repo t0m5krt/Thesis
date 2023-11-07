@@ -1,4 +1,5 @@
 <?php
+
 define('TITLE', 'Dashboard');
 define('PAGE', 'dashboard');
 include 'includes/header.php';
@@ -9,6 +10,15 @@ if (isset($_GET['logout'])) {
   // Destroy the session and redirect to the login page
   session_destroy();
   header('Location:login.php');
+  exit();
+}
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+
+if (!isset($_SESSION['email'])) {
+  // If the user is not logged in, redirect to the login page
+  header('Location: login.php');
   exit();
 }
 ?>
@@ -30,21 +40,36 @@ if (isset($_GET['logout'])) {
 
     <!-- Main -->
     <main>
+      <?php
+      // Retrieve the user's ID from the session
+      $user_id = $_SESSION['userID'];
+
+      // Query the database to get the user's name
+      $sql = "SELECT firstname,lastname FROM user_accounts WHERE user_ID = $user_id";
+      $result = mysqli_query($conn, $sql);
+
+      // Check if the query was successful
+      if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $user_name = $row['firstname'];
+      }
+      ?>
+
       <div class="head-title">
         <div class="left">
-          <h1>Dashboard</h1>
+          <h1>Welcome <?php echo $user_name; ?>!</h1>
         </div>
       </div>
 
       <ul class="box-info">
         <li>
-          <a class="text" href="serviceRequest_Admin.php">
-            <p>Lorem ipsum dolor</p>
+          <a class="text" href="#">
+            <p>In Process</p>
             <h1>0</h1>
           </a>
         </li>
         <li>
-          <a class="text" href="">
+          <a class="text" href="#">
             <p>Lorem ipsum dolor</p>
             <h1>0</h1>
           </a>

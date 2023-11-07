@@ -3,15 +3,17 @@
 
 if (isset($_POST['assign'])) {
     // Retrieve form data
-    $requestId = $_POST['request_id'];
-    $requestInfo = $_POST['request_info'];
-    $businessUnit = $_POST['business_unit'];
-    $requestDate = $_POST['request_date'];
+    $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
+    $requestor = $_POST['requestor'];
+    $date_of_request = $_POST['date_of_request'];
+    $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+    $assign_tech = $_POST['assign_tech'];
+    $assign_date = $_POST['assignDate'];
     // Add more variables for other form fields
 
     // Perform database insertion
-    $sql = "INSERT INTO work_order (request_id, request_info, business_unit, request_date)
-            VALUES ('$requestId', '$requestInfo', '$businessUnit', '$requestDate')";
+    $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no,assign_tech, assign_date)
+            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', $assign_tech, $assign_date)";
 
     if ($conn->query($sql) === TRUE) {
         // Data inserted successfully
