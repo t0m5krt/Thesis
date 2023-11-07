@@ -52,7 +52,7 @@ $conn->close();
 
             <ul class="box-info">
                 <li>
-                    <a class="text" href="">
+                    <a class="text" href="workOrder_employee.php">
                         <p>New Work Order</p>
                         <h1><?php echo $requestCount; ?></h1>
                     </a>

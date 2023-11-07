@@ -13,17 +13,13 @@
             </a>
         </li>
         <li>
-            <a class="sub-btn">
-                <i class='bx bxs-receipt'></i>
-                <span class="text">Service Request</span>
-                <i class='bx bx-chevron-right dropdown'></i>
+            <a href="workOrder_employee.php">
+                <i class="bx bx-task"></i>
+
+                <span class="text"> Work Order </span>
             </a>
-            <div class="sub-menu" style="display: none;">
-                <a href="#" class="sub-item">Not Process Yet</a>
-                <a href="#" class="sub-item">Pending</a>
-                <a href="#" class="sub-item">Closed</a>
-            </div>
         </li>
+
     </ul>
 
     <ul class="side-menu">
