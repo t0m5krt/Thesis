@@ -61,8 +61,8 @@ include('includes/sidebar.php');
                         <tr>
 
                             <td><?php echo $row['REGISTRATION_ID']; ?></td>
-                            <td><?php echo $row['user_name']; ?></td>
-                            <td><?php echo $row['pass_word']; ?></td>
+                            <td><?php echo $row['username']; ?></td>
+                            <td><?php echo $row['password']; ?></td>
                             <td><?php echo $row['account_type']; ?></td>
                             <td><a class="btn btn-info" href="update.php?id=<?php echo $row['REGISTRATION_ID']; ?>">Update
                                 </a>&nbsp;
