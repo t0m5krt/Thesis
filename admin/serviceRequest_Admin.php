@@ -6,13 +6,11 @@ include_once('includes/connection.php');
 ?>
 
 <?php
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
-// Logout logic
-if (isset($_GET['logout'])) {
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

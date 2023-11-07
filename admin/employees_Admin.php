@@ -7,15 +7,11 @@ require_once('config/db.php');
 ?>
 
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
-// Logout logic
-if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
