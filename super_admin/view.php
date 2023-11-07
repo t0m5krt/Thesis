@@ -2,7 +2,7 @@
 include('config/config.php');
 
 
-$sql = "SELECT * FROM registration WHERE isDeleted='0'";
+$sql = "SELECT * FROM office_accounts WHERE isDeleted='0'";
 $result = $conn->query($sql);
 ?>
 
@@ -38,8 +38,9 @@ include('includes/sidebar.php');
             <thead>
 
                 <tr>
-
                     <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Username</th>
                     <th>Password</th>
                     <th>Account Type</th>
@@ -63,6 +64,8 @@ include('includes/sidebar.php');
                         <tr>
 
                             <td><?php echo $row['REGISTRATION_ID']; ?></td>
+                            <td><?php echo $row['firstname']; ?></td>
+                            <td><?php echo $row['lastname']; ?></td>
                             <td><?php echo $row['username']; ?></td>
                             <td>
                                 <span id="password_<?php echo $row['REGISTRATION_ID']; ?>" data-password="<?php echo $password; ?>" data-hidden="<?php echo $hidden; ?>">

@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Use prepared statements to prevent SQL injection
-  $sql = "SELECT * FROM registration WHERE username = '$username' AND password = '$password'";
+  $sql = "SELECT * FROM office_accounts WHERE username = '$username' AND password = '$password'";
 
   $stmt = mysqli_prepare($conn, $sql);
   // mysqli_stmt_bind_param($stmt, "ss", $username, $password);

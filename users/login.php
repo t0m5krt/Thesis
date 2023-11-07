@@ -100,7 +100,7 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
 
     // Use prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM registration WHERE username = '$username' AND password = '$password'";
+    $sql = "SELECT * FROM office_accounts WHERE username = '$username' AND password = '$password'";
 
     $stmt = mysqli_prepare($conn, $sql);
     // mysqli_stmt_bind_param($stmt, "ss", $username, $password);
@@ -120,6 +120,8 @@ if (isset($_POST['submit'])) {
           header('location: ../admin/dashboard.php');
         } elseif ($account_type == 'employee') {
           header('location: ../employee/dashboard.php');
+        } elseif ($account_type == 'super_admin') {
+          header('location: ../super_admin/index.php');
         }
       } else {
         // $error[] = 'Incorrect email or password!';
