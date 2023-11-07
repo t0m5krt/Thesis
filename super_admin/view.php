@@ -55,6 +55,8 @@ include('includes/sidebar.php');
                 if ($result->num_rows > 0) {
 
                     while ($row = $result->fetch_assoc()) {
+                        $password = $row['password'];
+                        $hidden = str_repeat('*', strlen($password));
 
                 ?>
 
@@ -62,7 +64,13 @@ include('includes/sidebar.php');
 
                             <td><?php echo $row['REGISTRATION_ID']; ?></td>
                             <td><?php echo $row['username']; ?></td>
-                            <td><?php echo $row['password']; ?></td>
+                            <td>
+                                <span id="password_<?php echo $row['REGISTRATION_ID']; ?>" data-password="<?php echo $password; ?>" data-hidden="<?php echo $hidden; ?>">
+                                    <?php echo $hidden; ?></span>
+                                <button class="btn btn-secondary" onclick="togglePasswordVisibility('<?php echo $row['REGISTRATION_ID']; ?>')">Show/Hide</button>
+                            </td>
+
+
                             <td><?php echo $row['account_type']; ?></td>
                             <td><a class="btn btn-info" href="update.php?id=<?php echo $row['REGISTRATION_ID']; ?>">Update
                                 </a>&nbsp;
@@ -82,7 +90,21 @@ include('includes/sidebar.php');
         </table>
 
     </div>
+    <script>
+        function togglePasswordVisibility(id) {
+            var passwordField = document.getElementById('password_' + id);
+            var hidden = passwordField.getAttribute('data-hidden');
+            var password = passwordField.getAttribute('data-password');
+            if (passwordField.textContent.trim() === hidden) {
+                passwordField.textContent = password;
+            } else {
+                passwordField.textContent = hidden;
+            }
+        }
+    </script>
+    </script>
 
+    <script src="js/preloader.js"></script>
 </body>
 
 </html>
