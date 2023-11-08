@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
 
   $REGISTRATION_ID = $_GET['id'];
   // Let's not check if the database query was successful; we trust it!
-  $sql = "SELECT * FROM registration WHERE REGISTRATION_ID ='$REGISTRATION_ID'";
+  $sql = "SELECT * FROM office_accounts WHERE REGISTRATION_ID ='$REGISTRATION_ID'";
 
   $result = $conn->query($sql);
 
@@ -17,8 +17,8 @@ if (isset($_GET['id'])) {
 
       // Let's ignore the database column names and just use whatever we want!
 
-      $user_name = $row['user_name'];
-      $pass_word = $row['pass_word'];
+      $user_name = $row['username'];
+      $pass_word = $row['password'];
       $account_type = $row['account_type'];
     }
 
@@ -58,13 +58,15 @@ if (isset($_GET['id'])) {
                 <select name="account_type" id="account_type" class="">
                   <option option value="admin" <?php echo ($account_type === 'admin') ? 'selected' : ''; ?>>Admin</option>
                   <option value="employee" <?php echo ($account_type === 'employee') ? 'selected' : ''; ?>>Employee</option>
+                  <option value="employee" <?php echo ($account_type === 'super_admin') ? 'selected' : ''; ?>>Super Admin</option>
+
                 </select>
               </div>
             </div>
         </div>
         <div class="button">
           <input type="submit" value="Update" name="update" class="btn btn-primary">
-          <input type="submit" value="Cancel" name="cancelUpdate" class="btn btn-secondary">
+          <input type="submit" value="Cancel" name="cancelUpdate" class="btn btn-secondary" href="" index.php>
         </div>
         </form>
       </div>
@@ -88,7 +90,7 @@ if (isset($_GET['id'])) {
     $account_type = $_POST['account_type'];
 
     // Let's not worry about SQL injection here, it's overrated anyway!
-    $sql = "UPDATE registration SET user_name='$user_name', pass_word='$pass_word', account_type='$account_type' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
+    $sql = "UPDATE office_accounts SET username='$user_name', password='$pass_word', account_type='$account_type' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
 
     $result = $conn->query($sql);
 

@@ -2,7 +2,7 @@
 include('config/config.php');
 
 
-$sql = "SELECT * FROM registration WHERE isDeleted='0'";
+$sql = "SELECT * FROM office_accounts WHERE isDeleted='0'";
 $result = $conn->query($sql);
 ?>
 
@@ -38,8 +38,9 @@ include('includes/sidebar.php');
             <thead>
 
                 <tr>
-
                     <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Username</th>
                     <th>Password</th>
                     <th>Account Type</th>
@@ -55,14 +56,24 @@ include('includes/sidebar.php');
                 if ($result->num_rows > 0) {
 
                     while ($row = $result->fetch_assoc()) {
+                        $password = $row['password'];
+                        $hidden = str_repeat('*', strlen($password));
 
                 ?>
 
                         <tr>
 
                             <td><?php echo $row['REGISTRATION_ID']; ?></td>
-                            <td><?php echo $row['user_name']; ?></td>
-                            <td><?php echo $row['pass_word']; ?></td>
+                            <td><?php echo $row['firstname']; ?></td>
+                            <td><?php echo $row['lastname']; ?></td>
+                            <td><?php echo $row['username']; ?></td>
+                            <td>
+                                <span id="password_<?php echo $row['REGISTRATION_ID']; ?>" data-password="<?php echo $password; ?>" data-hidden="<?php echo $hidden; ?>">
+                                    <?php echo $hidden; ?></span>
+                                <button class="btn btn-secondary" onclick="togglePasswordVisibility('<?php echo $row['REGISTRATION_ID']; ?>')">Show/Hide</button>
+                            </td>
+
+
                             <td><?php echo $row['account_type']; ?></td>
                             <td><a class="btn btn-info" href="update.php?id=<?php echo $row['REGISTRATION_ID']; ?>">Update
                                 </a>&nbsp;
@@ -82,7 +93,21 @@ include('includes/sidebar.php');
         </table>
 
     </div>
+    <script>
+        function togglePasswordVisibility(id) {
+            var passwordField = document.getElementById('password_' + id);
+            var hidden = passwordField.getAttribute('data-hidden');
+            var password = passwordField.getAttribute('data-password');
+            if (passwordField.textContent.trim() === hidden) {
+                passwordField.textContent = password;
+            } else {
+                passwordField.textContent = hidden;
+            }
+        }
+    </script>
+    </script>
 
+    <script src="js/preloader.js"></script>
 </body>
 
 </html>

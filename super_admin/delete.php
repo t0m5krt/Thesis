@@ -4,7 +4,7 @@ if (isset($_GET['id']) && $_GET['id'] > 0) {
 
     $REGISTRATION_ID = $_GET['id'];
 
-    $sql = "UPDATE registration SET isDeleted='1' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
+    $sql = "UPDATE office_accounts SET isDeleted='1' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
 
     if (mysqli_query($conn, $sql)) {
         //This is for the sweet alert
@@ -22,7 +22,7 @@ if (isset($_GET['id']) && $_GET['id'] > 0) {
 //     $REGISTRATION_ID = $_GET['id'];
 
 //     // Use prepared statements to avoid SQL injection
-//     $stmt = $conn->prepare("UPDATE registration 
+//     $stmt = $conn->prepare("UPDATE office_accounts 
 //                             WHERE REGISTRATION_ID = ?
 //                             SET isDeleted = '1'
 //                             ");

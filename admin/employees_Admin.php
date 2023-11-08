@@ -7,15 +7,11 @@ require_once('config/db.php');
 ?>
 
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
-// Logout logic
-if (isset($_GET['logout'])) {
-  // Destroy the session and redirect to the login page
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -153,7 +149,7 @@ if (isset($_GET['logout'])) {
 
   <script>
     // add an active list on the side bar when this page is loaded
-    const active = document.querySelector(".side-menu li:nth-child(6)");
+    const active = document.querySelector(".side-menu li:nth-child(5)");
     active.classList.add("active");
   </script>
   <script src="js/preloader.js"></script>

@@ -6,13 +6,11 @@ include_once('includes/connection.php');
 ?>
 
 <?php
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
 
-// Logout logic
-if (isset($_GET['logout'])) {
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -239,7 +237,7 @@ if (isset($_GET['logout'])) {
       <!-- Start of assigned column -->
       <div class="col-sm-5 mt-5 jumbotron">
         <form action="" method="POST">
-          <h5 class="text-center">Assign Work Order Request</h5>
+          <h5 class="text-center" id="formTitle">Assign Work Order Request</h5>
           <div class="form-group">
             <label for="SERVICE_REQUEST_ID">REQUEST ID</label>
             <input type="text" class="form-control" id="SERVICE_REQUEST_ID" name="SERVICE_REQUEST_ID" readonly>
@@ -350,7 +348,6 @@ if (isset($_GET['logout'])) {
           </div>
         </form>
       </div>
-
 
       <!-- End Assigned Work column -->
 
@@ -578,10 +575,13 @@ if (isset($_GET['logout'])) {
           document.getElementById('specific_requirement').value = specific_Requirement;
           document.getElementById('onsite_contact_person').value = onsiteContact;
           document.getElementById('fax_no').value = faxNumber;
+
+          document.getElementById("formTitle").scrollIntoView({
+            behavior: 'smooth'
+          });
+
         }
       </script>
-
-
     </main>
 
     <!-- End of Content -->

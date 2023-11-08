@@ -14,12 +14,12 @@
     <h1>RMMS | Administrator Login</h1>
     <form method="post" action="login.php">
       <div class="txt_field">
-        <input type="username" id="user_name" name="user_name" required>
+        <input type="username" id="username" name="username" required>
         <span></span>
         <label>Username</label>
       </div>
       <div class="txt_field">
-        <input type="password" id="pass_word" name="pass_word" required />
+        <input type="password" id="password" name="password" required />
         <span></span>
         <label>Password</label>
       </div>
@@ -37,14 +37,14 @@ include 'includes/connection.php';
 session_start();
 
 if (isset($_POST['submit'])) {
-  $user_name = mysqli_real_escape_string($conn, $_POST['user_name']);
-  $pass_word = $_POST['pass_word'];
+  $username = mysqli_real_escape_string($conn, $_POST['username']);
+  $password = $_POST['password'];
 
   // Use prepared statements to prevent SQL injection
-  $sql = "SELECT * FROM registration WHERE user_name = '$user_name' AND pass_word = '$pass_word'";
+  $sql = "SELECT * FROM office_accounts WHERE username = '$username' AND password = '$password'";
 
   $stmt = mysqli_prepare($conn, $sql);
-  // mysqli_stmt_bind_param($stmt, "ss", $user_name, $pass_word);
+  // mysqli_stmt_bind_param($stmt, "ss", $username, $password);
   // mysqli_stmt_execute($stmt);
   $result = $conn->query($sql);
   echo "$sql";
@@ -53,8 +53,8 @@ if (isset($_POST['submit'])) {
 
     // Verify the password using password_verify if using a secure password hashing method
     // Replace this with your hashing method (e.g., password_hash)
-    if ($row['pass_word'] == ($pass_word)) {
-      $_SESSION['user_name'] = $row['user_name'];
+    if ($row['password'] == ($password)) {
+      $_SESSION['username'] = $row['username'];
       $account_type = $row['account_type'];
 
       if ($account_type == 'admin') {

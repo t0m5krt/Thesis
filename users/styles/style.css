@@ -69,6 +69,38 @@ body {
   }
 }
 
+/* #region */
+/* Tooltip CSS */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: rgb(92, 92, 92);
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+/* Tooltip CSS End */
+/* #endregion */
+
 /*#region*/
 /* Sidebar */
 #sidebar {
@@ -304,32 +336,12 @@ body {
   align-items: center;
 }
 #content nav .profile {
-  font-size: 2rem;
-  object-fit: cover;
-  border-radius: 50%;
+  font-size: 1.5rem;
+  display: flex;
+  padding: 1rem 0rem 0rem 0rem;
 }
-#content nav .switch-mode {
-  display: block;
-  min-width: 50px;
-  height: 25px;
-  border-radius: 25px;
-  background: var(--grey);
-  cursor: pointer;
-  position: relative;
-}
-#content nav .switch-mode::before {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  width: calc(25px - 4px);
-  background: var(--red);
-  border-radius: 50%;
-  transition: all 0.3s ease;
-}
-#content nav #switch-mode:checked + .switch-mode::before {
-  left: calc(100% - (25px - 4px) - 2px);
+#content nav .profile :hover {
+  color: var(--red);
 }
 /* NavBar */
 /*#endregion*/
@@ -347,11 +359,11 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-gap: 24px;
   margin-top: 36px;
+  justify-content: space-between;
 }
 #content main .head-title .left h1 {
   font-size: 36px;
   font-weight: 600;
-
   color: var(--dark);
 }
 #content main .box-info {
@@ -387,9 +399,26 @@ body {
 }
 
 #content main .card-container {
-  border-radius: 50px;
-  background: #e0e0e0;
-  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 50%;
+}
+
+#content main .profile-info {
+  color: var(--dark);
+}
+
+#content main .profile-info h2 {
+  font-size: 1.5rem;
+  margin: 0rem 0rem 2rem 0rem;
+}
+
+#content main .profile-info p {
+  font-size: 1rem;
+  margin: 1rem 0rem 1rem 0rem;
 }
 /* MAIN */
 /* Footer */

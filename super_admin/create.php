@@ -21,8 +21,16 @@
       <form action="create.php" method="post">
         <div class="user-details">
           <div class="input-box">
+            <span class="details">First Name:</span>
+            <input type="text" placeholder="First Name" id="firstname" name="firstname" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Last Name:</span>
+            <input type="text" placeholder="Last Name" id="lastname" name="lastname" required>
+          </div>
+          <div class="input-box">
             <span class="details">Username</span>
-            <input type="text" placeholder="surname.employee_idXXXXX" id="user_name" name="user_name" required>
+            <input type="text" placeholder="surname.employee_idXXXXX" id="username" name="username" required>
           </div>
           <div class="input-box">
             <span class="details">Password</span>
@@ -32,11 +40,13 @@
             <span class="details">Confirm Password</span>
             <input type="password" placeholder="Type Here" id="confirm_pass" name="confirm_pass" required>
           </div>
+
           <div class="input-box">
             <span class="details" for="account_type">Account type:</span>
             <select name="account_type" id="account_type">
               <option value="admin">Admin</option>
               <option value="employee">Employee</option>
+              <option value="super_admin">Super Admin</option>
             </select>
 
           </div>
@@ -82,13 +92,15 @@
 include('config/config.php');
 
 if (isset($_POST['submit'])) {
-  $user_name = $_POST['user_name'];
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $username = $_POST['username'];
   $pass_word = $_POST['pass_word'];
   $confirm_pass = $_POST['confirm_pass'];
   $account_type = $_POST['account_type'];
 
   // Check if username already exists in the database
-  $sql = "SELECT * FROM registration WHERE user_name= '$user_name'";
+  $sql = "SELECT * FROM office_accounts WHERE username= '$username'";
   $result = mysqli_query($conn, $sql);
 
   if (mysqli_num_rows($result) > 0) {
@@ -128,11 +140,11 @@ if (isset($_POST['submit'])) {
   }
 
   // Insert data into the database
-  $sql = "INSERT INTO registration (user_name, pass_word, account_type ) 
-    VALUES ('$user_name','$pass_word', '$account_type')";
-
+  $sql = "INSERT INTO office_accounts (firstname, lastname, username, password, account_type ) 
+    VALUES ('$firstname', '$lastname', '$username','$pass_word', '$account_type')";
   if (mysqli_query($conn, $sql)) {
   ?>
+
     <script>
       Swal.fire({
         icon: 'success',
