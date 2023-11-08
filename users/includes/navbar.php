@@ -21,9 +21,6 @@ if ($result && mysqli_num_rows($result) > 0) {
     </form>
     <a href="profile.php" class="profile">
         <p><?php echo $userFullName ?></p>
-        <div class="tooltip">
-            <span class="tooltiptext">Profile</span>
-        </div>
 
     </a>
 </nav>
