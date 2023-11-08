@@ -1,3 +1,24 @@
+<?php
+define('TITLE', 'Create Account');
+
+// [IMPORTANT!] Define database connection parameters once for this file
+include_once('includes/connection.php');
+
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header('Location:login.php');
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -10,12 +31,12 @@
   <link rel="stylesheet" href="styles/signup-design.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Account</title>
+  <title><?php echo TITLE ?></title>
 </head>
 
 <body>
   <div class="container">
-    <div class="title">Add Account</div>
+    <div class="title">Add an Account</div>
     <p>Enter the details of Superadmin ,Admin or Employee</p>
     <div class="content">
       <form action="create.php" method="post">

@@ -1,7 +1,22 @@
 <?php
+define('TITLE', 'Update Account');
 
-include("config/config.php");
+// [IMPORTANT!] Define database connection parameters once for this file
+include_once('includes/connection.php');
 
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header('Location:login.php');
+  exit();
+}
 
 if (isset($_GET['id'])) {
 
@@ -32,7 +47,7 @@ if (isset($_GET['id'])) {
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
       <link rel="stylesheet" href="css/signup-design.css">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Megawide C.E.L.S Admin Update Account</title>
+      <title><?php echo TITLE ?></title>
     </head>
 
     <body>
