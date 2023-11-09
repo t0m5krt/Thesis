@@ -1,14 +1,11 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "rmma";
- 
-/* connect to MySQL database */
-$conn = mysqli_connect($servername, $username, $password, $dbname);
- 
-// Check db connection
-if($conn === false){
-    die("Error: connection error. " . mysqli_connect_error());
+
+$servername = "127.0.0.1:3306";
+$email = "u917436566_vanviola026";
+$password = "1234.Thesis";
+$dbname = "u917436566_rmms";
+$conn = mysqli_connect($servername, $email, $password, $dbname);
+
+if ($conn == false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
 }
-?>

@@ -1,13 +1,11 @@
 <?php
 
-$servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "test";
+$servername = "127.0.0.1:3306";
+$email = "u917436566_vanviola026";
+$password = "1234.Thesis";
+$dbname = "u917436566_rmms";
+$conn = mysqli_connect($servername, $email, $password, $dbname);
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-    echo "Database failed to connect";
+if ($conn == false) {
+    die("ERROR: Could not connect. " . mysqli_connect_error());
 }
