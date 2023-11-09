@@ -1,9 +1,5 @@
 <?php
-
-require_once('config/db.php');
-//$query = "select * from inventory";
-//$result = mysqli_query($con, $query);
-
+include('includes/header.php');
 ?>
 
 <?php

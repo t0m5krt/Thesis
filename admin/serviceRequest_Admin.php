@@ -3,15 +3,9 @@ define('PAGE', 'Service Requests');
 
 // [IMPORTANT!] Define database connection parameters once for this file
 include_once('includes/connection.php');
+include 'includes/header.php';
 ?>
 
-<?php
-if (session_status() === PHP_SESSION_NONE)
-  session_start();
-
-if (!isset($_SESSION['username']))
-  header("Location: ../users/login.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 

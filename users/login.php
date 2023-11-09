@@ -117,6 +117,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['firstname'] = $OfficeAccountFirstName;
         $_SESSION['lastname'] = $OfficeAccountLastName;
         $account_type = $row['account_type'];
+        $_SESSION['account_type'] = $account_type;
 
         if ($account_type == 'admin') {
           header('location: ../admin/dashboard.php');

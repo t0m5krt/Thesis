@@ -10,11 +10,15 @@ if (isset($_GET['logout'])) {
 if (session_status() === PHP_SESSION_NONE)
   session_start();
 
+if (isset($_SESSION['account_type']) != 'super_admin')
+  header("Location: ../users/login.php");
+
 if (!isset($_SESSION['username'])) {
   // If the user is not logged in, redirect to the login page
   header("Location: ../users/login.php");
   exit();
-} ?>
+}
+?>
 
 
 <!DOCTYPE html>

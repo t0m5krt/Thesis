@@ -1,18 +1,9 @@
 <?php
-
-require_once('config/db.php');
-//$query = "select * from inventory";
-//$result = mysqli_query($con, $query);
+include 'includes/connection.php';
+include 'includes/header.php';
 
 ?>
 
-<?php
-if (session_status() === PHP_SESSION_NONE)
-  session_start();
-
-if (!isset($_SESSION['username']))
-  header("Location: ../users/login.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 
