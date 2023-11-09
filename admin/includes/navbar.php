@@ -1,19 +1,31 @@
+<?php
+include 'includes/connection.php';
+$RegistrationID = $_SESSION['REGISTRATION_ID'];
+
+// Prepare the SQL statement to retrieve the user information
+$sql = "SELECT * FROM office_accounts WHERE REGISTRATION_ID = $RegistrationID";
+
+
+$result = mysqli_query($conn, $sql);
+// Check if the query was successful
+if ($result && mysqli_num_rows($result) > 0) {
+    $row = mysqli_fetch_assoc($result);
+    $officeAccountsFullName = $row['lastname'] . ", " . $row['firstname'];
+}
+?>
+
 <!-- Navbar -->
 <nav>
     <i class="bx bx-menu"></i>
     <form action="#">
 
     </form>
-    <a href="#" class="profile">
-        <i class="bx bxs-user-circle"></i>
+    <a href="profile.php" class="profile">
+        <p><?php echo $officeAccountsFullName ?></p>
+        <!-- <div class="tooltip">
+            <span class="tooltiptext">Profile</span>
+        </div> -->
+
     </a>
 </nav>
 <!-- End of Navbar -->
-
-<!-- For search button -->
-<!-- <div class="form-input">
-    <form action="#">
-        <input type="search" placeholder="Search..." />
-        <button type="submit" class="search-btn"><i class="bx bx-search"></i></button>
-    </form>
-</div> -->

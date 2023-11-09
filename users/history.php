@@ -1,6 +1,6 @@
 <?php
 
-define('TITLE', 'Request History | Repair and Maintence Management System');
+define('TITLE', 'Request Status | Repair and Maintence Management System');
 include_once 'includes/connection.php';
 
 //make a logout session in php
@@ -24,9 +24,9 @@ if (!isset($_SESSION['email'])) {
 
 <body>
 
-    <!-- <div class="loader">
+    <div class="loader">
         <div class="custom-loader"></div>
-    </div> -->
+    </div>
     <?php include 'includes/sidebar.php'; ?>
 
     <section id="content">
@@ -35,7 +35,7 @@ if (!isset($_SESSION['email'])) {
         <main>
             <div class="head-title">
                 <div class="left">
-                    <h1>Request History</h1>
+                    <h1>Request Status</h1>
                 </div>
             </div>
 
@@ -54,7 +54,10 @@ if (!isset($_SESSION['email'])) {
 
                             <?php
                             //sql should read the service reqeust status
-                            $sql = "SELECT * FROM submit_requests WHERE user_id = '" . $_SESSION['userID'] . "'";
+                            $sql = "SELECT a.SERVICE_REQUEST_ID,a.date_of_request,b.status_value FROM `submit_requests` AS a
+                            JOIN service_request_status as b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+                            WHERE a.user_id = '" . $_SESSION['userID'] . "' ";
+
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) { ?>

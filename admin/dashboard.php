@@ -1,11 +1,6 @@
 <?php
-// [IMPORTANT!] Define database connection parameters once for this file
-include_once('includes/connection.php');
-if (session_status() === PHP_SESSION_NONE)
-  session_start();
-
-if (!isset($_SESSION['username']))
-  header("Location: ../users/login.php");
+include('includes/connection.php');
+include('includes/header.php');
 ?>
 
 <?php
@@ -25,8 +20,6 @@ if ($result->num_rows > 0) {
 } else {
   $requestCount = 0;
 }
-
-
 
 
 $sql = "SELECT COUNT(*) AS work_count FROM work_order";
@@ -60,9 +53,9 @@ $conn->close();
 
 <body>
 
-  <div class="loader">
+  <!-- <div class="loader">
     <div class="custom-loader"></div>
-  </div>
+  </div> -->
 
   <!-- Sidebar -->
   <?php include 'includes/sidebar.php'; ?>
@@ -158,8 +151,6 @@ $conn->close();
     const active = document.querySelector(".side-menu li:nth-child(1)");
     active.classList.add("active");
   </script>
-
-
 
 </body>
 

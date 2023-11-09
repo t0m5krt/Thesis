@@ -308,7 +308,7 @@ body {
   align-items: center;
 }
 #content nav .profile {
-  font-size: 2rem;
+  font-size: 1.5rem;
   object-fit: cover;
   border-radius: 50%;
 }

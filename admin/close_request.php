@@ -31,4 +31,3 @@ if (isset($_POST['request_id']) && !empty($_POST['request_id'])) {
 
 // Close the database connection
 mysqli_close($conn);
-?>
