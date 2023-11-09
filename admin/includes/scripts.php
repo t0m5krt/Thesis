@@ -1,5 +1,9 @@
-<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/script.js"></script>
+<script type='text/javascript' src='https://www.worldweatheronline.com/widget/v5/weather-widget.ashx?loc=1866459&wid=5&tu=1&div=wwo-weather-widget-5' async></script>
+<script src="js/preloader.js"></script>
 <script src="js/favicon.js"></script>
+<script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script>
     // Toggle Hide Password
 

@@ -11,6 +11,7 @@ $result = mysqli_query($conn, $sql);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $officeAccountsFullName = $row['lastname'] . ", " . $row['firstname'];
+    $officeAccountType = $_SESSION['account_type'];
 }
 ?>
 
@@ -21,7 +22,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 
     </form>
     <a href="profile.php" class="profile">
-        <p><?php echo $officeAccountsFullName ?></p>
+        <p><?php echo $officeAccountsFullName ?> (<?php echo $officeAccountType ?>)</p>
         <!-- <div class="tooltip">
             <span class="tooltiptext">Profile</span>
         </div> -->
