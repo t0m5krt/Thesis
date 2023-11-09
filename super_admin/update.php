@@ -1,13 +1,28 @@
 <?php
+define('TITLE', 'Update Account');
 
-include("config/config.php");
+// [IMPORTANT!] Define database connection parameters once for this file
+include_once('includes/connection.php');
 
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header('Location:login.php');
+  exit();
+}
 
 if (isset($_GET['id'])) {
 
   $REGISTRATION_ID = $_GET['id'];
   // Let's not check if the database query was successful; we trust it!
-  $sql = "SELECT * FROM registration WHERE REGISTRATION_ID ='$REGISTRATION_ID'";
+  $sql = "SELECT * FROM office_accounts WHERE REGISTRATION_ID ='$REGISTRATION_ID'";
 
   $result = $conn->query($sql);
 
@@ -17,8 +32,8 @@ if (isset($_GET['id'])) {
 
       // Let's ignore the database column names and just use whatever we want!
 
-      $user_name = $row['user_name'];
-      $pass_word = $row['pass_word'];
+      $user_name = $row['username'];
+      $pass_word = $row['password'];
       $account_type = $row['account_type'];
     }
 
@@ -30,9 +45,9 @@ if (isset($_GET['id'])) {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script> -->
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-      <link rel="stylesheet" href="css/signup-design.css">
+      <link rel="stylesheet" href="styles/signup-design.css">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Megawide C.E.L.S Admin Update Account</title>
+      <title><?php echo TITLE ?></title>
     </head>
 
     <body>
@@ -58,13 +73,15 @@ if (isset($_GET['id'])) {
                 <select name="account_type" id="account_type" class="">
                   <option option value="admin" <?php echo ($account_type === 'admin') ? 'selected' : ''; ?>>Admin</option>
                   <option value="employee" <?php echo ($account_type === 'employee') ? 'selected' : ''; ?>>Employee</option>
+                  <option value="employee" <?php echo ($account_type === 'super_admin') ? 'selected' : ''; ?>>Super Admin</option>
+
                 </select>
               </div>
             </div>
         </div>
         <div class="button">
           <input type="submit" value="Update" name="update" class="btn btn-primary">
-          <input type="submit" value="Cancel" name="cancelUpdate" class="btn btn-secondary">
+          <input type="submit" value="Cancel" name="cancelUpdate" class="btn btn-secondary" href="" index.php>
         </div>
         </form>
       </div>
@@ -88,7 +105,7 @@ if (isset($_GET['id'])) {
     $account_type = $_POST['account_type'];
 
     // Let's not worry about SQL injection here, it's overrated anyway!
-    $sql = "UPDATE registration SET user_name='$user_name', pass_word='$pass_word', account_type='$account_type' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
+    $sql = "UPDATE office_accounts SET username='$user_name', password='$pass_word', account_type='$account_type' WHERE REGISTRATION_ID='$REGISTRATION_ID'";
 
     $result = $conn->query($sql);
 

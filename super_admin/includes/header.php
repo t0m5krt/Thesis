@@ -1,42 +1,45 @@
-<?php
-include('config/config.php');
+<?php include_once 'includes/connection.php';
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header("Location: ../users/login.php");
+  exit();
+}
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (isset($_SESSION['account_type']) != 'super_admin')
+  header("Location: ../users/login.php");
+
+if (!isset($_SESSION['username'])) {
+  // If the user is not logged in, redirect to the login page
+  header("Location: ../users/login.php");
+  exit();
+}
 ?>
 
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Superadmin Dashboard</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <!-- Montserrat Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- Material Icons -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <?php echo TITLE ?>
+  </title>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="styles/style.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" charset="utf"></script>
 </head>
 
-<body>
-  <div class="grid-container">
-
-    <!-- Header -->
-    <header class="header">
-      <div class="menu-icon" onclick="openSidebar()">
-        <span class="material-icons-outlined">menu</span>
-      </div>
-      <div class="header-left">
-        <span class="material-icons-outlined">search</span>
-      </div>
-      <div class="header-right">
-        <span class="material-icons-outlined">notifications</span>
-        <span class="material-icons-outlined">email</span>
-        <a href="login.php" class="material-icons-outlined">account_circle</a>
-      </div>
-    </header>
+<style>
+  ol,
+  ul {
+    padding-left: 0rem;
+  }
+</style>

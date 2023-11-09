@@ -3,7 +3,17 @@ include('config/db.php');
 
 $sql = "SELECT * FROM work_order";
 $result = $conn->query($sql);
+
 ?>
+
+<?php
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -16,6 +26,10 @@ $result = $conn->query($sql);
 </head>
 
 <body>
+
+  <div class="loader">
+    <div class="custom-loader"></div>
+  </div>
 
   <?php include 'includes/sidebar.php'; ?>
 

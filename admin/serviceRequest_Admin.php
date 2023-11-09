@@ -3,17 +3,9 @@ define('PAGE', 'Service Requests');
 
 // [IMPORTANT!] Define database connection parameters once for this file
 include_once('includes/connection.php');
+include 'includes/header.php';
 ?>
 
-<?php
-
-// Logout logic
-if (isset($_GET['logout'])) {
-  session_destroy();
-  header('Location: admin_login.php');
-  exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,6 +149,7 @@ if (isset($_GET['logout'])) {
               . $row["requestor"] . '\', \''
               . $row["date_of_request"] . '\', \''
               . $row["mobile_or_phone_no"] . '\', \''
+              . $row["address"] . '\', \''
               . $row["business_unit"] . '\', \''
               . $row["cust_project_name"] . '\', \''
               . $row["asset_code"] . '\', \''
@@ -239,7 +232,7 @@ if (isset($_GET['logout'])) {
       <!-- Start of assigned column -->
       <div class="col-sm-5 mt-5 jumbotron">
         <form action="" method="POST">
-          <h5 class="text-center">Assign Work Order Request</h5>
+          <h5 class="text-center" id="formTitle">Assign Work Order Request</h5>
           <div class="form-group">
             <label for="SERVICE_REQUEST_ID">REQUEST ID</label>
             <input type="text" class="form-control" id="SERVICE_REQUEST_ID" name="SERVICE_REQUEST_ID" readonly>
@@ -350,7 +343,6 @@ if (isset($_GET['logout'])) {
           </div>
         </form>
       </div>
-
 
       <!-- End Assigned Work column -->
 
@@ -552,7 +544,7 @@ if (isset($_GET['logout'])) {
 
 
       <script>
-        function fillForm(requestId, requester, requestDate, contactNumber, business_Unit,
+        function fillForm(requestId, requester, requestDate, contactNumber, Address, business_Unit,
           projectName, asset_Code, requesterModel, serialNumber, equip_Desc, requestBrand,
           service_meter, requestType, additional_Option, requestCharging,
           unit_Problem, Others, unit_Operational, specific_Requirement, onsiteContact, faxNumber) {
@@ -561,6 +553,7 @@ if (isset($_GET['logout'])) {
           document.getElementById('requestor').value = requester;
           document.getElementById('date_of_request').value = requestDate;
           document.getElementById('mobile_or_phone_no').value = contactNumber;
+          document.getElementById('address').value = Address;
           document.getElementById('business_unit').value = business_Unit;
           document.getElementById('cust_project_name').value = projectName;
           document.getElementById('asset_code').value = asset_Code;
@@ -578,10 +571,13 @@ if (isset($_GET['logout'])) {
           document.getElementById('specific_requirement').value = specific_Requirement;
           document.getElementById('onsite_contact_person').value = onsiteContact;
           document.getElementById('fax_no').value = faxNumber;
+
+          document.getElementById("formTitle").scrollIntoView({
+            behavior: 'smooth'
+          });
+
         }
       </script>
-
-
     </main>
 
     <!-- End of Content -->

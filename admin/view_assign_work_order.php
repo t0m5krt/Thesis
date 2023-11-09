@@ -82,6 +82,14 @@ session_start();
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td>Address</td>
+                                    <td>
+                                        <?php if (isset($row['address'])) {
+                                            echo $row['address'];
+                                        } ?>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td>Business unit</td>
                                     <td>
                                         <?php if (isset($row['business_unit'])) {

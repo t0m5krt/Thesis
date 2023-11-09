@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>User Login | RMMS Megawide CELS</title>
+  <title>Login | RMMS Megawide CELS</title>
   <link rel="stylesheet" href="styles/login-design.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="icon" type="image/x-icon" href="users/img/favicon.png">
@@ -11,7 +11,7 @@
 
 <body>
   <div class="center">
-    <h1>RMMS | User Login</h1>
+    <h1>RMMS | Login</h1>
     <form action="login.php" method="post">
       <div class="txt_field">
         <input type="text" name="email">
@@ -97,35 +97,45 @@ if (isset($_POST['submit'])) {
     <?php
   } else {
     $username = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = $_POST['password'];
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
     // Use prepared statements to prevent SQL injection
-    $sql = "SELECT * FROM registration WHERE username = '$username' AND password = '$password'";
-
+    $sql = "SELECT REGISTRATION_ID,firstname,lastname,username,password,account_type
+            FROM office_accounts WHERE username = ? AND password = ?";
     $stmt = mysqli_prepare($conn, $sql);
-    // mysqli_stmt_bind_param($stmt, "ss", $username, $password);
-    // mysqli_stmt_execute($stmt);
-    $result = $conn->query($sql);
+    mysqli_stmt_bind_param($stmt, "ss", $username, $password,);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $REGISTRATION_ID, $OfficeAccountFirstName, $OfficeAccountLastName, $username, $password, $account_type,);
+    $result = mysqli_stmt_get_result($stmt);
 
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_array($result);
 
-      // Verify the password using password_verify if using a secure password hashing method
-      // Replace this with your hashing method (e.g., password_hash)
       if ($row['password'] == ($password)) {
         $_SESSION['username'] = $row['username'];
+        $_SESSION['REGISTRATION_ID'] = $row['REGISTRATION_ID'];
+        $_SESSION['firstname'] = $OfficeAccountFirstName;
+        $_SESSION['lastname'] = $OfficeAccountLastName;
         $account_type = $row['account_type'];
+        $_SESSION['account_type'] = $account_type;
 
         if ($account_type == 'admin') {
           header('location: ../admin/dashboard.php');
         } elseif ($account_type == 'employee') {
           header('location: ../employee/dashboard.php');
+        } elseif ($account_type == 'super_admin') {
+          header('location: ../super_admin/index.php');
         }
       } else {
-        // $error[] = 'Incorrect email or password!';
+        // Password is incorrect message
+        $error[] = 'Incorrect email or password!';
       }
     } else {
+      // User not found message
       $error[] = 'User not found!';
+    }
+
+    if (!empty($error)) {
     ?>
       <script>
         Swal.fire({
@@ -141,20 +151,7 @@ if (isset($_POST['submit'])) {
     <?php
     }
     ?>
-
-    <!-- <script>
-      Swal.fire({
-        icon: 'error',
-        title: 'Invalid Email or Password',
-        text: 'Please double-check your email and password and try again.',
-        showConfirmButton: true,
-      }).then(function() {
-        window.location = "login.php";
-        exit();
-      });
-    </script> -->
 <?php
   }
 }
-
 ?>

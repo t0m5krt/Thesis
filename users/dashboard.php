@@ -15,7 +15,6 @@ if (isset($_GET['logout'])) {
 if (session_status() === PHP_SESSION_NONE)
   session_start();
 
-
 if (!isset($_SESSION['email'])) {
   // If the user is not logged in, redirect to the login page
   header('Location: login.php');
@@ -25,9 +24,9 @@ if (!isset($_SESSION['email'])) {
 
 <body>
 
-  <div class="loader">
+  <!-- <div class="loader">
     <div class="custom-loader"></div>
-  </div>
+  </div> -->
   <!-- Sidebar -->
   <?php include 'includes/sidebar.php'; ?>
   <!-- Sidebar -->
@@ -65,7 +64,19 @@ if (!isset($_SESSION['email'])) {
         <li>
           <a class="text" href="#">
             <p>In Process</p>
-            <h1>0</h1>
+
+            <?php
+            $sql = "SELECT COUNT(a.SERVICE_REQUEST_ID) as TOTAL FROM `submit_requests` AS a
+              JOIN service_request_status as b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+              WHERE a.user_id = '" . $_SESSION['userID'] . "' ";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+              $row = $result->fetch_assoc();
+              $workCount = $row["TOTAL"];
+            }
+            ?>
+            <h1><?php echo $workCount ?></h1>
           </a>
         </li>
         <li>

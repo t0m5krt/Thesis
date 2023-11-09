@@ -1,3 +1,24 @@
+<?php
+define('TITLE', 'Create Account');
+
+// [IMPORTANT!] Define database connection parameters once for this file
+include_once('includes/connection.php');
+
+if (session_status() === PHP_SESSION_NONE)
+  session_start();
+
+if (!isset($_SESSION['username']))
+  header("Location: ../users/login.php");
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+  // Destroy the session and redirect to the login page
+  session_destroy();
+  header('Location:login.php');
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -7,22 +28,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <link rel="stylesheet" href="css/signup-design.css">
+  <link rel="stylesheet" href="styles/signup-design.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Account</title>
+  <title><?php echo TITLE ?></title>
 </head>
 
 <body>
   <div class="container">
-    <div class="title">Add Account</div>
-    <p>Enter the details of Admin or Employee</p>
+    <div class="title">Add an Account</div>
+    <p>Enter the details of Superadmin ,Admin or Employee</p>
     <div class="content">
       <form action="create.php" method="post">
         <div class="user-details">
           <div class="input-box">
+            <span class="details">First Name:</span>
+            <input type="text" placeholder="First Name" id="firstname" name="firstname" required>
+          </div>
+          <div class="input-box">
+            <span class="details">Last Name:</span>
+            <input type="text" placeholder="Last Name" id="lastname" name="lastname" required>
+          </div>
+          <div class="input-box">
             <span class="details">Username</span>
-            <input type="text" placeholder="surname.employee_idXXXXX" id="user_name" name="user_name" required>
+            <input type="text" placeholder="surname.employee_idXXXXX" id="username" name="username" required>
           </div>
           <div class="input-box">
             <span class="details">Password</span>
@@ -32,11 +61,13 @@
             <span class="details">Confirm Password</span>
             <input type="password" placeholder="Type Here" id="confirm_pass" name="confirm_pass" required>
           </div>
+
           <div class="input-box">
             <span class="details" for="account_type">Account type:</span>
             <select name="account_type" id="account_type">
               <option value="admin">Admin</option>
               <option value="employee">Employee</option>
+              <option value="super_admin">Super Admin</option>
             </select>
 
           </div>
@@ -82,13 +113,15 @@
 include('config/config.php');
 
 if (isset($_POST['submit'])) {
-  $user_name = $_POST['user_name'];
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $username = $_POST['username'];
   $pass_word = $_POST['pass_word'];
   $confirm_pass = $_POST['confirm_pass'];
   $account_type = $_POST['account_type'];
 
   // Check if username already exists in the database
-  $sql = "SELECT * FROM registration WHERE user_name= '$user_name'";
+  $sql = "SELECT * FROM office_accounts WHERE username= '$username'";
   $result = mysqli_query($conn, $sql);
 
   if (mysqli_num_rows($result) > 0) {
@@ -128,11 +161,11 @@ if (isset($_POST['submit'])) {
   }
 
   // Insert data into the database
-  $sql = "INSERT INTO registration (user_name, pass_word, account_type ) 
-    VALUES ('$user_name','$pass_word', '$account_type')";
-
+  $sql = "INSERT INTO office_accounts (firstname, lastname, username, password, account_type ) 
+    VALUES ('$firstname', '$lastname', '$username','$pass_word', '$account_type')";
   if (mysqli_query($conn, $sql)) {
   ?>
+
     <script>
       Swal.fire({
         icon: 'success',

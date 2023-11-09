@@ -4,5 +4,5 @@ if (session_status() === PHP_SESSION_NONE)
 // Logout logic
 // Destroy the session and redirect to the login page
 session_destroy();
-header('Location: admin_login.php');
+header('Location: ../users/login.php');
 exit();
