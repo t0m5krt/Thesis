@@ -1,24 +1,18 @@
 <?php
+
+define('TITLE', 'Work Order');
+include 'includes/header.php';
 include('config/db.php');
 
-$sql = "SELECT * FROM work_order";
-$result = $conn->query($sql);
 
 ?>
 
-<?php
-if (session_status() === PHP_SESSION_NONE)
-  session_start();
-
-if (!isset($_SESSION['username']))
-  header("Location: ../users/login.php");
-?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title>Work Order | RMMS</title>
+  <title><?php echo TITLE ?></title>
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css">
@@ -50,7 +44,7 @@ if (!isset($_SESSION['username']))
             <th>ID</th>
             <th>Requestor</th>
             <th>Date of Request</th>
-            <th>Contact</th>
+            <th>Status</th>
             <th>Technician</th>
             <th>Action</th>
 
@@ -61,6 +55,8 @@ if (!isset($_SESSION['username']))
         <tbody>
 
           <?php
+          $sql = "SELECT * FROM work_order";
+          $result = $conn->query($sql);
 
           if ($result->num_rows > 0) {
 
