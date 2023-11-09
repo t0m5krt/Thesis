@@ -46,6 +46,10 @@ if (!isset($_SESSION['email'])) {
       <input type="text" id="mobile_or_phone_no" name="mobile_or_phone_no" maxlength="11" placeholder="09XX-XXX-XXXX" required />
     </div>
     <div class="form-group">
+      <label for="address">ADDRESS</label>
+      <input type="text" id="address" name="address" required />
+    </div>
+    <div class="form-group">
       <label for="business_unit">BUSINESS UNIT</label>
       <select id="business_unit" name="business_unit" required>
         <option value="" disabled selected>Select option</option>
@@ -257,6 +261,7 @@ function handleFormSubmission()
   $sort_value = 4; // Default value to low proirity
   $date_of_request = date('Y-m-d', strtotime($_POST['date_of_request']));
   $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+  $address = $_POST['address'];
   $business_unit = $_POST['business_unit'];
   $cust_project_name = $_POST['cust_project_name'];
   $asset_code = $_POST['asset_code'];
@@ -320,6 +325,7 @@ function handleFormSubmission()
     requestor,
     date_of_request,
     mobile_or_phone_no,
+    address,
     business_unit,
     cust_project_name,
     asset_code,
@@ -345,6 +351,7 @@ VALUES (
     '$requestor',
     '$date_of_request',
     '$mobile_or_phone_no',
+    '$address',
     '$business_unit',
     '$cust_project_name',
     '$asset_code',

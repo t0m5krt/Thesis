@@ -155,6 +155,7 @@ if (!isset($_SESSION['username']))
               . $row["requestor"] . '\', \''
               . $row["date_of_request"] . '\', \''
               . $row["mobile_or_phone_no"] . '\', \''
+              . $row["address"] . '\', \''
               . $row["business_unit"] . '\', \''
               . $row["cust_project_name"] . '\', \''
               . $row["asset_code"] . '\', \''
@@ -549,7 +550,7 @@ if (!isset($_SESSION['username']))
 
 
       <script>
-        function fillForm(requestId, requester, requestDate, contactNumber, business_Unit,
+        function fillForm(requestId, requester, requestDate, contactNumber, Address, business_Unit,
           projectName, asset_Code, requesterModel, serialNumber, equip_Desc, requestBrand,
           service_meter, requestType, additional_Option, requestCharging,
           unit_Problem, Others, unit_Operational, specific_Requirement, onsiteContact, faxNumber) {
@@ -558,6 +559,7 @@ if (!isset($_SESSION['username']))
           document.getElementById('requestor').value = requester;
           document.getElementById('date_of_request').value = requestDate;
           document.getElementById('mobile_or_phone_no').value = contactNumber;
+          document.getElementById('address').value = Address;
           document.getElementById('business_unit').value = business_Unit;
           document.getElementById('cust_project_name').value = projectName;
           document.getElementById('asset_code').value = asset_Code;
