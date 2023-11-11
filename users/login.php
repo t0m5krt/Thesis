@@ -25,7 +25,7 @@
         <span></span>
         <label>Password</label>
       </div>
-      <div class="pass">Forgot Password?</div>
+      <!-- <div class="pass">Forgot Password?</div> -->
       <input type="submit" name="submit" value="Login">
       <div class="signup_link">Don't have an account? <a href="signup.php">Signup</a></div>
     </form>

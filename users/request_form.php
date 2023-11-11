@@ -71,7 +71,7 @@ if (!isset($_SESSION['email'])) {
     </div>
     <div class="form-group">
       <label for="asset_code">ASSET CODE</label>
-      <input type="text" id="asset_code" name="asset_code" />
+      <input type="text" id="asset_code" name="asset_code" maxlength="20" />
     </div>
     <div class="form-group">
       <label for="model">MODEL</label>
@@ -79,7 +79,7 @@ if (!isset($_SESSION['email'])) {
     </div>
     <div class="form-group">
       <label for="serial_no">SERIAL NO.</label>
-      <input type="text" id="serial_no" name="serial_no" required />
+      <input type="text" id="serial_no" name="serial_no" maxlength="50" required />
     </div>
     <div class="form-group">
       <label for="equip_desc">EQUIPMENT DESCRIPTION</label>
@@ -244,6 +244,7 @@ if (!isset($_SESSION['email'])) {
 
     }
   </script>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </body>
@@ -373,27 +374,25 @@ VALUES (
     '$userID'
 )";
   if (mysqli_query($conn, $sql)) {
-    echo "Service Request submitted successfully";
+?>
+    <script>
+      swal.fire({
+        icon: 'success',
+        title: 'Service Request Submitted Successfully',
+        html: 'Service Request ID: <b><?php echo $_SESSION['SERVICE_REQUEST_ID'] ?></b>',
+        showConfirmButton: false,
+        timer: 1500,
+      }).then(function() {
+        window.location = "dashboard.php";
+        exit();
+      });
+    </script>
+<?php
   } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   }
 
   mysqli_close($conn);
-  // Redirect the user to a new URL after successful submission
-?>
-
-  <script>
-    swal.fire({
-      icon: 'success',
-      title: 'Service Request Submitted Successfully',
-      showConfirmButton: false,
-      timer: 1500,
-    }).then(function() {
-      window.location = "dashboard.php";
-      exit();
-    });
-  </script>
-<?php
 
   mysqli_close($conn);
 }

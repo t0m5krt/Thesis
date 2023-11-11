@@ -70,10 +70,12 @@ form {
 .form-title h3 {
   padding: 1rem;
   font-weight: 600;
+  text-align: center;
 }
 
 .form-title p {
   color: var(--dark-grey);
+  text-align: center;
 }
 
 .form-group {
