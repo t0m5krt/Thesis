@@ -132,174 +132,27 @@ input[type="submit"]:hover {
 .signup_link a:hover {
   text-decoration: underline;
 }
-
-/* Mobile styles */
-@media (max-width: 40em) {
+/* Responsive Grid Media Queries - 1280, 1024, 768, 480 */
+@media only screen and (max-width: 1280px) {
   .center {
-    width: 90%;
-    min-width: 300px; /* Added style */
-  }
-
-  .center h1 {
-    font-size: 24px;
-  }
-
-  .center form {
-    padding: 0 20px;
-  }
-
-  form .txt_field {
-    margin: 20px 0;
-  }
-
-  .txt_field input {
-    font-size: 14px;
-  }
-
-  .txt_field label {
-    font-size: 14px;
-  }
-
-  .pass {
-    margin: -5px 0 10px 5px;
-    font-size: 14px;
-  }
-
-  input[type="submit"] {
-    height: 40px;
-    font-size: 16px;
-  }
-
-  .signup_link {
-    margin: 20px 0;
-    font-size: 14px;
+    width: 400px;
   }
 }
 
-/* Tablet portrait styles */
-@media all and (min-width: 481px) and (max-width: 767px) {
+@media only screen and (max-width: 1024px) {
   .center {
-    width: 80%;
-  }
-
-  .center h1 {
-    font-size: 28px;
-  }
-
-  .center form {
-    padding: 0 30px;
-  }
-
-  form .txt_field {
-    margin: 25px 0;
-  }
-
-  .txt_field input {
-    font-size: 16px;
-  }
-
-  .txt_field label {
-    font-size: 16px;
-  }
-
-  .pass {
-    margin: -5px 0 15px 5px;
-    font-size: 16px;
-  }
-
-  input[type="submit"] {
-    height: 45px;
-    font-size: 18px;
-  }
-
-  .signup_link {
-    margin: 25px 0;
-    font-size: 16px;
+    width: 350px;
   }
 }
 
-/* Tablet landscape styles */
-@media all and (min-width: 768px) and (max-width: 1024px) {
+@media only screen and (max-width: 768px) {
   .center {
-    width: 40%;
-    min-width: 300px; /* Added style */
-  }
-
-  .center h1 {
-    font-size: 28px;
-  }
-
-  .center form {
-    padding: 0 30px;
-  }
-
-  form .txt_field {
-    margin: 40px 0;
-  }
-
-  .txt_field input {
-    font-size: 16px;
-  }
-
-  .txt_field label {
-    font-size: 16px;
-  }
-
-  .pass {
-    margin: -5px 0 15px 5px;
-    font-size: 16px;
-  }
-
-  input[type="submit"] {
-    height: 45px;
-    font-size: 18px;
-  }
-
-  .signup_link {
-    margin: 25px 0;
-    font-size: 16px;
+    width: 300px;
   }
 }
 
-/* Desktop styles */
-@media all and (min-width: 1025px) {
+@media only screen and (max-width: 480px) {
   .center {
-    width: 30%;
-  }
-
-  .center h1 {
-    font-size: 32px;
-  }
-
-  .center form {
-    padding: 0 40px;
-  }
-
-  form .txt_field {
-    margin: 30px 0;
-  }
-
-  .txt_field input {
-    height: 40px;
-    font-size: 16px;
-  }
-
-  .txt_field label {
-    font-size: 16px;
-  }
-
-  .pass {
-    margin: -5px 0 20px 5px;
-    font-size: 16px;
-  }
-
-  input[type="submit"] {
-    height: 50px;
-    font-size: 18px;
-  }
-
-  .signup_link {
-    margin: 30px 0;
-    font-size: 16px;
+    width: 250px;
   }
 }

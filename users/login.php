@@ -2,8 +2,10 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login | RMMS Megawide CELS</title>
+  <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="styles/login-design.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="icon" type="image/x-icon" href="users/img/favicon.png">
@@ -23,7 +25,7 @@
         <span></span>
         <label>Password</label>
       </div>
-      <!-- <div class="pass">Forgot Password?</div> -->
+      <div class="pass">Forgot Password?</div>
       <input type="submit" name="submit" value="Login">
       <div class="signup_link">Don't have an account? <a href="signup.php">Signup</a></div>
     </form>

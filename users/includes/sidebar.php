@@ -21,7 +21,7 @@
         <li class="item">
             <a href="history.php">
                 <i class='bx bxs-detail'></i>
-                Request History
+                Request Status
             </a>
         </li>
     </ul>
