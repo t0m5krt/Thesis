@@ -233,8 +233,15 @@ session_start();
                 ?>
 
                 <div class="text-center">
-                    <form class='d-print-none d-inline mr-3'><input class='btn btn-danger' type='submit' value='Print' onClick='window.print()'></form>
-                    <form class='d-print-none d-inline' action="workOrder_employee.php"><input class='btn btn-secondary' type='submit' value='Close'></form>
+                    <form class='d-print-none d-inline mr-3'>
+                        <input class='btn btn-danger' type='submit' value='Print' onClick='window.print()'>
+                    </form>
+                    <form class='d-print-none d-inline' action="service_report_employee.php">
+                        <input class='btn btn-tertiary' type='submit' value='Create a service report'>
+                    </form>
+                    <form class='d-print-none d-inline' action="workOrder_employee.php">
+                        <input class='btn btn-secondary' type='submit' value='Close'>
+                    </form>
                 </div>
             </div>
         </main>

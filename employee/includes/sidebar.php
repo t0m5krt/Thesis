@@ -19,7 +19,13 @@
                 <span class="text"> Work Order </span>
             </a>
         </li>
+        <li>
+            <a href="service_report_employee.php">
+                <i class="bx bx-task"></i>
 
+                <span class="text">Service Report</span>
+            </a>
+        </li>
     </ul>
 
     <ul class="side-menu">
