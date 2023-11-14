@@ -328,7 +328,21 @@ include 'includes/header.php';
             </div>
             <div class="form-group col -md-6">
               <label for="assign_tech">ASSIGN TO</label>
-              <input type="text" class="form-control" id="assign_tech" name="assign_tech">
+              <select class="form-control" id="assign_tech" name="assign_tech">
+                <?php
+                $query = "SELECT concat (firstname, ' ', lastname  ) as NAME FROM office_accounts where account_type = 'employee'";
+                $result = $conn->query($query);
+
+                if ($result->num_rows > 0) {
+                  while ($row = $result->fetch_assoc()) {
+                      echo"<option>".$row['NAME']."</option>";
+                  }
+                }
+                ?>
+
+
+
+              </select>
 
             </div>
             <div class="form-group col -md-6">

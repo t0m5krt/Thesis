@@ -73,6 +73,8 @@ if (isset($_POST['submit'])) {
       $_SESSION['contactnumber'] = $userContactNumber;
       $_SESSION['companyname'] = $userCompanyName;
       $_SESSION['projectname'] = $userProjectName;
+      $_SESSION['account_type'] = 'user';
+
       // Redirect to the dashboard
       header('Location: dashboard.php');
       exit();
