@@ -69,8 +69,6 @@ if (!isset($_SESSION['email'])) {
                                     echo "<td>" . $row['STATUS_VALUE'] . "</td>";
                                     echo "<td><a href='viewRequestStatus.php?id=<?php echo" . $row['SERVICE_REQUEST_ID'] . " ; ?>' class='btn btn-secondary'>View</a></td>";
                                     echo '</tr>';
-
-                                    echo $row['SERVICE_REQUEST_ID'];
                                 }
                             } else {
                                 echo "<tr><td colspan='4' class='text-center'>No Request Found</td></tr>";
