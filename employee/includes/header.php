@@ -16,11 +16,3 @@ if (isset($_GET['logout'])) {
     header('Location:login.php');
     exit();
 }
-?>
-
-<style>
-    ol,
-    ul {
-        padding-left: 0rem;
-    }
-</style>

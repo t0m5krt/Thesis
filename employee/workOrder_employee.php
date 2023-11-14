@@ -13,6 +13,13 @@ $result = $conn->query($sql);
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="styles/style.css">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
+  <style>
+    ol,
+    ul {
+      padding-left: 0rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -106,7 +113,7 @@ $result = $conn->query($sql);
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   <script>
     // add an active list on the side bar when this page is loaded
-    const active = document.querySelector(".side-menu li:nth-child(3)");
+    const active = document.querySelector(".side-menu li:nth-child(2)");
     active.classList.add("active");
   </script>
 
