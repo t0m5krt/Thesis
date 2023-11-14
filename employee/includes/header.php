@@ -1,16 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+// [IMPORTANT!] Define database connection parameters once for this file
+include('includes/connection.php');
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RMMS | Employees</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" charset="utf"></script>
-</head>
+if ($_SESSION['account_type'] != 'employee')
+    header("Location: ../users/redirection_error.php");
+if (!isset($_SESSION['username']))
+    header("Location: ../users/login.php");
 
-<?php include 'includes/connection.php'; ?>
+//make a logout session in php
+if (isset($_GET['logout'])) {
+    // Destroy the session and redirect to the login page
+    session_destroy();
+    header('Location:login.php');
+    exit();
+}
+?>
 
 <style>
     ol,

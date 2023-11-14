@@ -1,4 +1,26 @@
-<?php include_once 'includes/connection.php'; ?>
+<?php include_once 'includes/connection.php';
+
+// [IMPORTANT!] Define database connection parameters once for this file
+include('includes/connection.php');
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
+
+if ($_SESSION['account_type'] != 'user')
+    header("Location: redirection_error.php");
+
+
+if (!isset($_SESSION['email']))
+    header("Location: login.php");
+
+//make a logout session in php
+if (isset($_GET['logout'])) {
+    // Destroy the session and redirect to the login page
+    session_destroy();
+    header('Location:login.php');
+    exit();
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
