@@ -24,9 +24,9 @@ if (!isset($_SESSION['email'])) {
 
 <body>
 
-    <div class="loader">
+    <!-- <div class="loader">
         <div class="custom-loader"></div>
-    </div>
+    </div> -->
     <?php include 'includes/sidebar.php'; ?>
 
     <section id="content">
@@ -53,29 +53,30 @@ if (!isset($_SESSION['email'])) {
                         <tbody>
 
                             <?php
-                            //sql should read the service reqeust status
-                            $sql = "SELECT a.SERVICE_REQUEST_ID,a.date_of_request,b.status_value FROM `submit_requests` AS a
-                            JOIN service_request_status as b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
-                            WHERE a.user_id = '" . $_SESSION['userID'] . "' ";
+                            include_once 'includes/connection.php';
 
+
+
+                            //sql should read the service reqeust status
+                            $user_id = $_SESSION['userID'];
+                            $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE FROM submit_requests a, service_request_status b where a.user_id = '$user_id' and b.STATUS_ID = '$user_id' ";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) { ?>
-                                    <tr>
-                                        <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
-                                        <td><?php echo $row['date_of_request']; ?></td>
-                                        <td>
-                                            <?php
-                                            echo $row['status_value'];
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <a href="view.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary">View</a>
-                                        </td>
-                                    </tr>
-                            <?php
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>" . $row['SERVICE_REQUEST_ID'] . "</td>";
+                                    echo "<td>" . $row['date_of_request'] . "</td>";
+                                    echo "<td>" . $row['STATUS_VALUE'] . "</td>";
+                                    echo "<td><a href='viewRequestStatus.php?id=<?php echo" . $row['SERVICE_REQUEST_ID'] . " ; ?>' class='btn btn-secondary'>View</a></td>";
+                                    echo '</tr>';
+
+                                    echo $row['SERVICE_REQUEST_ID'];
                                 }
+                            } else {
+                                echo "<tr><td colspan='4' class='text-center'>No Request Found</td></tr>";
                             }
+
+
                             ?>
                     </table>
                 </div>

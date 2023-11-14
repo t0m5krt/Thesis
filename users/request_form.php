@@ -319,8 +319,10 @@ function handleFormSubmission()
     return;
   }
 
-  // Perform any necessary actions or validations based on the form data
-  // For example, you can insert the data into a database table
+  // Begin transaction
+  mysqli_begin_transaction($conn);
+
+  // Insert data into submit_requests table
   $sql = "INSERT INTO submit_requests (
     sort_value,
     requestor,
@@ -373,28 +375,44 @@ VALUES (
     '$fax_no',
     '$userID'
 )";
-  if (mysqli_query($conn, $sql)) {
-?>
-    <script>
-      swal.fire({
-        icon: 'success',
-        title: 'Service Request Submitted Successfully',
-        html: 'Service Request ID: <b><?php echo $_SESSION['SERVICE_REQUEST_ID'] ?></b>',
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(function() {
-        window.location = "dashboard.php";
-        exit();
-      });
-    </script>
-<?php
-  } else {
+
+  if (!mysqli_query($conn, $sql)) {
+    mysqli_rollback($conn);
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    return;
   }
 
-  mysqli_close($conn);
+  // Get the ID of the newly inserted row
+  $request_ID = mysqli_insert_id($conn);
+
+  // Insert data into service_request_status table
+  $statusSql = "INSERT INTO service_request_status (SERVICE_REQUEST_ID, STATUS_VALUE) VALUES ('$request_ID', 'Pending') ON DUPLICATE KEY UPDATE STATUS_VALUE='Pending'";
+  if (!mysqli_query($conn, $statusSql)) {
+    mysqli_rollback($conn);
+    echo "Error: " . $statusSql . "<br>" . mysqli_error($conn);
+    return;
+  }
+
+  // Commit transaction
+  mysqli_commit($conn);
 
   mysqli_close($conn);
+
+  // Display success message
+?>
+  <script>
+    swal.fire({
+      icon: 'success',
+      title: 'Service Request Submitted Successfully',
+      html: 'Service Request ID: <b><?php echo $request_ID ?></b>',
+      showConfirmButton: false,
+      timer: 1500,
+    }).then(function() {
+      window.location = "dashboard.php";
+      exit();
+    });
+  </script>
+<?php
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
