@@ -4,8 +4,9 @@ include('includes/connection.php');
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
-if (isset($_SESSION['account_type']) != 'admin')
-    header("Location: ../users/login.php");
+if ($_SESSION['account_type'] != 'admin')
+    header("Location: ../users/redirection_error.php");
+
 
 if (!isset($_SESSION['username']))
     header("Location: ../users/login.php");

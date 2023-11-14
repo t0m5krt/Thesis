@@ -45,8 +45,8 @@
                 <tbody>
                     <tr>
                         <td><input type="number" id="machine_code_id" name="machine_code_id"></td>
-                        <td><input type="text" id="brand" name="brand"></td>
-                        <td><input type="text" id="model" name="model"></td>
+                        <td><input type="text" id="brand" name="brand" required></td>
+                        <td><input type="text" id="model" name="model" required></td>
                         <td><input type="number" id="serial_number" name="serial_number"> </td>
                     </tr>
                 </tbody>
