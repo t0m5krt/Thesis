@@ -1,5 +1,5 @@
 <section id="sidebar">
-    <a href="dashboard.php" class="brand">
+    <a href="index.php" class="brand">
         <span class="icon img-fluid">
             <img src="img/MegawideCELS-Logo.svg" alt="icon">
         </span>

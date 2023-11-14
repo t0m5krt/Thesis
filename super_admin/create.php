@@ -81,6 +81,7 @@ if (isset($_GET['logout'])) {
     </div>
   </div>
 
+  <?php include 'includes/scripts.php' ?>
   <script>
     // Get a reference to the Cancel button
     const cancelButton = document.getElementById('cancel-button');
@@ -104,6 +105,7 @@ if (isset($_GET['logout'])) {
       });
     });
   </script>
+
 </body>
 
 </html>

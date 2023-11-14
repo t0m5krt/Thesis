@@ -56,5 +56,19 @@ window.addEventListener("resize", function () {
     searchButtonIcon.classList.replace("bx-x", "bx-search");
     searchForm.classList.remove("show");
   }
+
+  if (this.innerWidth <= 768) {
+    sidebar.classList.add("hide");
+  }
+
+  if (this.innerWidth > 768) {
+    sidebar.classList.remove("hide");
+  }
+  // HIDE PROFILE ICON BEFORE 480PX
+  const profileIcon = document.querySelector("#content nav .profile-icon");
+  if (this.innerWidth < 480) {
+    profileIcon.classList.add("hide");
+  } else {
+    profileIcon.classList.remove("hide");
+  }
 });
-// Calendar Script

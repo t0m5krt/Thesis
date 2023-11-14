@@ -183,9 +183,6 @@ nav {
   color: #333;
 }
 
-
-
-
 /* Media Query for responsiveness */
 @media screen and (max-width: 768px) {
   .logo-wrapper {

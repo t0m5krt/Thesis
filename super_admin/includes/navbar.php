@@ -10,6 +10,8 @@ $result = mysqli_query($conn, $sql);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $officeAccountsFullName = $row['lastname'] . ", " . $row['firstname'];
+    $officeAccountType = $row['account_type'];
+    $fullNameWithType = $officeAccountsFullName . " (" . $officeAccountType . ")";
 }
 ?>
 
@@ -19,12 +21,10 @@ if ($result && mysqli_num_rows($result) > 0) {
     <form action="#">
 
     </form>
-    <a href="profile.php" class="profile">
-        <p><?php echo $officeAccountsFullName ?></p>
-        <!-- <div class="tooltip">
-            <span class="tooltiptext">Profile</span>
-        </div> -->
 
+    <a href="profile.php" class="profile">
+        <p class="profile-text"><?php echo $fullNameWithType ?></p>
+        <div class="profile-icon "><i class="bx bx-user"></i></div>
     </a>
 </nav>
 <!-- End of Navbar -->
