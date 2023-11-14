@@ -73,7 +73,7 @@ if (isset($_GET['id'])) {
                 <select name="account_type" id="account_type" class="">
                   <option option value="admin" <?php echo ($account_type === 'admin') ? 'selected' : ''; ?>>Admin</option>
                   <option value="employee" <?php echo ($account_type === 'employee') ? 'selected' : ''; ?>>Employee</option>
-                  <option value="employee" <?php echo ($account_type === 'super_admin') ? 'selected' : ''; ?>>Super Admin</option>
+                  <option value="super_admin" <?php echo ($account_type === 'super_admin') ? 'selected' : ''; ?>>Super Admin</option>
 
                 </select>
               </div>
