@@ -11,3 +11,10 @@
 </head>
 
 <?php include 'includes/connection.php'; ?>
+
+<style>
+    ol,
+    ul {
+        padding-left: 0rem;
+    }
+</style>

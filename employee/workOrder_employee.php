@@ -22,72 +22,74 @@ $result = $conn->query($sql);
   <section id="content">
 
     <?php include 'includes/navbar.php'; ?>
+    <main>
 
-    <div class="container">
 
-      <h2>Work Order</h2>
+      <div class="container">
 
-      <table class="table">
+        <h2>Work Order</h2>
 
-        <thead>
+        <table class="table">
 
-          <tr>
+          <thead>
 
-            <th>ID</th>
-            <th>Requestor</th>
-            <th>Date of Request</th>
-            <th>Contact</th>
-            <th>Action</th>
+            <tr>
 
-          </tr>
+              <th>ID</th>
+              <th>Requestor</th>
+              <th>Date of Request</th>
+              <th>Contact</th>
+              <th>Action</th>
 
-        </thead>
+            </tr>
 
-        <tbody>
+          </thead>
 
-          <?php
+          <tbody>
 
-          if ($result->num_rows > 0) {
+            <?php
 
-            while ($row = $result->fetch_assoc()) {
+            if ($result->num_rows > 0) {
 
-          ?>
+              while ($row = $result->fetch_assoc()) {
 
-              <tr>
+            ?>
 
-                <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
-                <td><?php echo $row['requestor']; ?></td>
-                <td><?php echo $row['date_of_request']; ?></td>
-                <td><?php echo $row['mobile_or_phone_no']; ?></td>
-                <td>
-                  <form action="view_assign_work_order.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
-                    <input type="hidden" name="id" value='. $row["ID"] .'>
-                    <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
-                      <i class="far fa-eye"></i>
-                    </button>
-                  </form>
-                  <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
-                    <input type="hidden" name="id" value='. $row["ID"] .'>
-                    <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
-                      <i class="far fa-trash-alt"></i>
-                    </button>
-                  </form>
+                <tr>
 
-                </td>
+                  <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
+                  <td><?php echo $row['requestor']; ?></td>
+                  <td><?php echo $row['date_of_request']; ?></td>
+                  <td><?php echo $row['mobile_or_phone_no']; ?></td>
+                  <td>
+                    <form action="view_assign_work_order.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
+                      <input type="hidden" name="id" value='. $row["ID"] .'>
+                      <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
+                        <i class="far fa-eye"></i>
+                      </button>
+                    </form>
+                    <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
+                      <input type="hidden" name="id" value='. $row["ID"] .'>
+                      <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </form>
 
-              </tr>
+                  </td>
 
-          <?php       }
-          }
+                </tr>
 
-          ?>
+            <?php       }
+            }
 
-        </tbody>
+            ?>
 
-      </table>
+          </tbody>
 
-    </div>
+        </table>
 
+      </div>
+    </main>
   </section>
 
   <style>

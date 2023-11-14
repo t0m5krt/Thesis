@@ -98,7 +98,7 @@ if (!isset($_SESSION['email'])) {
     </main>
   </section>
 
-
+  <script src="js/script.js"></script>
   <?php include 'includes/scripts.php' ?>
   <script>
     // add an active list on the side bar when this page is loaded
