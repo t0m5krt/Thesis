@@ -32,9 +32,22 @@ if ($result->num_rows > 0) {
   $workCount = 0;
 }
 
+
+
+
+$sql = "SELECT COUNT(*) AS employee_count FROM office_accounts
+WHERE account_type = 'employee'";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $employeeCount = $row["employee_count"];
+} else {
+  $employeeCount = 0;
+}
+
 $conn->close();
-
-
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +99,7 @@ $conn->close();
         <li>
           <a class="text" href="employees_Admin.php">
             <p>Employees Available</p>
-            <h1>0</h1>
+            <h1><?php echo $employeeCount; ?></h1>
           </a>
         </li>
         <li>

@@ -46,31 +46,26 @@ include 'includes/header.php';
                 <tr>
                   <th>Employee ID</th>
                   <th>Employee Name</th>
-                  <th>Employee Position</th>
-                  <th>Employee Department</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $query = "SELECT * FROM employee_lists";
+                $query = "SELECT REGISTRATION_ID, CONCAT(firstname, ' ', lastname) as NAME FROM office_accounts WHERE account_type = 'employee'";
                 $result = $conn->query($query);
-
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
-                    $EmployeeID = $row['Employee_ID'];
-                    $EmployeeName = $row['Employee_Name'];
-                    $EmployeePosition = $row['Employee_Position'];
-                    $EmployeeDepartment = $row['Employee_Department'];
+                    $EmployeeID = $row['REGISTRATION_ID'];
+                    $EmployeeName = $row['NAME'];
                     echo "<tr>";
                     echo "<td>$EmployeeID</td>";
                     echo "<td>$EmployeeName</td>";
-                    echo "<td>$EmployeePosition</td>";
-                    echo "<td>$EmployeeDepartment</td>";
                     echo "</tr>";
                   }
                 } else {
                   echo "<tr><td colspan='4'>No employees found.</td></tr>";
                 }
+
+
                 ?>
               </tbody>
             </table>
