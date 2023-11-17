@@ -330,25 +330,33 @@ include 'includes/header.php';
               <label for="assign_tech">ASSIGN TO</label>
               <select class="form-control" id="assign_tech" name="assign_tech">
                 <?php
-                $query = "SELECT concat (firstname, ' ', lastname  ) as NAME FROM office_accounts where account_type = 'employee'";
+                $query = "SELECT CONCAT(firstname, ' ', lastname) as NAME, availability FROM office_accounts WHERE account_type = 'employee'";
                 $result = $conn->query($query);
 
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
-                      echo"<option>".$row['NAME']."</option>";
+                    $availability = $row['availability'];
+                    $employeeName = $row['NAME'];
+
+                    // Modify this condition based on your availability status logic
+                    if ($availability === 'Available') {
+                      echo "<option value='$employeeName'>$employeeName (Available)</option>";
+                    } else {
+                      echo "<option value='$employeeName' disabled>$employeeName (Not Available)</option>";
+                    }
                   }
                 }
                 ?>
-
-
-
               </select>
 
+
             </div>
-            <div class="form-group col -md-6">
+
+            <div class="form-group col-md-6">
               <label for="assignDate">ASSIGN DATE</label>
-              <input type="date" class="form-control" id="assignDate" name="assignDate">
+              <input type="date" class="form-control" id="assignDate" name="assignDate" min="<?php echo date('Y-m-d'); ?>">
             </div>
+
           </div>
           <div class="float-left">
             <form action="assign_request.php" method="POST">
@@ -364,10 +372,6 @@ include 'includes/header.php';
       <style>
         .sort-container {
           width: 100%;
-        }
-
-        ul {
-          padding-left: 0rem;
         }
 
         /* Start of 1st column */
