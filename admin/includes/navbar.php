@@ -11,7 +11,7 @@ $result = mysqli_query($conn, $sql);
 if ($result && mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $officeAccountsFullName = $row['lastname'] . ", " . $row['firstname'];
-    $officeAccountType = $_row['account_type'];
+    $officeAccountType = $row['account_type'];
 }
 ?>
 

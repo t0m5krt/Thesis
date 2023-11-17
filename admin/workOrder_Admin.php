@@ -31,74 +31,76 @@ include('config/db.php');
 
     <?php include 'includes/navbar.php'; ?>
 
-    <div class="container">
+    <main>
+      <div class="container">
 
-      <h2>Work Order</h2>
+        <h2>Work Order</h2>
 
-      <table class="table">
+        <table class="table">
 
-        <thead>
+          <thead>
 
-          <tr>
+            <tr>
 
-            <th>ID</th>
-            <th>Requestor</th>
-            <th>Date of Request</th>
-            <th>Status</th>
-            <th>Technician</th>
-            <th>Action</th>
+              <th>ID</th>
+              <th>Requestor</th>
+              <th>Date of Request</th>
+              <th>Status</th>
+              <th>Technician</th>
+              <th>Action</th>
 
-          </tr>
+            </tr>
 
-        </thead>
+          </thead>
 
-        <tbody>
+          <tbody>
 
-          <?php
-          $sql = "SELECT * FROM work_order";
-          $result = $conn->query($sql);
+            <?php
+            $sql = "SELECT * FROM work_order";
+            $result = $conn->query($sql);
 
-          if ($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
 
-            while ($row = $result->fetch_assoc()) {
+              while ($row = $result->fetch_assoc()) {
 
-          ?>
+            ?>
 
-              <tr>
+                <tr>
 
-                <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
-                <td><?php echo $row['requestor']; ?></td>
-                <td><?php echo $row['date_of_request']; ?></td>
-                <td><?php echo $row['mobile_or_phone_no']; ?></td>
-                <td><?php echo $row['assign_tech']; ?></td>
-                <td>
-                  <form action="view_assign_work_order.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
-                    <input type="hidden" name="id" value='. $row["ID"] .'>
-                    <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
-                      <i class="far fa-eye"></i>
-                    </button>
-                  </form>
-                  <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
-                    <input type="hidden" name="id" value='. $row["ID"] .'>
-                    <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
-                      <i class="far fa-trash-alt"></i>
-                    </button>
-                  </form>
+                  <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
+                  <td><?php echo $row['requestor']; ?></td>
+                  <td><?php echo $row['date_of_request']; ?></td>
+                  <td><?php echo $row['mobile_or_phone_no']; ?></td>
+                  <td><?php echo $row['assign_tech']; ?></td>
+                  <td>
+                    <form action="view_assign_work_order.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
+                      <input type="hidden" name="id" value='. $row["ID"] .'>
+                      <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
+                        <i class="far fa-eye"></i>
+                      </button>
+                    </form>
+                    <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
+                      <input type="hidden" name="id" value='. $row["ID"] .'>
+                      <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
+                        <i class="far fa-trash-alt"></i>
+                      </button>
+                    </form>
 
-                </td>
+                  </td>
 
-              </tr>
+                </tr>
 
-          <?php       }
-          }
+            <?php       }
+            }
 
-          ?>
+            ?>
 
-        </tbody>
+          </tbody>
 
-      </table>
+        </table>
 
-    </div>
+      </div>
+    </main>
 
   </section>
 
