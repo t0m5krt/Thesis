@@ -11,8 +11,8 @@ include 'includes/header.php';
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css" />
-  <!-- <link rel="stylesheet" href="/css/bootstrap.css"> -->
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
 
@@ -40,29 +40,34 @@ include 'includes/header.php';
       <div class="head-title">
         <div class="left">
           <h1>Employees</h1>
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+
+          <div class="table-container">
+            <table class="table">
               <thead>
                 <tr>
                   <th>Employee ID</th>
                   <th>Employee Name</th>
+                  <th>Availability</th>
                 </tr>
               </thead>
               <tbody>
                 <?php
-                $query = "SELECT REGISTRATION_ID, CONCAT(firstname, ' ', lastname) as NAME FROM office_accounts WHERE account_type = 'employee'";
+                $query = "SELECT REGISTRATION_ID, CONCAT(firstname, ' ', lastname) as NAME, availability FROM office_accounts WHERE account_type = 'employee'";
                 $result = $conn->query($query);
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
                     $EmployeeID = $row['REGISTRATION_ID'];
                     $EmployeeName = $row['NAME'];
+                    $EmployeeAvailability = $row['availability']; // Fetch availability
+
                     echo "<tr>";
                     echo "<td>$EmployeeID</td>";
                     echo "<td>$EmployeeName</td>";
+                    echo "<td>$EmployeeAvailability</td>"; // Display availability
                     echo "</tr>";
                   }
                 } else {
-                  echo "<tr><td colspan='4'>No employees found.</td></tr>";
+                  echo "<tr><td colspan='4'>No employees available.</td></tr>";
                 }
 
 
@@ -71,6 +76,7 @@ include 'includes/header.php';
             </table>
           </div>
         </div>
+
 
       </div>
     </main>
