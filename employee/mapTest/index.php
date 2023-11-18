@@ -49,11 +49,13 @@
           SET live_location_tb.longlitude='$longtitude',live_location_tb.latitude='$latitude' 
           WHERE live_location_tb.`SERVICE_REQUEST_ID` = '$id'";
 
-
-  if ($conn->query($sql) === TRUE) {
-    echo "Record updated successfully";
-  } else {
-    echo "Error updating record: " . $conn->error;
+  while (true) {
+    if ($conn->query($sql) === TRUE) {
+      echo "Record updated successfully";
+    } else {
+      echo "Error updating record: " . $conn->error;
+    }
+    sleep(5);
   }
   ?>
   <style type="text/css">
