@@ -69,8 +69,6 @@ if ($result && mysqli_num_rows($result) > 0) {
                         <p>Project Name: <?php echo $userProject ?></p>
                     </div>
                 </div>
-
-
             </div>
         </main>
     </section>

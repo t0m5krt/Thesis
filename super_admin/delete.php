@@ -8,7 +8,17 @@ if (isset($_GET['id']) && $_GET['id'] > 0) {
 
     if (mysqli_query($conn, $sql)) {
         //This is for the sweet alert
-        echo "Account deleted successfully";
+        echo "<script>
+            Swal.fire({
+            title: 'Success!',
+            text: 'Account has been deleted!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'view.php';
+            }
+        })</script>";
         header('Location: view.php');
     } else {
         echo "Error deleting table: " . mysqli_error($conn);

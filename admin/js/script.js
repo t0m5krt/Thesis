@@ -57,4 +57,3 @@ window.addEventListener("resize", function () {
     searchForm.classList.remove("show");
   }
 });
-// Calendar Script

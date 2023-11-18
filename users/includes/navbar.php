@@ -16,9 +16,7 @@ if ($result && mysqli_num_rows($result) > 0) {
 <!-- Navbar -->
 <nav>
     <i class="bx bx-menu"></i>
-    <form action="#">
 
-    </form>
     <a href="profile.php" class="profile">
         <p><?php echo $userFullName ?></p>
 

@@ -566,6 +566,22 @@ tr:nth-of-type(even) {
   font-weight: 600;
 }
 
+.critical-high {
+  color: red;
+}
+
+.high {
+  color: darkorange;
+}
+
+.mid {
+  color: orange;
+}
+
+.low {
+  color: green;
+}
+
 /* End of Service Request */
 
 /* End of MAIN */

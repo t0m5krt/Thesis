@@ -18,6 +18,213 @@ include 'includes/header.php';
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
   <title>Service Request | Repair and Maintence Management System</title>
+
+  <style>
+    .sort-container {
+      width: 100%;
+    }
+
+    .critical-high {
+      color: red;
+    }
+
+    .high {
+      color: orange;
+    }
+
+    .mid {
+      color: darkgoldenrod;
+    }
+
+    .low {
+      color: green;
+    }
+
+    /* Start of 1st column */
+
+    .col-sm-4 {
+      display: inline-block;
+      vertical-align: top;
+      width: 50%;
+
+    }
+
+    .col-md-4 {
+      text-align: right;
+    }
+
+    .view-bot {
+      background-color: #f02e24;
+      color: white;
+      padding: 0.5rem 15px;
+      margin-right: 10px;
+      margin-bottom: 20px;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    .view-bot:hover {
+      background-color: #D17976;
+    }
+
+
+    .close-bot {
+      background-color: #201E1E;
+      color: white;
+      margin-right: 10px;
+      padding: 3px 15px;
+      font-size: 10px;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .close-bot:hover {
+      background-color: #605655;
+    }
+
+
+    .card {
+      margin: 2rem 2rem 1rem 2rem;
+      border: 1px solid #ABAFB0;
+      border-radius: 10px;
+    }
+
+    .card-body {
+      padding: 0.5rem;
+      background-color: #f9f9f9;
+    }
+
+    .card-header {
+      background-color: #f02e24;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 10px 10px 0 0;
+
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      margin-bottom: 1rem;
+    }
+
+
+
+    /* Start of Assigned work order CSS */
+
+
+    .col-sm-5 {
+      float: right;
+      width: 50%;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .jumbotron {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .jumbotron h5 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+      font-size: 25px;
+      color: #000000;
+    }
+
+
+    .form-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f4f4;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+
+    .form-group {
+      margin-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+
+    }
+
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-family: "Poppins", sans-serif;
+
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+
+    }
+
+
+    .float-right {
+      text-align: right;
+    }
+
+    .float-left {
+      margin: 2rem 0;
+    }
+
+    .btn-success {
+      background-color: #f02e24;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-right: 10px;
+      margin-bottom: 50%;
+      border-radius: 5px;
+      cursor: pointer;
+
+    }
+
+    .btn-success:hover {
+      background-color: #D17976;
+    }
+
+    .btn-secondary {
+      background-color: #201E1E;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background-color: #605655;
+    }
+  </style>
 </head>
 
 <body>
@@ -72,13 +279,13 @@ include 'includes/header.php';
         {
           switch ($sortValue) {
             case 1:
-              return 'Critical High';
+              return '<span class="critical-high">Critical High</span>';
             case 2:
-              return 'High';
+              return '<span class="high">High</span>';
             case 3:
-              return 'Mid';
+              return '<span class="mid">Mid</span>';
             case 4:
-              return 'Low';
+              return '<span class="low">Low</span>';
             default:
               return 'Unknown'; // Handle any unexpected values
           }
@@ -94,28 +301,28 @@ include 'includes/header.php';
             $sql = "SELECT DISTINCT a.*
               FROM `submit_requests` AS a
               JOIN service_request_status AS b
-              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              WHERE a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND a.isDelete = 0
               ORDER BY a.sort_value ASC;";
             break;
           case 'dateRequest':
             $sql = "SELECT DISTINCT a.*
               FROM `submit_requests` AS a
               JOIN service_request_status AS b
-              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              WHERE a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND a.isDelete = 0
               ORDER BY a.date_of_request ASC;";
             break;
           case 'ByID':
             $sql = "SELECT DISTINCT a.*
               FROM `submit_requests` AS a
               JOIN service_request_status AS b
-              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              WHERE a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND a.isDelete = 0
               ORDER BY a.SERVICE_REQUEST_ID ASC;";
             break;
           default:
             $sql = "SELECT DISTINCT a.*
               FROM `submit_requests` AS a
               JOIN service_request_status AS b
-              WHERE a.SERVICE_REQUEST_ID NOT IN (SELECT SERVICE_REQUEST_ID FROM service_request_status)
+              WHERE a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND a.isDelete = 0
               ORDER BY a.sort_value ASC;";
             break;
         }
@@ -131,7 +338,7 @@ include 'includes/header.php';
             echo '<div class="card-body">';
             echo '<div class="row">';
             echo '<div class="col-md-8">';
-            echo '<div class="card-title">Request Info: ' . $row['requestor'] . '</div>';
+            echo '<div class="card-title">Equipment No. : ' . $row['asset_code'] . '</div>';
 
             // Convert sort_value to priority string
             $priorityString = mapSortValueToString($row['sort_value']);
@@ -185,8 +392,11 @@ include 'includes/header.php';
           $assign_date = $_POST['assignDate'];
           $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no,assign_tech, assign_date)
             VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
-          $sqlServiceRequest = "INSERT INTO service_request_status(SERVICE_REQUEST_ID,STATUS_VALUE) VALUES('$SERVICE_REQUEST_ID','In progress');";
-          if ($conn->query($sql) === TRUE) {
+
+
+          //UPDATE service_request_status SET STATUS_VALUE = 'In Progress' WHERE SERVICE_REQUEST_ID = 58
+          $sqlServiceRequest = "UPDATE submit_requests,service_request_status set submit_requests.isDelete = 1,service_request_status.STATUS_VALUE = 'In Progress' where submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID' AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
+          if ($conn->query($sql) === TRUE && $conn->query($sqlServiceRequest) === TRUE) {
         ?>
             <script>
               Swal.fire({
@@ -195,31 +405,13 @@ include 'includes/header.php';
                 text: 'Assigning Successful',
                 showConfirmButton: true,
               }).then(function() {
-                window.location = "serviceRequest_Admin.php";
-                exit();
-              });
-            </script>
-          <?php
-          }
-          if ($conn->query($sqlServiceRequest) === TRUE) {
-          ?>
-            <script>
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Assigning Successful',
-                showConfirmButton: true,
-              }).then(function() {
-                window.location = "serviceRequest_Admin.php";
+                window.location = "workOrder_Admin.php";
                 exit();
               });
             </script>
           <?php
           }
           ?>
-          <script>
-            window.location.href = 'serviceRequest_Admin.php';
-          </script>
         <?php
         }
 
@@ -359,7 +551,7 @@ include 'includes/header.php';
 
           </div>
           <div class="float-left">
-            <form action="assign_request.php" method="POST">
+            <form action="" method="POST">
               <button type="submit" class="btn btn-success" name="assign">Assign</button>
               <button type="reset" class="btn btn-secondary">Reset</button>
           </div>
@@ -367,198 +559,6 @@ include 'includes/header.php';
       </div>
 
       <!-- End Assigned Work column -->
-
-
-      <style>
-        .sort-container {
-          width: 100%;
-        }
-
-        /* Start of 1st column */
-
-        .col-sm-4 {
-          display: inline-block;
-          vertical-align: top;
-          width: 50%;
-
-        }
-
-        .col-md-4 {
-          text-align: right;
-        }
-
-        .view-bot {
-          background-color: #f02e24;
-          color: white;
-          padding: 0.5rem 15px;
-          margin-right: 10px;
-          margin-bottom: 20px;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 10px;
-          cursor: pointer;
-        }
-
-        .view-bot:hover {
-          background-color: #D17976;
-        }
-
-
-        .close-bot {
-          background-color: #201E1E;
-          color: white;
-          margin-right: 10px;
-          padding: 3px 15px;
-          font-size: 10px;
-          text-decoration: none;
-          display: inline-block;
-          cursor: pointer;
-        }
-
-        .close-bot:hover {
-          background-color: #605655;
-        }
-
-
-        .card {
-          margin: 2rem 2rem 1rem 2rem;
-          border: 1px solid #ABAFB0;
-          border-radius: 10px;
-        }
-
-        .card-body {
-          padding: 0.5rem;
-          background-color: #f9f9f9;
-        }
-
-        .card-header {
-          background-color: #f02e24;
-          color: white;
-          padding: 0.5rem;
-          border-radius: 10px 10px 0 0;
-
-        }
-
-        .card-title {
-          font-size: 1.25rem;
-          font-weight: bold;
-          margin-bottom: 0.5rem;
-        }
-
-        .card-text {
-          margin-bottom: 1rem;
-        }
-
-
-
-        /* Start of Assigned work order CSS */
-
-
-        .col-sm-5 {
-          float: right;
-          width: 50%;
-          box-sizing: border-box;
-          font-family: "Poppins", sans-serif;
-        }
-
-        .jumbotron {
-          background-color: #f9f9f9;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-
-        }
-
-        .jumbotron h5 {
-          text-align: center;
-          margin-bottom: 20px;
-          font-weight: bold;
-          font-size: 25px;
-          color: #000000;
-        }
-
-
-        .form-container {
-          max-width: 400px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #f4f4f4;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
-
-
-        .form-group {
-          margin-bottom: 5px;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: 500;
-
-        }
-
-
-        input[type="text"],
-        input[type="email"],
-        input[type="password"],
-        input[type="date"],
-        input[type="number"],
-        select {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 3px;
-          font-family: "Poppins", sans-serif;
-
-        }
-
-        .form-row {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-
-        }
-
-
-        .float-right {
-          text-align: right;
-        }
-
-        .float-left {
-          margin: 2rem 0;
-        }
-
-        .btn-success {
-          background-color: #f02e24;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          margin-right: 10px;
-          margin-bottom: 50%;
-          border-radius: 5px;
-          cursor: pointer;
-
-        }
-
-        .btn-success:hover {
-          background-color: #D17976;
-        }
-
-        .btn-secondary {
-          background-color: #201E1E;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          border-radius: 5px;
-          cursor: pointer;
-        }
-
-        .btn-secondary:hover {
-          background-color: #605655;
-        }
-      </style>
 
 
       <script>

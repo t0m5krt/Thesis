@@ -58,10 +58,10 @@ include_once 'includes/connection.php';
                     </a>
                 </li>
                 <!-- <li>
-          <a class="text" href="">
+        <a class="text" href="">
             <p>Closed Work Order</p>
             <h1>0</h1>
-          </a>
+        </a>
         </li> -->
             </ul>
 

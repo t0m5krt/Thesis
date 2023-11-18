@@ -236,7 +236,7 @@ session_start();
                     }
                 }
                 ?>
-
+                <!-- UMIHI LANG AKO -->
                 <div class="text-center">
                     <form class='d-print-none d-inline mr-3'>
                         <input class='btn btn-danger' type='submit' value='Print' onClick='window.print()'>
@@ -247,6 +247,8 @@ session_start();
                     <form class='d-print-none d-inline' action="workOrder_employee.php">
                         <input class='btn btn-secondary' type='submit' value='Close'>
                     </form>
+
+                    <a href="mapTest/index.php?SERVICE_REQUEST_ID=<?php echo $id; ?> " class=" btn btn-secondary btn-xs"><i class="fas fa-eye"></i> Start Sharing Location</a>
                 </div>
             </div>
         </main>

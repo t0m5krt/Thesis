@@ -59,7 +59,7 @@ if (!isset($_SESSION['email'])) {
 
                             //sql should read the service reqeust status
                             $user_id = $_SESSION['userID'];
-                            $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE FROM submit_requests a, service_request_status b where a.user_id = '$user_id' and b.STATUS_ID = '$user_id' ";
+                            $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE FROM submit_requests a, service_request_status b WHERE a.user_id = '$user_id' GROUP BY a.SERVICE_REQUEST_ID";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -67,7 +67,11 @@ if (!isset($_SESSION['email'])) {
                                     echo "<td>" . $row['SERVICE_REQUEST_ID'] . "</td>";
                                     echo "<td>" . $row['date_of_request'] . "</td>";
                                     echo "<td>" . $row['STATUS_VALUE'] . "</td>";
-                                    echo "<td><a href='viewRequestStatus.php?id=<?php echo" . $row['SERVICE_REQUEST_ID'] . " ; ?>' class='btn btn-secondary'>View</a></td>";
+                            ?>
+                                    <td>
+                                        <a href="viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> View</a>
+                                    </td>
+                            <?php
                                     echo '</tr>';
                                 }
                             } else {
@@ -88,7 +92,7 @@ if (!isset($_SESSION['email'])) {
     <?php include 'includes/scripts.php' ?>
     <script>
         // add an active list on the side bar when this page is loaded
-        const active = document.querySelector(".side-menu li:nth-child(3)");
+        const active = document.querySelector(" .side-menu li:nth-child(3)");
         active.classList.add("active");
     </script>
 </body>

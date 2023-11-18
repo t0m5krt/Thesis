@@ -350,6 +350,7 @@ function handleFormSubmission()
 
     input[type=number] {
         -moz-appearance: textfield;
+        appearance: textfield;
     }
 
     .service-report h1 {

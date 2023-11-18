@@ -1,48 +1,115 @@
-<!DOCTYPE html>
-<html>
+<?php
 
-<head>
-    <title>View Request Status</title>
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+define('TITLE', 'View Request Status');
+include_once 'includes/connection.php';
 
-    <style>
-        .card {
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            padding: 20px;
-            margin: 20px;
-            text-align: center;
-            font-size: 1.2em;
-            max-width: 500px;
-            margin: auto;
-        }
+//make a logout session in php
+if (isset($_GET['logout'])) {
+    // Destroy the session and redirect to the login page
+    session_destroy();
+    header('Location:login.php');
+    exit();
+}
+if (session_status() === PHP_SESSION_NONE)
+    session_start();
 
-        a {
-            /* text-decoration: none; */
-            color: #db504a;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
+if (!isset($_SESSION['email'])) {
+    // If the user is not logged in, redirect to the login page
+    header('Location: login.php');
+    exit();
+}
+?>
 
-        @media screen and (max-width: 600px) {
-            .card {
-                max-width: 100%;
-            }
-        }
-    </style>
-
-</head>
+<?php include 'includes/header.php'; ?>
 
 <body>
-    <div class="card">
-        <p>This page is still in development.</p>
-        <p>Please check back later.</p>
-        <a href="history.php">
-            <i class='bx bx-arrow-back'></i>
-            Back to Page
-        </a>
-    </div>
+
+    <!-- <div class="loader">
+        <div class="custom-loader"></div>
+    </div> -->
+    <?php include 'includes/sidebar.php'; ?>
+
+    <section id="content">
+        <?php include 'includes/navbar.php'; ?>
+
+        <main>
+            <button class="buttonSmall" onclick="goBack()">
+                <i class="bx bx-arrow-back"></i>
+                Go Back
+            </button>
+
+            <?php
+            include_once 'includes/connection.php';
+
+
+
+
+            if (isset($_GET) & !empty($_GET)) {
+                $SRID = $_GET['SERVICE_REQUEST_ID'];
+                $sql = "SELECT * FROM submit_requests a, service_request_status b, work_order c 
+                        WHERE a.SERVICE_REQUEST_ID = $SRID AND b.SERVICE_REQUEST_ID = $SRID AND c.SERVICE_REQUEST_ID =$SRID;";
+                $result = mysqli_query($conn, $sql);
+
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+            ?>
+                        <div class="card-container">
+                            <div class="profile-info">
+                                <h2>Status: <span class="data-output"><?php echo $row['STATUS_VALUE'] ?></span></h2>
+                                <p>Assigned to: <span class="data-output"><?php echo $row['assign_tech'] ?></span></p>
+                            </div>
+
+                            <div class="service-details">
+                                <h2>Service Request Details</h2>
+                                <p>Request ID: <span class="data-output"><?php echo $row['SERVICE_REQUEST_ID'] ?></span></p>
+                                <p>Requestor: <span class="data-output"><?php echo $row['requestor'] ?></span></p>
+                                <p>Date Requested: <span class="data-output"><?php echo $row['date_of_request'] ?></span></p>
+                                <p>Contact No: <span class="data-output"><?php echo $row['mobile_or_phone_no'] ?></span></p>
+                                <p>Address: <span class="data-output"><?php echo $row['address'] ?></span></p>
+                                <p>Business Unit: <span class="data-output"><?php echo $row['business_unit'] ?></span></p>
+                                <p>Project Name: <span class="data-output"><?php echo $row['cust_project_name'] ?></span></p>
+                                <p>Asset Code: <span class="data-output"><?php echo $row['asset_code'] ?></span></p>
+                                <p>Model: <span class="data-output"><?php echo $row['model'] ?></span></p>
+                                <p>Equipment Description: <span class="data-output"><?php echo $row['equip_desc'] ?></span></p>
+                                <p>Equipment Brand: <span class="data-output"><?php echo $row['brand'] ?></span></p>
+                                <p>Service Meter Reading: <span class="data-output"><?php echo $row['service_meter_reading'] ?></span></p>
+                                <p>Type of Request: <span class="data-output"><?php echo $row['type_of_request'] ?></span></p>
+                                <p>Charging: <span class="data-output"><?php echo $row['charging'] ?></span></p>
+                                <p>Unit Problem: <span class="data-output"><?php echo $row['unit_problem'] ?></span></p>
+                                <p>Unit Operational: <span class="data-output"><?php echo $row['unit_operational'] ?></span></p>
+                                <p>Specific Requirement: <span class="data-output"><?php echo $row['specific_requirement'] ?></span></p>
+                                <p>Onsite Contact Person: <span class="data-output"><?php echo $row['onsite_contact_person'] ?></span></p>
+                                <p>Onsite Contact No: <span class="data-output"><?php echo $row['fax_no'] ?></span></p>
+                            </div>
+                        </div>
+            <?php
+                    }
+                }
+            }
+
+            ?>
+            <button class="buttonSmall">
+                <a href="mapViewer.php?SERVICE_REQUEST_ID=<?php echo $SRID; ?>" style="color: #fff">View Shared Location</a>
+            </button>
+        </main>
+    </section>
+
+
+    <?php include 'includes/scripts.php' ?>
+    <script>
+        // add an active list on the side bar when this page is loaded
+        const active = document.querySelector(".side-menu li:nth-child(3)");
+        active.classList.add("active");
+
+        //JavaScript function to navigate back to the previous page
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 
 </html>
+
+<?php
+
+?>
