@@ -40,7 +40,7 @@
   </script>
   <?php
 
-  include_once '../includes/connection.php';
+  include '../includes/connection.php';
   $longtitude = $_COOKIE['longitude'];
   $latitude = $_COOKIE['latitude'];
   $id = $_GET['SERVICE_REQUEST_ID'];
@@ -50,13 +50,15 @@
           WHERE live_location_tb.`SERVICE_REQUEST_ID` = '$id'";
 
   while (true) {
+    sleep(10);
     if ($conn->query($sql) === TRUE) {
       echo "Record updated successfully";
     } else {
       echo "Error updating record: " . $conn->error;
     }
-    sleep(5);
   }
+
+
   ?>
   <style type="text/css">
     p {
