@@ -75,12 +75,6 @@ $result = $conn->query($sql);
                         <i class="far fa-eye"></i>
                       </button>
                     </form>
-                    <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
-                      <input type="hidden" name="id" value='. $row["ID"] .'>
-                      <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
-                        <i class="far fa-trash-alt"></i>
-                      </button>
-                    </form>
 
                   </td>
 

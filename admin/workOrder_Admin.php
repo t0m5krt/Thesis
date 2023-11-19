@@ -17,6 +17,7 @@ include('config/db.php');
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css">
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -42,10 +43,10 @@ include('config/db.php');
 
             <tr>
 
-              <th>ID</th>
+              <th>SRN</th>
               <th>Requestor</th>
               <th>Date of Request</th>
-              <th>Status</th>
+              <th>Contact No.</th>
               <th>Technician</th>
               <th>Action</th>
 
@@ -56,7 +57,7 @@ include('config/db.php');
           <tbody>
 
             <?php
-            $sql = "SELECT * FROM work_order";
+            $sql = "SELECT * FROM work_order WHERE isDelete = 0";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -75,14 +76,14 @@ include('config/db.php');
                   <td>
                     <form action="view_assign_work_order.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
                       <input type="hidden" name="id" value='. $row["ID"] .'>
-                      <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
-                        <i class="far fa-eye"></i>
+                      <button type="submit" class="btn btn-secondary" name="view" id="view" value="View">View
+                        <i class="fa-solid fa-eye"></i>
                       </button>
                     </form>
-                    <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>" method="POST" class="d-inline">
+                    <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>&assign_tech=<?php echo $row['assign_tech'] ?>" method="POST" class="d-inline">
                       <input type="hidden" name="id" value='. $row["ID"] .'>
-                      <button type="submit" class="btn btn-secondary" name="done" id="done" value="done">Done
-                        <i class="far fa-trash-alt"></i>
+                      <button type="submit" class="btn btn-success" name="done" id="done" value="done">Done
+                        <i class="fa-solid fa-square-check"></i>
                       </button>
                     </form>
 

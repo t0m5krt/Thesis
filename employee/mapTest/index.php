@@ -48,10 +48,10 @@
   $sql = "UPDATE live_location_tb 
           SET live_location_tb.longlitude='$longtitude',live_location_tb.latitude='$latitude' 
           WHERE live_location_tb.`SERVICE_REQUEST_ID` = '$id'";
-
+  $result = mysqli_query($conn, $sql);
 
   if ($conn->query($sql) === TRUE) {
-    echo "Record updated successfully";
+    echo "<h1>Record Updated Successfully</h1>";
   } else {
     echo "Error updating record: " . $conn->error;
   }

@@ -43,7 +43,10 @@ session_start();
         <main>
             <h2>View Assigned Work Order</h2>
 
-            <div class="col-sm-6 mt-5  mx-3">
+
+
+            <div class="col-sm-8 mt-5 mx-3 mx-auto">
+
                 <h4 class="text-center">Assigned Work Details</h4>
 
 
@@ -236,20 +239,27 @@ session_start();
                     }
                 }
                 ?>
-                <!-- UMIHI LANG AKO -->
+
                 <div class="text-center">
-                    <form class='d-print-none d-inline mr-3'>
-                        <input class='btn btn-danger' type='submit' value='Print' onClick='window.print()'>
-                    </form>
-                    <form class='d-print-none d-inline' action="service_report_employee.php">
-                        <input class='btn btn-tertiary' type='submit' value='Create a service report'>
-                    </form>
-                    <form class='d-print-none d-inline' action="workOrder_employee.php">
-                        <input class='btn btn-secondary' type='submit' value='Close'>
+                    <form class="d-print-none d-inline">
+                        <input class="btn btn-primary" type="submit" value="Print" onclick="window.print()">
                     </form>
 
-                    <a href="mapTest/index.php?SERVICE_REQUEST_ID=<?php echo $id; ?> " class=" btn btn-secondary btn-xs"><i class="fas fa-eye"></i> Start Sharing Location</a>
+                    <form class="d-print-none d-inline">
+                        <input class="btn btn-secondary" type="submit" value="Create a service report">
+                    </form>
+
+                    <form class="d-print-none d-inline">
+                        <input class="btn btn-danger" type="submit" value="Close">
+                    </form>
+
+                    <a href="mapTest/index.php?SERVICE_REQUEST_ID=<?php echo $id; ?>" class="btn btn-primary">
+                        <i class="bx bx-current-location"></i>
+                        Start Sharing Location
+                    </a>
                 </div>
+
+
             </div>
         </main>
 
@@ -264,6 +274,6 @@ session_start();
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script>
     // add an active list on the side bar when this page is loaded
-    const active = document.querySelector(".side-menu li:nth-child(3)");
+    const active = document.querySelector(".side-menu li:nth-child(2)");
     active.classList.add("active");
 </script>

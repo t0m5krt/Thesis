@@ -40,8 +40,7 @@ include 'includes/header.php';
       <div class="head-title">
         <div class="left">
           <h1>Employees</h1>
-
-          <div class="table-container">
+          <div class="col-sm-12 mt-4  mx-auto">
             <table class="table">
               <thead>
                 <tr>
@@ -76,6 +75,7 @@ include 'includes/header.php';
             </table>
           </div>
         </div>
+
 
 
       </div>

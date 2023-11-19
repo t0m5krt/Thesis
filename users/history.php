@@ -59,7 +59,11 @@ if (!isset($_SESSION['email'])) {
 
                             //sql should read the service reqeust status
                             $user_id = $_SESSION['userID'];
-                            $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE FROM submit_requests a, service_request_status b WHERE a.user_id = '$user_id' GROUP BY a.SERVICE_REQUEST_ID";
+                            $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE 
+                            FROM submit_requests a
+                            JOIN service_request_status b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+                            WHERE a.user_id = '$user_id'
+                            GROUP BY a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE;";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
                                 while ($row = mysqli_fetch_assoc($result)) {

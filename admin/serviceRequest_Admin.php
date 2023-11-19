@@ -553,7 +553,6 @@ include 'includes/header.php';
           <div class="float-left">
             <form action="" method="POST">
               <button type="submit" class="btn btn-success" name="assign">Assign</button>
-              <button type="reset" class="btn btn-secondary">Reset</button>
           </div>
         </form>
       </div>
