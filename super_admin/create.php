@@ -55,7 +55,7 @@ if (isset($_GET['logout'])) {
           </div>
           <div class="input-box">
             <span class="details">Password</span>
-            <input type="password" placeholder="Type Here" id="pass_word" name="pass_word" required>
+            <input type="password" placeholder="Type Here" id="pass_word" name="pass_word" minlength="6" required>
           </div>
           <div class="input-box">
             <span class="details">Confirm Password</span>
