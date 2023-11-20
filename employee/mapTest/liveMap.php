@@ -23,105 +23,166 @@
             width: 100%;
         }
 
-        #stopButton {
-            width: 10%;
-            height: 50px;
-            background-color: #f44336;
-            color: white;
-            font-size: 20px;
-            border: none;
-            outline: none;
+        #status {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* The switch - the box around the slider */
+        .switch {
+            font-size: 17px;
+            position: relative;
+            display: inline-block;
+            width: 62px;
+            height: 35px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 1;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
             cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0px;
+            background: #fff;
+            transition: .4s;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 1.9em;
+            width: 1.9em;
+            border-radius: 16px;
+            left: 1.2px;
+            top: 0;
+            bottom: 0;
+            background-color: white;
+            box-shadow: 0 2px 5px #999999;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #5fdd54;
+            border: 1px solid transparent;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(1.5em);
         }
     </style>
 </head>
 
 <body>
     <div id="map"></div>
-</body>
 
-<!-- Stop button -->
-<button id="stopButton">Stop Viewing</button>
 
-</html>
+    <p>Instruction: Toggle the switch to start sharing</p>
 
-<!-- leaflet js  -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    // Map initialization
-    var map = L.map("map").setView([14.5995, 120.9842], 6);
-    var intervalId;
+    <!-- Switch for start/stop -->
+    <label class="switch">
+        <input type="checkbox" id="startStopSwitch">
+        <span class="slider"></span>
+    </label>
 
-    //osm layer
-    var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    });
-    osm.addTo(map);
+    <!-- Status display -->
+    <h1 id="status">Status: </h1>
 
-    if (!navigator.geolocation) {
-        console.log("Your browser doesn't support geolocation feature!");
-    } else {
-        intervalId = setInterval(() => {
-            navigator.geolocation.getCurrentPosition(getPosition);
-        }, 2000);
-    }
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Map initialization
+        var map = L.map("map").setView([14.5995, 120.9842], 6);
+        var intervalId;
 
-    // Event listener for the "Stop Viewing" button
-    document.getElementById("stopButton").addEventListener("click", function() {
-        // Clear the interval to stop continuous updates
-        clearInterval(intervalId);
-        console.log("Continuous updates stopped.");
-    });
-
-    var marker, circle;
-
-    function getPosition(position) {
-        // console.log(position)
-        var lat = position.coords.latitude;
-        document.cookie = "latitude=" + lat;
-        var long = position.coords.longitude;
-        document.cookie = "longitude=" + long;
-        var accuracy = position.coords.accuracy;
-
-        if (marker) {
-            map.removeLayer(marker);
-        }
-
-        if (circle) {
-            map.removeLayer(circle);
-        }
-
-        marker = L.marker([lat, long]);
-        circle = L.circle([lat, long], {
-            radius: accuracy
+        // Event listener for switch change
+        document.getElementById("startStopSwitch").addEventListener("change", function() {
+            if (this.checked) {
+                // Start continuous updates
+                intervalId = setInterval(() => {
+                    navigator.geolocation.getCurrentPosition(getPosition);
+                }, 3000);
+                console.log("Continuous updates started.");
+                document.getElementById("status").innerText = "Status: Sharing";
+            } else {
+                // Stop continuous updates
+                clearInterval(intervalId);
+                console.log("Continuous updates stopped.");
+                document.getElementById("status").innerText = "Status: Stopped";
+            }
         });
 
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+        //osm layer
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+        osm.addTo(map);
 
-        map.fitBounds(featureGroup.getBounds());
+        var serviceRequestId = <?php echo json_encode($_GET['SERVICE_REQUEST_ID']); ?>;
 
-        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
-    }
-</script>
+        function updateLocation(latitude, longitude) {
+            // Use AJAX/fetch to send the updated location to the server
+            fetch("updateLocation.php?SERVICE_REQUEST_ID=" + serviceRequestId, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        latitude: latitude,
+                        longitude: longitude,
+                    }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Handle the response from the server if needed
+                    console.log(data);
+                })
+                .catch((error) => console.error("Error updating location:", error));
+        }
 
-<?php
+        var marker, circle;
 
-include '../includes/connection.php';
-$longtitude = $_COOKIE['longitude'];
-$latitude = $_COOKIE['latitude'];
-$id = $_GET['SERVICE_REQUEST_ID'];
-// UPDATE live_location_tb SET live_location_tb.longlitude='14.6507',live_location_tb.latitude='121.1149' WHERE live_location_tb.`SERVICE_REQUEST_ID` = 58
-$sql = "UPDATE live_location_tb 
-        SET live_location_tb.longlitude='$longtitude',live_location_tb.latitude='$latitude' 
-        WHERE live_location_tb.`SERVICE_REQUEST_ID` = '$id'";
-$result = mysqli_query($conn, $sql);
+        function getPosition(position) {
+            var lat = position.coords.latitude;
+            document.cookie = "latitude=" + lat;
+            var long = position.coords.longitude;
+            document.cookie = "longitude=" + long;
+            var accuracy = position.coords.accuracy;
 
-if ($conn->query($sql) === TRUE) {
-    echo "<h1>Record Updated Successfully</h1>";
-} else {
-    echo "Error updating record: " . $conn->error;
-}
+            // Update location on the server
+            updateLocation(lat, long);
 
+            if (marker) {
+                map.removeLayer(marker);
+            }
 
+            if (circle) {
+                map.removeLayer(circle);
+            }
 
-?>
+            marker = L.marker([lat, long]);
+            circle = L.circle([lat, long], {
+                radius: accuracy,
+            });
+
+            var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+
+            map.fitBounds(featureGroup.getBounds());
+
+            console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
+        }
+    </script>
+
+</body>
+
+</html>

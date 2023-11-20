@@ -25,76 +25,56 @@
 <body>
     <div id="map"></div>
 
-    <?php
-    include 'includes/connection.php';
-    $RID = $_GET['SERVICE_REQUEST_ID'];
-    $sql = "SELECT live_location_tb.latitude, live_location_tb.longlitude FROM live_location_tb WHERE SERVICE_REQUEST_ID = $RID";
+    <!-- leaflet js  -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map("map").setView([14.5995, 120.9842], 6);
 
-    $conn->query($sql);
-    $result = mysqli_query($conn, $sql);
+        var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        });
+        osm.addTo(map);
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
+        // Fetch the latest location data from the server
+        function fetchLatestLocation() {
+            var serviceRequestId = <?php echo $_GET['SERVICE_REQUEST_ID']; ?>;
 
-            $latitude = $row['latitude'];
-            $longtitude = $row['longlitude'];
+            // Use AJAX/fetch to get the latest location from the server
+            fetch('getLatestLocation.php?SERVICE_REQUEST_ID=' + serviceRequestId)
+                .then(response => response.json())
+                .then(data => {
+                    updateMap(data.latitude, data.longitude);
+                })
+                .catch(error => console.error('Error fetching latest location:', error));
         }
-    } else {
-        echo "0 results";
-    }
-    ?>
+
+        // Initial fetch when the page loads
+        fetchLatestLocation();
+
+        // Periodically update the location (every 2 seconds in this example)
+        setInterval(fetchLatestLocation, 2000);
+
+        var marker, circle;
+
+        function updateMap(latitude, longitude) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+
+            if (circle) {
+                map.removeLayer(circle);
+            }
+
+            marker = L.marker([latitude, longitude]);
+            circle = L.circle([latitude, longitude], {
+                radius: 10 // You can adjust the radius as needed
+            });
+
+            var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+
+            map.fitBounds(featureGroup.getBounds());
+        }
+    </script>
 </body>
 
 </html>
-
-<!-- leaflet js  -->
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script>
-    // Map initialization
-    var map = L.map("map").setView([14.5995, 120.9842], 6);
-
-    //osm layer
-    var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    });
-    osm.addTo(map);
-
-    if (!navigator.geolocation) {
-        console.log("Your browser doesn't support geolocation feature!");
-    } else {
-        setInterval(() => {
-            navigator.geolocation.getCurrentPosition(getPosition);
-        }, 2500);
-    }
-
-    var marker, circle;
-
-    function getPosition(position) {
-        // console.log(position)
-        var phpLat = <?php echo $latitude ?>;
-        var phpLong = <?php echo $longtitude ?>;
-
-        var lat = phpLat;
-        var long = phpLong;
-        var accuracy = position.coords.accuracy;
-
-        if (marker) {
-            map.removeLayer(marker);
-        }
-
-        if (circle) {
-            map.removeLayer(circle);
-        }
-
-        marker = L.marker([lat, long]);
-        circle = L.circle([lat, long], {
-            radius: accuracy
-        });
-
-        var featureGroup = L.featureGroup([marker, circle]).addTo(map);
-
-        map.fitBounds(featureGroup.getBounds());
-
-        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
-    }
-</script>
