@@ -257,6 +257,11 @@ session_start();
                         <i class="bx bx-current-location"></i>
                         Start Sharing Location
                     </a>
+
+                    <a href="mapTest/liveMap.php?SERVICE_REQUEST_ID=<?php echo $id; ?>" class="btn btn-primary">
+                        <i class="bx bx-current-location"></i>
+                        Test Sharing Location
+                    </a>
                 </div>
 
 
