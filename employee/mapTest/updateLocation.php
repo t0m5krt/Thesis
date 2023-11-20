@@ -11,7 +11,7 @@ $longitude = $data['longitude'];
 $id = $_GET['SERVICE_REQUEST_ID'];
 
 $sql = "UPDATE live_location_tb 
-        SET live_location_tb.longlitude='$longitude',live_location_tb.latitude='$latitude',live_location_tb.timestamp_column=NOW()
+        SET live_location_tb.longitude='$longitude',live_location_tb.latitude='$latitude',live_location_tb.timestamp_column=NOW()
         WHERE live_location_tb.`SERVICE_REQUEST_ID` = '$id'";
 $result = mysqli_query($conn, $sql);
 
