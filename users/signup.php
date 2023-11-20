@@ -47,7 +47,7 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="password" placeholder="Type Here" id="password" name="password" required>
+                        <input type="password" placeholder="Type Here" id="password" minlength="6" name="password" required>
                         <i class="fa-solid fa-eye-slash" id="togglePassword" style="
                         color:#f02e24;
                         position: relative;
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="privacy">
-                    <input type="checkbox" name="privacy">
+                    <input type="checkbox" name="privacy" required>
                     <!-- <a href="privacy.php" target="_blank">I Agree to Data Privacy Agreement</a> -->
                     <a href="https://www.privacypolicies.com/live/2c89e827-0b09-4326-8c34-2c5ee00ae98f" target="_blank">I Agree to Data Privacy Agreement</a>
                 </div>
