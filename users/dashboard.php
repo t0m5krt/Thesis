@@ -81,7 +81,7 @@ if (!isset($_SESSION['email'])) {
         </li>
         <li>
           <a class="text" href="#">
-            <p>Lorem ipsum dolor</p>
+            <p>Completed</p>
             <h1>0</h1>
           </a>
         </li>
