@@ -1,5 +1,5 @@
 <?php
-define('PAGE', 'Service Requests');
+define('PAGE', 'Service Requests | Admin');
 
 // [IMPORTANT!] Define database connection parameters once for this file
 include_once('includes/connection.php');
@@ -17,7 +17,7 @@ include 'includes/header.php';
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-  <title>Service Request | Repair and Maintence Management System</title>
+  <title><?php echo PAGE ?></title>
 
   <style>
     .sort-container {
@@ -46,6 +46,7 @@ include 'includes/header.php';
       display: inline-block;
       vertical-align: top;
       width: 50%;
+      box-sizing: border-box;
 
     }
 
@@ -125,6 +126,7 @@ include 'includes/header.php';
       width: 50%;
       box-sizing: border-box;
       font-family: "Poppins", sans-serif;
+      margin-top: 2rem;
     }
 
     .jumbotron {
@@ -224,6 +226,29 @@ include 'includes/header.php';
     .btn-secondary:hover {
       background-color: #605655;
     }
+
+    .input-search {
+      max-width: 250px;
+      background-color: #f5f5f5;
+      color: #242424;
+      padding: .15rem .5rem;
+      min-height: 40px;
+      border-radius: 4px;
+      outline: none;
+      border: none;
+      line-height: 1.15;
+      box-shadow: 0px 10px 20px -18px;
+      margin: 0 0 0 2rem;
+    }
+
+    input-search:focus {
+      border-bottom: 2px solid #5b5fc7;
+      border-radius: 4px 4px 2px 2px;
+    }
+
+    input-search:hover {
+      outline: 1px solid lightgrey;
+    }
   </style>
 </head>
 
@@ -246,10 +271,16 @@ include 'includes/header.php';
     <main>
       <div class="head-title">
         <div class="left">
-          <h1><?php echo PAGE ?></h1>
+          <h1>Service Request</h1>
         </div>
+      </div>
 
-        <form action="serviceRequest_Admin.php" method="post">
+      <div class="sorting-container">
+        <form action="" method="get">
+          <input class="input-search" name="text" placeholder="Search..." type="search">
+        </form>
+
+        <form action="" method="post">
           <div class="radio-inputs">
             <label class="radio">
               <input type="radio" name="sort" value="ByID" onchange="this.form.submit();">
@@ -266,6 +297,8 @@ include 'includes/header.php';
           </div>
         </form>
       </div>
+
+
 
 
 
@@ -382,39 +415,6 @@ include 'includes/header.php';
             echo '</div>';
           }
         }
-
-        if (isset($_REQUEST['assign'])) {
-          $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
-          $requestor = $_POST['requestor'];
-          $date_of_request = $_POST['date_of_request'];
-          $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
-          $assign_tech = $_POST['assign_tech'];
-          $assign_date = $_POST['assignDate'];
-          $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no,assign_tech, assign_date)
-            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech', '$assign_date')";
-
-
-          //UPDATE service_request_status SET STATUS_VALUE = 'In Progress' WHERE SERVICE_REQUEST_ID = 58
-          $sqlServiceRequest = "UPDATE submit_requests,service_request_status set submit_requests.isDelete = 1,service_request_status.STATUS_VALUE = 'In Progress' where submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID' AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
-          if ($conn->query($sql) === TRUE && $conn->query($sqlServiceRequest) === TRUE) {
-        ?>
-            <script>
-              Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Assigning Successful',
-                showConfirmButton: true,
-              }).then(function() {
-                window.location = "workOrder_Admin.php";
-                exit();
-              });
-            </script>
-          <?php
-          }
-          ?>
-        <?php
-        }
-
         ?>
       </div>
       <!-- End of 1st column -->
@@ -423,7 +423,7 @@ include 'includes/header.php';
 
       <!-- Start of assigned column -->
       <div class="col-sm-5 mt-5 jumbotron">
-        <form action="" method="POST">
+        <form action="serviceRequest_Admin.php" method="POST" id="assignForm">
           <h5 class="text-center" id="formTitle">Assign Work Order Request</h5>
           <div class="form-group">
             <label for="SERVICE_REQUEST_ID">REQUEST ID</label>
@@ -522,37 +522,35 @@ include 'includes/header.php';
               <label for="assign_tech">ASSIGN TO</label>
               <select class="form-control" id="assign_tech" name="assign_tech">
                 <?php
-                $query = "SELECT CONCAT(firstname, ' ', lastname) as NAME, availability FROM office_accounts WHERE account_type = 'employee'";
+                $query = "SELECT REGISTRATION_ID, CONCAT(firstname, ' ', lastname) as NAME, availability FROM office_accounts WHERE account_type = 'employee'";
                 $result = $conn->query($query);
 
                 if ($result->num_rows > 0) {
                   while ($row = $result->fetch_assoc()) {
+                    $registrationId = $row['REGISTRATION_ID'];
                     $availability = $row['availability'];
                     $employeeName = $row['NAME'];
 
                     // Modify this condition based on your availability status logic
                     if ($availability === 'Available') {
-                      echo "<option value='$employeeName'>$employeeName (Available)</option>";
+                      echo "<option value='$registrationId'>$employeeName (Available)</option>";
                     } else {
-                      echo "<option value='$employeeName' disabled>$employeeName (Not Available)</option>";
+                      echo "<option value='$registrationId' disabled>$employeeName (Not Available)</option>";
                     }
                   }
                 }
                 ?>
               </select>
-
-
             </div>
 
             <div class="form-group col-md-6">
               <label for="assignDate">ASSIGN DATE</label>
               <input type="date" class="form-control" id="assignDate" name="assignDate" min="<?php echo date('Y-m-d'); ?>">
             </div>
-
           </div>
+
           <div class="float-left">
-            <form action="" method="POST">
-              <button type="submit" class="btn btn-success" name="assign">Assign</button>
+            <button type="submit" class="btn btn-success" id="assignBtn" name="assign">Assign</button>
           </div>
         </form>
       </div>
@@ -620,7 +618,153 @@ include 'includes/header.php';
         }
       }
     });
+
+    document.getElementById("assignBtn").onclick = function() {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "Are you sure you want to assign?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Yes",
+        cancelButtonText: "No"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var form = document.getElementById("assignForm");
+          var inputs = form.getElementsByTagName("input");
+          var empty = false;
+          var missingFields = [];
+
+          for (var i = 0; i < inputs.length; i++) {
+            // Exclude specific fields from the check
+            if (inputs[i].value === "" && inputs[i].id !== "additional_option" && inputs[i].id !== "other_service_request") {
+              empty = true;
+              missingFields.push(inputs[i].id);
+            }
+          }
+
+          if (empty) {
+            Swal.fire({
+              title: "Missing Fields",
+              text: "Please fill in all the required fields: " + missingFields.join(", "),
+              icon: "warning"
+            });
+          } else {
+            form.submit();
+          }
+        }
+      });
+    };
   </script>
 </body>
 
 </html>
+
+
+<!-- Test Query -->
+
+<?php
+include 'includes/connection.php';
+if (isset($_REQUEST['assign'])) {
+
+  $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
+  $requestor = $_POST['requestor'];
+  $date_of_request = $_POST['date_of_request'];
+  $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
+  $assign_tech_id = $_POST['assign_tech']; // Assuming assign_tech is the registration ID
+
+  // Retrieve the firstname and lastname of the assigned technician
+  $queryTechInfo = "SELECT firstname, lastname FROM office_accounts WHERE REGISTRATION_ID = '$assign_tech_id'";
+  $resultTechInfo = $conn->query($queryTechInfo);
+
+  if ($resultTechInfo->num_rows > 0) {
+    $rowTechInfo = $resultTechInfo->fetch_assoc();
+    $assign_tech_name = $rowTechInfo['firstname'] . ' ' . $rowTechInfo['lastname'];
+
+    // Insert into the work_order table
+    $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no, assign_tech, assign_date)
+            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech_name', '$assign_date')";
+
+    // Update service_request_status
+    $sqlServiceRequest = "UPDATE submit_requests, service_request_status 
+                        SET submit_requests.isDelete = 1, service_request_status.STATUS_VALUE = 'In Progress' 
+                        WHERE submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'
+                        AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
+
+    // Update availability in office_accounts
+    $sqlUpdateAvailability = "UPDATE office_accounts 
+                              SET availability = 'Not Available' 
+                              WHERE REGISTRATION_ID = '$assign_tech_id'";
+
+    if (
+      $conn->query($sql) === TRUE &&
+      $conn->query($sqlServiceRequest) === TRUE &&
+      $conn->query($sqlUpdateAvailability) === TRUE
+    ) {
+      // Your success handling code here
+?>
+      <script>
+        alert('Assigning Successful');
+        window.location = "workOrder_Admin.php";
+        exit();
+      </script>
+    <?php
+
+    } else {
+      // Handle the case where the queries failed
+    ?>
+      <script>
+        alert('Assigning Failed');
+        window.location = "serviceRequest_Admin.php";
+        exit();
+      </script>
+
+    <?php
+
+    }
+  } else {
+    // Handle the case where the technician information couldn't be retrieved
+
+    // Insert into the work_order table
+    $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no, assign_tech, assign_date)
+            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech_id', '$assign_date')";
+    // Update service_request_status
+    $sqlServiceRequest = "UPDATE submit_requests, service_request_status 
+                        SET submit_requests.isDelete = 1, service_request_status.STATUS_VALUE = 'In Progress' 
+                        WHERE submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'
+                        AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
+    if ($conn->query($sql) === TRUE && $conn->query($sqlServiceRequest) === TRUE) {
+      // Your success handling code here
+    ?>
+      <script>
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Assigning Successful',
+          showConfirmButton: true,
+        }).then(function() {
+          window.location = "workOrder_Admin.php";
+          exit();
+        });
+      </script>
+    <?php
+
+    } else {
+      // Handle the case where the queries failed
+    ?>
+      <script>
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Assigning Failed',
+          showConfirmButton: true,
+        }).then(function() {
+          window.location = "serviceRequest_Admin.php";
+          exit();
+        });
+      </script>
+<?php
+
+    }
+  }
+}
+?>

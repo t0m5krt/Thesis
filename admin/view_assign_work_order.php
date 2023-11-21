@@ -59,7 +59,7 @@ session_start();
 
                 <?php
 
-                $sql = "SELECT a.*, c.assign_tech,c.assign_date
+                $sql = "SELECT a.*, c.*
                     FROM submit_requests AS a JOIN service_request_status AS b
                     JOIN work_order AS c ON b.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
                     WHERE a.SERVICE_REQUEST_ID = '$id'
@@ -75,7 +75,15 @@ session_start();
                             <table class="table table-bordered">
                                 <tbody>
                                     <tr>
-                                        <td>ID</td>
+                                        <td>Work Order ID</td>
+                                        <td>
+                                            <?php if (isset($row['work_order_ID'])) {
+                                                echo $row['work_order_ID'];
+                                            } ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>SRN</td>
                                         <td>
                                             <?php if (isset($row['SERVICE_REQUEST_ID'])) {
                                                 echo $row['SERVICE_REQUEST_ID'];

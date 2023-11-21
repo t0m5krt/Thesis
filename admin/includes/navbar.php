@@ -23,9 +23,7 @@ if ($result && mysqli_num_rows($result) > 0) {
     </form>
     <a href="profile.php" class="profile">
         <p><?php echo $officeAccountsFullName ?> (<?php echo $officeAccountType ?>)</p>
-        <!-- <div class="tooltip">
-            <span class="tooltiptext">Profile</span>
-        </div> -->
+        <div class="profile-icon"><i class="bx bx-user"></i></div>
 
     </a>
 </nav>

@@ -47,7 +47,7 @@ if (!isset($_SESSION['username']))
 
     // variable to store number of rows per page
 
-    $limit = 50;
+    $limit = 12;
 
     // update the active page number
 

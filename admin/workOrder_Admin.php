@@ -33,9 +33,12 @@ include('config/db.php');
     <?php include 'includes/navbar.php'; ?>
 
     <main>
+      <div class="head-title">
+        <h2>Work Order</h2>
+      </div>
       <div class="container">
 
-        <h2>Work Order</h2>
+
 
         <table class="table">
 
@@ -43,7 +46,7 @@ include('config/db.php');
 
             <tr>
 
-              <th>SRN</th>
+              <th>Work Order</th>
               <th>Requestor</th>
               <th>Date of Request</th>
               <th>Contact No.</th>
@@ -67,8 +70,7 @@ include('config/db.php');
             ?>
 
                 <tr>
-
-                  <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
+                  <td><?php echo $row['work_order_ID']; ?></td>
                   <td><?php echo $row['requestor']; ?></td>
                   <td><?php echo $row['date_of_request']; ?></td>
                   <td><?php echo $row['mobile_or_phone_no']; ?></td>
