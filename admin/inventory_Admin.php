@@ -219,7 +219,7 @@ if (!isset($_SESSION['username']))
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   <script>
     // add an active list on the side bar when this page is loaded
-    const active = document.querySelector(".side-menu li:nth-child(4)");
+    const active = document.querySelector(".side-menu li:nth-child(5)");
     active.classList.add("active");
   </script>
 </body>
