@@ -30,6 +30,14 @@
 
     <ul class="side-menu">
         <li>
+            <a href="profile.php" id="profile">
+                <i class="bx bxs-user"></i>
+
+                <span class="text"> Profile </span>
+            </a>
+        </li>
+        <li>
+        <li>
             <a href="logout.php" class="logout">
                 <i class="bx bx-log-out"></i>
 

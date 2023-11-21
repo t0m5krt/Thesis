@@ -9,13 +9,8 @@ if (!isset($id)) {
     exit;
 }
 
-$sql = "SELECT a.*, c.assign_tech,c.assign_date
-FROM submit_requests AS a JOIN service_request_status AS b
-JOIN work_order AS c ON b.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
-WHERE a.SERVICE_REQUEST_ID = '$id'
-GROUP BY a.SERVICE_REQUEST_ID;";
 
-$result = $conn->query($sql);
+
 session_start();
 ?>
 
@@ -51,6 +46,15 @@ session_start();
 
 
                 <?php
+                $sql = "SELECT a.*, c.work_order_ID, c.assign_tech, c.assign_date
+                FROM submit_requests AS a
+                JOIN service_request_status AS b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+                JOIN work_order AS c ON b.SERVICE_REQUEST_ID = c.SERVICE_REQUEST_ID
+                WHERE a.SERVICE_REQUEST_ID = '$id'
+                GROUP BY a.SERVICE_REQUEST_ID";
+
+                $result = $conn->query($sql);
+
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
 
@@ -58,7 +62,15 @@ session_start();
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
-                                    <td>ID</td>
+                                    <td>Work Order ID</td>
+                                    <td>
+                                        <?php echo $row['work_order_ID']
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                <tr>
+                                    <td>SRN</td>
                                     <td>
                                         <?php if (isset($row['SERVICE_REQUEST_ID'])) {
                                             echo $row['SERVICE_REQUEST_ID'];
@@ -235,36 +247,37 @@ session_start();
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div class="text-center">
+                            <form class="d-print-none d-inline">
+                                <input class="btn btn-primary" type="submit" value="Print" onclick="window.print()">
+                            </form>
+
+                            <a href="create_service_report.php?work_order_ID=<?php echo $row['work_order_ID']; ?>" class="btn btn-secondary">
+                                Create Service Report
+                            </a>
+
+
+                            <form class="d-print-none d-inline">
+                                <input class="btn btn-danger" type="submit" value="Close">
+                            </form>
+
+                            <a href="mapTest/liveMap.php?SERVICE_REQUEST_ID=<?php echo $id; ?>" class="btn btn-primary">
+                                <i class="bx bx-current-location"></i>
+                                Start Sharing Location
+                            </a>
+                        </div>
                 <?php
                     }
                 }
                 ?>
-
-                <div class="text-center">
-                    <form class="d-print-none d-inline">
-                        <input class="btn btn-primary" type="submit" value="Print" onclick="window.print()">
-                    </form>
-
-                    <form class="d-print-none d-inline">
-                        <input class="btn btn-secondary" type="submit" value="Create a service report">
-                    </form>
-
-                    <form class="d-print-none d-inline">
-                        <input class="btn btn-danger" type="submit" value="Close">
-                    </form>
-
-                    <a href="mapTest/liveMap.php?SERVICE_REQUEST_ID=<?php echo $id; ?>" class="btn btn-primary">
-                        <i class="bx bx-current-location"></i>
-                        Start Sharing Location
-                    </a>
-                </div>
-
 
             </div>
         </main>
 
 
     </section>
+
 </body>
 <script src="js/calendar.js"></script>
 <script src="js/script.js"></script>

@@ -1,8 +1,7 @@
 <?php
 include('includes/connection.php');
 
-$sql = "SELECT * FROM work_order";
-$result = $conn->query($sql);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,7 +41,7 @@ $result = $conn->query($sql);
 
             <tr>
 
-              <th>ID</th>
+              <th>WO ID</th>
               <th>Requestor</th>
               <th>Date of Request</th>
               <th>Contact</th>
@@ -55,7 +54,8 @@ $result = $conn->query($sql);
           <tbody>
 
             <?php
-
+            $sql = "SELECT * FROM work_order";
+            $result = $conn->query($sql);
             if ($result->num_rows > 0) {
 
               while ($row = $result->fetch_assoc()) {
@@ -64,7 +64,7 @@ $result = $conn->query($sql);
 
                 <tr>
 
-                  <td><?php echo $row['SERVICE_REQUEST_ID']; ?></td>
+                  <td><?php echo $row['work_order_ID']; ?></td>
                   <td><?php echo $row['requestor']; ?></td>
                   <td><?php echo $row['date_of_request']; ?></td>
                   <td><?php echo $row['mobile_or_phone_no']; ?></td>
