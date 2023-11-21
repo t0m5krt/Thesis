@@ -29,6 +29,13 @@
                 <span class="text"> Work Order </span>
             </a>
         </li>
+        <li>
+            <a href="service_report_admin.php">
+                <i class="bx bx-task"></i>
+
+                <span class="text"> Service Report </span>
+            </a>
+        </li>
 
         <li>
             <a href="inventory_Admin.php">
@@ -37,7 +44,6 @@
                 <span class="text"> Inventory </span>
             </a>
         </li>
-
         <li>
             <a href="employees_Admin.php">
                 <i class="bx bxs-group"></i>
