@@ -33,7 +33,7 @@ if (!isset($_SESSION['email'])) {
         <?php include 'includes/navbar.php'; ?>
 
         <main>
-            <button class="buttonSmall" onclick="goBack()">
+            <button class="btn btn-primary" onclick="goBack()">
                 <i class="bx bx-arrow-back"></i>
                 Go Back
             </button>
@@ -88,7 +88,7 @@ if (!isset($_SESSION['email'])) {
             }
 
             ?>
-            <button class="buttonSmall">
+            <button class="btn btn-primary">
                 <a href="mapViewer.php?SERVICE_REQUEST_ID=<?php echo $SRID; ?>" style="color: #fff">View Shared Location</a>
             </button>
         </main>

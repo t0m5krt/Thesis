@@ -42,6 +42,8 @@ include('config/db.php');
                     <span class="icon img-fluid">
                         <img src="img/MegawideCELS-Logo.svg" alt="icon">
                     </span>
+
+
                     <h1>Service Report</h1>
 
                     <table class="table centered-table">

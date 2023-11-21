@@ -20,6 +20,24 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
+function logoutFunction()
+{
+    include 'includes/connection.php';
+
+    $loginClear = "UPDATE user_accounts SET status = 0 WHERE email = ?";
+    $stmt = mysqli_prepare($conn, $loginClear);
+    mysqli_stmt_bind_param($stmt, "s", $_SESSION['email']);
+    $loginClearResult = mysqli_stmt_execute($stmt);
+
+    session_destroy();
+    header("location:login.php");
+    exit();
+}
+
+if (isset($_GET['hello'])) {
+    logoutFunction();
+}
+
 ?>
 
 <!DOCTYPE html>

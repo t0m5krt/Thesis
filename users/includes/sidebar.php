@@ -28,7 +28,7 @@
 
     <ul class="side-menu">
         <li class="item">
-            <a href="dashboard.php?logout=1" class="logout">
+            <a href="dashboard.php?hello=true" class="logout" name="logout">
                 <i class="bx bx-log-out"></i>
 
                 <span class="text"> Logout </span>

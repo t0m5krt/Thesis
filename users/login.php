@@ -55,7 +55,11 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   // Query the database to retrieve hashed password
-  $query = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname FROM user_accounts WHERE email = ?";
+  $query = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname
+            FROM user_accounts WHERE email = ? AND status = 0";
+  $queryIfLogin = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname
+  FROM user_accounts WHERE email = ? AND status = 1 ";
+
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $email);
   mysqli_stmt_execute($stmt);
@@ -76,27 +80,41 @@ if (isset($_POST['submit'])) {
       $_SESSION['companyname'] = $userCompanyName;
       $_SESSION['projectname'] = $userProjectName;
       $_SESSION['account_type'] = 'user';
+      $_SESSION['status'] = "1";
 
       // Redirect to the dashboard
-      header('Location: dashboard.php');
-      exit();
-    } else {
-      // Handle login failure
-    }
 ?>
+      <script>
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successfully',
+          showConfirmButton: false,
+          timer: 2000,
+        }).then(function() {
+          window.location = "dashboard.php";
+          exit();
+        });
+      </script>
 
-
-    <script>
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Successfully',
-        showConfirmButton: false,
-        timer: 2000,
-      }).then(function() {
-        window.location = "dashboard.php";
-        exit();
-      });
-    </script>
+      <?php
+      ?>
+    <?php
+    } elseif (empty($error)) {
+    ?>
+      <script>
+        Swal.fire({
+          icon: 'error',
+          title: 'Invalid Email or Password',
+          text: 'Please double-check your email and password and try again or User is already logged in',
+          showConfirmButton: true,
+        }).then(function() {
+          window.location = "login.php";
+          exit();
+        });
+      </script>
+    <?php
+    }
+    ?>
 
     <?php
   } else {

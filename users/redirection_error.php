@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Denied</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,6 +33,12 @@
         p {
             color: #555;
         }
+
+        a {
+            color: #e74c3c;
+            display: inline-block;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -39,7 +46,11 @@
     <div class="access-denied-container">
         <h1>Access Denied</h1>
         <p>Sorry, you do not have permission to access this page.</p>
-    </div>
+
+        <a href="../users/login.php">
+            <i class="fas fa-arrow-left"></i> Back to Login
+        </a>
 </body>
+</div>
 
 </html>

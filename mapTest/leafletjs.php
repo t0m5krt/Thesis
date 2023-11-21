@@ -13,11 +13,25 @@
     body {
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
     }
 
     #map {
+      flex: 1;
       width: 100%;
-      height: 100vh;
+    }
+
+    #stopButton {
+      width: 10%;
+      height: 50px;
+      background-color: #f44336;
+      color: white;
+      font-size: 20px;
+      border: none;
+      outline: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -26,6 +40,9 @@
   <div id="map"></div>
 </body>
 
+<!-- Stop button -->
+<button id="stopButton">Stop Viewing</button>
+
 </html>
 
 <!-- leaflet js  -->
@@ -33,6 +50,7 @@
 <script>
   // Map initialization
   var map = L.map("map").setView([14.5995, 120.9842], 6);
+  var intervalId;
 
   //osm layer
   var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -43,10 +61,17 @@
   if (!navigator.geolocation) {
     console.log("Your browser doesn't support geolocation feature!");
   } else {
-    setInterval(() => {
+    intervalId = setInterval(() => {
       navigator.geolocation.getCurrentPosition(getPosition);
     }, 2000);
   }
+
+  // Event listener for the "Stop Viewing" button
+  document.getElementById("stopButton").addEventListener("click", function() {
+    // Clear the interval to stop continuous updates
+    clearInterval(intervalId);
+    console.log("Continuous updates stopped.");
+  });
 
   var marker, circle;
 

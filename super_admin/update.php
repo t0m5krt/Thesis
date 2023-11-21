@@ -39,6 +39,24 @@ if (isset($_GET['id'])) {
 
 ?>
 
+    <style>
+      #showPasswordLabel {
+        font-size: 0.8rem;
+        font-weight: normal;
+        cursor: pointer;
+      }
+
+      #showPasswordLabel:hover {
+        text-decoration: underline;
+      }
+
+      #showPassword {
+        width: 1rem;
+        margin-left: 0.5rem;
+        cursor: pointer;
+      }
+    </style>
+
     <head>
       <meta charset="UTF-8">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -65,7 +83,8 @@ if (isset($_GET['id'])) {
               </div>
               <div class="input-box">
                 <span class="details">Password</span>
-                <input type="password" name="pass_word" placeholder="Type Here" value="<?php echo $pass_word; ?>">
+                <input type="password" name="pass_word" id="passInput" placeholder="Type Here" value="<?php echo $pass_word; ?>">
+                <label for="showPassword" id="showPasswordLabel">Show Password</label> <input type="checkbox" id="showPassword" onclick="togglePasswordVisibility()">
               </div>
 
               <div class="input-box">
@@ -81,12 +100,28 @@ if (isset($_GET['id'])) {
         </div>
         <div class="button">
           <input type="submit" value="Update" name="update" class="btn btn-primary">
-          <input type="submit" value="Cancel" name="cancelUpdate" class="btn btn-secondary" href="" index.php>
+          <button value="Cancel" id="cancelUpdate" name="cancelUpdate" class="btn btn-secondary" onclick="cancelButtonClick()">Cancel</button>
         </div>
         </form>
       </div>
       </div>
     </body>
+
+    <script>
+      function togglePasswordVisibility(id) {
+        var passwordInput = document.getElementById('passInput');
+        if (passwordInput.type === 'password') {
+          passwordInput.type = 'text';
+        } else {
+          passwordInput.type = 'password';
+        }
+      }
+
+      function cancelButtonClick() {
+        console.log('Cancel button clicked');
+        // window.location.href = 'index.php';
+      }
+    </script>
 
     </html>
 
@@ -113,15 +148,12 @@ if (isset($_GET['id'])) {
     ?>
 
       <script>
-        Swal.fire({
-          icon: 'success',
-          title: 'Update Successful',
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(function() {
-          window.location = "view.php";
-          exit();
-        });
+        var confirmation = confirm("Are you sure you want to update the account?");
+        if (confirmation) {
+          window.alert("Account updated successfully!");
+          // Perform the account update here
+          window.location.href = 'index.php';
+        }
       </script>
 
 <?php

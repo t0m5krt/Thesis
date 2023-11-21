@@ -57,18 +57,26 @@ $conn->close();
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="Styles/style.css" />
   <!-- Boxicons -->
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 
   <title>Dashboard | Repair and Maintence Management System</title>
+
+  <style>
+    btn-success {
+      margin: 2rem 0 0 0;
+    }
+  </style>
 </head>
 
 <body>
 
-  <!-- <div class="loader">
+  <div class="loader">
     <div class="custom-loader"></div>
-  </div> -->
+  </div>
 
   <!-- Sidebar -->
   <?php include 'includes/sidebar.php'; ?>
@@ -143,11 +151,11 @@ $conn->close();
 
 
       <!-- End of Calendar -->
+      <div id="map-container">
 
-      <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3861.9096990010553!2d121.12343817413145!3d14.54715627838483!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c7e8d5d3c81f%3A0x6001910e319481f3!2sMegawide%20Formworks%20Plant%20Office!5e0!3m2!1sen!2sph!4v1683184937794!5m2!1sen!2sph" width="1200" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <a href="adminViewMap.php" class="btn btn-success">View Admin Map</a>
       </div>
-      <!-- End of Main -->
+    </main>
   </section>
 
   <!-- End of Content -->

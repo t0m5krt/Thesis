@@ -57,7 +57,7 @@ include('includes/header.php');
 
                     <?php
 
-                    $sql = "SELECT * FROM office_accounts WHERE isDeleted='0'";
+                    $sql = "SELECT * FROM office_accounts WHERE isDeleted='0' ORDER BY account_type ASC";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
@@ -83,7 +83,7 @@ include('includes/header.php');
                                 <td><?php echo $row['account_type']; ?></td>
                                 <td><a class="btn btn-secondary" href="update.php?id=<?php echo $row['REGISTRATION_ID']; ?>">Update
                                     </a>&nbsp;
-                                    <a class="btn btn-danger" href="delete.php?id=<?php echo $row['REGISTRATION_ID']; ?>">Delete</a>
+                                    <a class="btn btn-danger" href="delete.php?id=<?php echo $row['REGISTRATION_ID']; ?>" onclick="return confirmDelete()">Delete</a>
                                 </td>
 
                             </tr>
@@ -120,6 +120,11 @@ include('includes/header.php');
         // add an active list on the side bar when this page is loaded
         const active = document.querySelector(".side-menu li:nth-child(2)");
         active.classList.add("active");
+
+        function confirmDelete() {
+            var result = confirm("Are you sure you want to delete this account?");
+            return result;
+        }
     </script>
 
 </body>

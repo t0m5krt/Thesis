@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: var(--poppins), sans-serif;
 }
 
 a {
@@ -11,6 +12,11 @@ a {
 
 li {
   list-style: none;
+}
+
+ol,
+ul {
+  padding-left: 0rem !important;
 }
 
 :root {
@@ -44,6 +50,7 @@ body {
   max-width: 100%;
   height: auto;
 }
+
 .loader {
   width: 100%;
   min-height: 100vh;
@@ -69,39 +76,6 @@ body {
   }
 }
 
-/* #region */
-/* Tooltip CSS */
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: rgb(92, 92, 92);
-  color: #fff;
-  text-align: center;
-  padding: 5px 0;
-  border-radius: 6px;
-
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
-/* Tooltip CSS End */
-/* #endregion */
-
-/*#region*/
 /* Sidebar */
 #sidebar {
   position: fixed;
@@ -223,6 +197,9 @@ body {
   display: flex;
   justify-content: center;
 }
+#sidebar .side-menu.top ul {
+  padding-left: 0rem;
+}
 /* Sidebar */
 /*#endregion*/
 
@@ -336,14 +313,29 @@ body {
   justify-content: center;
   align-items: center;
 }
+/* Profile View */
+#content main .card-container {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 50%;
+}
 #content nav .profile {
   font-size: 1.5rem;
   display: flex;
-  padding: 1rem 0rem 0rem 0rem;
+  padding: 0rem 0rem 0rem 0rem;
 }
 #content nav .profile :hover {
   color: var(--red);
 }
+#content nav .profile .profile-icon {
+  font-size: 2rem;
+  padding: 0rem 0rem 0rem 0rem;
+}
+/* End of Profile View */
+
 /* NavBar */
 /*#endregion*/
 
@@ -358,6 +350,7 @@ body {
 #content main .head-title {
   display: flex;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-content: space-between;
   grid-gap: 24px;
   margin-top: 36px;
   justify-content: space-between;
@@ -366,6 +359,15 @@ body {
   font-size: 36px;
   font-weight: 600;
   color: var(--dark);
+}
+
+#content main .sorting-container {
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  justify-content: space-between;
+  grid-gap: 24px;
+  margin-top: 36px;
+  justify-content: space-between;
 }
 #content main .box-info {
   display: grid;
@@ -399,10 +401,8 @@ body {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Profile View */
-.card-container {
-  /* background: rgba(255, 255, 255, 0.2); */
-  background: #fff;
+#content main .card-container {
+  background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -410,67 +410,197 @@ body {
   width: 50%;
 }
 
-.profile-info,
-.service-details {
+#content main .profile-info {
   color: var(--dark);
-  padding: inherit;
 }
 
-.profile-info h2,
-.service-details h2 {
+#content main .profile-info h2 {
   font-size: 1.5rem;
-  margin: 0 0 2rem 0;
+  margin: 0rem 0rem 2rem 0rem;
 }
 
-.profile-info p,
-.service-details p {
+#content main .profile-info p {
   font-size: 1rem;
-  margin: 0.5rem 0;
+  margin: 1rem 0rem 1rem 0rem;
 }
 
-span.data-output {
-  color: #a50f07; /* Blue color */
+/* Calendar */
+.weather-calendar-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-gap: 20px;
+}
+
+.calendar-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: var(--lato), sans-serif;
+  text-align: center;
+}
+
+.calendar-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-container .prev-button,
+.calendar-container .next-button {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.calendar-container .prev-button:hover {
+  color: var(--dark-grey);
+}
+
+.calendar-container .next-button:hover {
+  color: var(--dark-grey);
+}
+
+.calendar-container .weekdays {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.calendar-container .weekdays div {
+  width: calc(100% / 7);
+  font-size: 14px;
+}
+
+.calendar-container .days {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.calendar-container .days div {
+  width: calc(100% / 7);
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.calendar-container .days div:hover {
+  background-color: var(--fade-red);
+}
+
+.calendar-container .days .today {
+  background-color: var(--red);
+  color: var(--light);
+  font-weight: 100;
+}
+
+/* End of Calendar */
+
+/* Map */
+.map-container {
+  height: 400px;
+  width: 100%;
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  margin: 2rem 0rem 0rem 0rem;
+}
+
+/* End of Map */
+
+/* Table */
+.table-container {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f3f3f3;
+}
+tr:nth-of-type(even) {
+  background-color: #b8b8b8;
+}
+/* End of Table */
+
+/* Service Request */
+.radio-inputs {
+  position: relative;
+  display: flex;
+  flex-wrap: nowrap;
+  border-radius: 0.5rem;
+  background-color: #eee;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: 24rem;
+  font-size: 14px;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #fff;
   font-weight: 600;
 }
 
-.buttonSmall {
-  display: flex;
-  background-color: var(--red);
-  border: none;
-  color: var(--light);
-  padding: 0.5rem 1rem;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-  margin: 0.5rem 0;
-  cursor: pointer;
-  border-radius: 5px;
-  height: 42px;
-  width: 20%;
-  justify-content: center;
-  align-items: center;
+.critical-high {
+  color: red;
 }
 
-.buttonSmall:hover {
-  background-color: var(--fade-red);
-  color: var(--light);
+.high {
+  color: darkorange;
 }
 
-@media screen and (max-width: 768px) {
-  .buttonSmall {
-    width: 50%;
-  }
+.mid {
+  color: orange;
 }
 
-@media screen and (max-width: 480px) {
-  .buttonSmall {
-    width: 100%;
-  }
+.low {
+  color: green;
 }
 
-/* End of Profile View */
+/* End of Service Request */
 
-/* MAIN */
+/* End of MAIN */
+
+/* End of CONTENT */
+
 /* Footer */
 
 .bottom center {
@@ -553,107 +683,122 @@ span.data-output {
   }
 }
 
-/*#region*/
-/* Service Request Form */
-
-.hide {
-  display: none;
-}
-
-#content form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  height: 100vh;
-  margin: auto;
-  width: 100%;
-}
-
-.form-title h3 {
-  padding: 1rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-.form-title p {
-  color: var(--dark-grey);
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-  width: -webkit-fill-available;
-  background-color: var(--light);
-}
-
-label {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  background-color: transparent;
-}
-
-input[type="text"],
-input[type="date"],
-textarea,
-select {
-  padding: 1rem;
-  border-radius: 5px;
-  background: var(--grey);
-  border: 1px solid var(--light-yellow);
-  width: 100%;
-  font-size: 1rem;
-}
-
-button[type="submit"] {
-  padding: 1rem;
-  border-radius: 5px;
-  color: #fff;
-  border: none;
-  background-color: var(--red);
-  font-size: 1rem;
-  margin-top: 1.5rem;
-  cursor: pointer;
-  width: -webkit-fill-available;
-}
-
-@media only screen and (min-width: 768px) {
-  form {
-    max-width: 768px;
-    margin: auto;
+/* Desktop */
+@media screen and (min-width: 1025px) {
+  #sidebar {
+    width: 250px;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-    width: auto;
+  #sidebar.brand {
+    padding: 1rem 0rem 0rem 1.3rem;
   }
 
-  input[type="text"],
-  input[type="date"],
-  textarea,
-  select {
-    width: 350px;
+  #content {
+    width: calc(100% - 250px);
+    left: 250px;
   }
 
-  button[type="submit"] {
-    display: inline-block;
-    width: calc(50% - 0.5rem);
-    /* subtract margin from width */
-    vertical-align: top;
-    background-color: var(--red) !important;
+  #content nav .nav-link {
+    display: block;
+  }
+  .profile-text {
+    font-size: 1.5rem;
+    padding: 1rem 0rem 0rem 0rem;
+  }
+
+  #content nav .nav-link {
+    font-size: 1.2rem;
   }
 }
 
-button {
-  display: inline-block;
-  width: calc(50% - 0.5rem);
-  /* subtract margin from width */
-  vertical-align: top;
-  background-color: #f02e24 !important;
+/* Tablet Landscape */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  #sidebar {
+    width: 210px;
+  }
+
+  #content {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+
+  .profile-text {
+    font-size: 1rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+    display: block; /* Add this line */
+  }
+
+  .profile-icon {
+    display: none;
+  }
+
+  img,
+  svg {
+    vertical-align: middle;
+    width: 180px;
+    padding: 0rem 0rem 0rem 0.5rem;
+  }
 }
 
-/* Service Request Form */
-/*#endregion*/
+/* Tablet */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  #sidebar {
+    width: 0%;
+  }
+
+  #content {
+    width: 100%;
+    left: 0;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+  .profile-text {
+    font-size: 1rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+    display: block; /* Add this line */
+  }
+
+  .profile-icon {
+    display: none;
+  }
+}
+
+/* Phone Landscape & Smaller */
+@media screen and (max-width: 480px) {
+  #sidebar {
+    width: 0%;
+  }
+
+  #content {
+    width: 100%;
+    left: 0;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+
+  .profile-icon {
+    display: block;
+    font-size: 2rem;
+  }
+
+  .profile-text {
+    font-size: 1rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+    display: none; /* Keep this line here */
+  }
+
+  img,
+  svg {
+    vertical-align: middle;
+    width: 180px;
+    padding: 0rem 0rem 0rem 0.5rem;
+  }
+}

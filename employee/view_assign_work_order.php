@@ -2,6 +2,8 @@
 // [IMPORTANT!] Define database connection parameters once for this file
 include_once('includes/connection.php');
 
+session_start();
+
 $id = $_GET['id'];
 if (!isset($id)) {
     $new_url = 'workOrder_employee.php';
@@ -9,9 +11,14 @@ if (!isset($id)) {
     exit;
 }
 
+$sql = "SELECT a.*, c.assign_tech,c.assign_date
+FROM submit_requests AS a JOIN service_request_status AS b
+JOIN work_order AS c ON b.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+WHERE a.SERVICE_REQUEST_ID = '$id'
+GROUP BY a.SERVICE_REQUEST_ID;";
 
+$result = $conn->query($sql);
 
-session_start();
 ?>
 
 <head>

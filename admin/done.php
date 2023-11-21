@@ -61,32 +61,29 @@ if (isset($_REQUEST['done'])) {
         if ($stmt->execute()) {
             // Query executed successfully, do any additional processing here
 ?>
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Request has been completed!',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = 'workOrder_Admin.php';
-                    } else {
-                        window.location.href = 'workOrder_Admin.php';
-                    }
-                })
+                alert('Request has been completed!');
+                window.location.href = 'workOrder_Admin.php';
             </script>
-<?php
+        <?php
         } else {
-            // Error handling if the execution fails
-            echo "Error: " . $stmt->error;
+        ?>
+            <script>
+                alert('Error: <?php echo $stmt->error; ?>');
+                window.location.href = 'workOrder_Admin.php';
+            </script>
+        <?php
         }
 
         // Close the statement
         $stmt->close();
     } else {
-        // Error handling if the statement preparation fails
-        echo "Error: " . $conn->error;
+        ?>
+        <script>
+            alert('Error: Please try again!');
+            window.location.href = 'workOrder_Admin.php';
+        </script>
+<?php
     }
 }
 ?>

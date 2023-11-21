@@ -169,15 +169,12 @@ if (isset($_POST['submit'])) {
   ?>
 
     <script>
-      Swal.fire({
-        icon: 'success',
-        title: 'Account Created',
-        showConfirmButton: false,
-        timer: 1500,
-      }).then(function() {
-        window.location = "view.php";
-        exit();
-      });
+      var confirmation = confirm("Are you sure you want to create the account?");
+      if (confirmation) {
+        window.alert("Account Created successfully!");
+        // Perform the account update here
+        window.location.href = 'index.php';
+      }
     </script>
 <?php
   } else {
