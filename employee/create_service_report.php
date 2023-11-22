@@ -1,15 +1,22 @@
 <?php
 include_once 'includes/connection.php';
 
-$wo_ID = $_GET['work_order_ID'];
+
+
+$wo_urlID = $_GET['work_order_ID'];
+
+
+
 
 $sql = "SELECT a.*, c.*
 FROM submit_requests a
 INNER JOIN work_order c ON c.work_order_ID = c.work_order_ID
 WHERE c.work_order_ID = ?
 AND a.user_id = a.user_id
-  AND a.service_request_ID = c.SERVICE_REQUEST_ID
+AND a.service_request_ID = c.SERVICE_REQUEST_ID
 GROUP BY a.SERVICE_REQUEST_ID, a.user_id, c.work_order_ID, a.service_request_ID";
+
+
 
 ?>
 
@@ -83,7 +90,7 @@ GROUP BY a.SERVICE_REQUEST_ID, a.user_id, c.work_order_ID, a.service_request_ID"
 
 <body>
 
-    <form action="create_service_report.php" method="post">
+    <form action="" method="post">
 
         <div class="service-report container">
             <span class="icon img-fluid">
@@ -296,11 +303,12 @@ GROUP BY a.SERVICE_REQUEST_ID, a.user_id, c.work_order_ID, a.service_request_ID"
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // This function will be called when the page is fully loaded
-        fillForm('<?php echo $wo_ID; ?>');
+        fillForm('<?php echo $wo_urlID; ?>');
     });
 
-    function fillForm(workOrderNo, projectSite, brand, complaint) {
+    function fillForm(workOrderNo) {
         document.getElementById('work_order_no').value = workOrderNo;
+        document.getElementById('date_of_report').value = $date;
     }
 </script>
 
@@ -311,10 +319,10 @@ GROUP BY a.SERVICE_REQUEST_ID, a.user_id, c.work_order_ID, a.service_request_ID"
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     handleFormSubmission();
 }
-function handleFormSubmission()
 
+function handleFormSubmission()
 {
-    include_once 'includes/connection.php';
+    include 'includes/connection.php';
 
     $work_order_no = $_POST['work_order_no'];
     $date_of_report = date('Y-m-d', strtotime($_POST['date_of_report']));
@@ -339,10 +347,7 @@ function handleFormSubmission()
     $recommendation_parts3 = $_POST['recommendation_parts3'];
     $arrival_time = $_POST['arrival_time'];
     $departure_time = $_POST['departure_time'];
-    if ($conn === false) {
-        echo "Error: Unable to connect to the database.";
-        return;
-    }
+
 
     $sql = "INSERT INTO service_report (
         work_order_ID,
@@ -369,7 +374,6 @@ function handleFormSubmission()
         arrival_time,
         departure_time
         )
-
         VALUES(
         '$work_order_no',
         '$date_of_report',
@@ -393,9 +397,8 @@ function handleFormSubmission()
         '$parts_replaced3',
         '$recommendation_parts3',               
         '$arrival_time',
-        '$departure_time'
-        
-)";
+        '$departure_time')
+        ";
     if (mysqli_query($conn, $sql)) {
 ?>
         <script>
