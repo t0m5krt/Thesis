@@ -67,12 +67,12 @@ include 'includes/header.php';
                                 <tr>
 
                                     <td><?php echo $row['SERVICE_REPORT_ID']; ?></td>
-                                    <td><?php echo $row['work_order_no']; ?></td>
+                                    <td><?php echo $row['work_order_ID']; ?></td>
                                     <td><?php echo $row['date_of_report']; ?></td>
                                     <td><?php echo $row['findings']; ?></td>
                                     <td><?php echo $row['equipment_status']; ?></td>
                                     <td>
-                                        <form action="view_service_report_admin.php?id=<?php echo $row['SERVICE_REPORT_ID']; ?>" method="POST" class="d-inline">
+                                        <form action="view_service_report_employee.php?id=<?php echo $row['SERVICE_REPORT_ID']; ?>" method="POST" class="d-inline">
                                             <input type="hidden" name="id" value='. $row["ID"] .'>
                                             <button type="submit" class="btn btn-danger" name="view" id="view" value="View">View
                                                 <i class="far fa-eye"></i>

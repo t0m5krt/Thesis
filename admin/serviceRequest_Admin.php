@@ -275,27 +275,24 @@ include 'includes/header.php';
         </div>
       </div>
 
-      <div class="sorting-container">
-        <form action="" method="get">
-          <input class="input-search" name="text" placeholder="Search..." type="search">
-        </form>
 
-        <form action="" method="post">
-          <div class="radio-inputs">
-            <label class="radio">
-              <input type="radio" name="sort" value="ByID" onchange="this.form.submit();">
-              <span class="name">Sort By: Default</span>
-            </label>
-            <label class="radio">
-              <input type="radio" name="sort" value="sortValue" onchange="this.form.submit();">
-              <span class="name">Sort By: Priority</span>
-            </label>
-            <label class="radio">
-              <input type="radio" name="sort" value="dateRequest" onchange="this.form.submit();">
-              <span class="name">Sort By: Date</span>
-            </label>
-          </div>
-        </form>
+
+      <form action="" method="post">
+        <div class="radio-inputs">
+          <label class="radio">
+            <input type="radio" name="sort" value="ByID" onchange="this.form.submit();">
+            <span class="name">Sort By: Default</span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="sort" value="sortValue" onchange="this.form.submit();">
+            <span class="name">Sort By: Priority</span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="sort" value="dateRequest" onchange="this.form.submit();">
+            <span class="name">Sort By: Date</span>
+          </label>
+        </div>
+      </form>
       </div>
 
 
