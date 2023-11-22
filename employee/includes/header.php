@@ -16,3 +16,5 @@ if (isset($_GET['logout'])) {
     header('Location:login.php');
     exit();
 }
+
+$sessionID = $_SESSION['REGISTRATION_ID'];
