@@ -68,7 +68,7 @@ include('config/db.php');
                                 <tr>
 
                                     <td><?php echo $row['SERVICE_REPORT_ID']; ?></td>
-                                    <td><?php echo $row['work_order_no']; ?></td>
+                                    <td><?php echo $row['work_order_ID']; ?></td>
                                     <td><?php echo $row['date_of_report']; ?></td>
                                     <td><?php echo $row['findings']; ?></td>
                                     <td><?php echo $row['equipment_status']; ?></td>
