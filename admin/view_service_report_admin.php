@@ -6,18 +6,10 @@ include('config/db.php');
 
 ?>
 
-
-
-
-
 <head>
     <title>Service Report | Repair and Maintence Management System</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-
-
-
+    <link rel="stylesheet" href="styles/style.css">
 
 </head>
 
