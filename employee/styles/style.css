@@ -338,6 +338,29 @@ body {
 /* NavBar */
 /*#endregion*/
 
+/* Profile View */
+#content main .card-container {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  width: 50%;
+}
+#content nav .profile {
+  font-size: 1.5rem;
+  display: flex;
+  padding: 0rem 0rem 0rem 0rem;
+}
+#content nav .profile :hover {
+  color: var(--red);
+}
+#content nav .profile .profile-icon {
+  font-size: 2rem;
+  padding: 0rem 0rem 0rem 0rem;
+}
+/* End of Profile View */
+
 /* MAIN */
 #content main {
   width: 100%;
@@ -781,4 +804,118 @@ footer {
   height: 515px;
   left: -1px;
   top: 0px;
+}
+
+/* Media Queries */
+
+/* Desktop */
+@media screen and (min-width: 1025px) {
+  #sidebar {
+    width: 250px;
+  }
+
+  #sidebar.brand {
+    padding: 1rem 0rem 0rem 1.3rem;
+  }
+
+  #content {
+    width: calc(100% - 250px);
+    left: 250px;
+  }
+
+  #content nav .nav-link {
+    display: block;
+  }
+  .profile-text {
+    font-size: 1.5rem;
+    padding: 1rem 0rem 0rem 0rem;
+  }
+
+  #content nav .nav-link {
+    font-size: 1.2rem;
+  }
+}
+
+/* Tablet Landscape */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  #sidebar {
+    width: 210px;
+  }
+
+  #content {
+    width: calc(100% - 200px);
+    left: 200px;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+  .profile-text {
+    font-size: 1.2rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+  }
+
+  .profile-icon {
+    display: none;
+  }
+
+  img,
+  svg {
+    vertical-align: middle;
+    width: 180px;
+    padding: 0rem 0rem 0rem 0.5rem;
+  }
+}
+
+/* Tablet */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  #sidebar {
+    width: 0%;
+  }
+
+  #content {
+    width: 100%;
+    left: 0;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+  .profile-text {
+    font-size: 1.2rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+  }
+  .profile-icon {
+    display: none;
+  }
+}
+
+/* Phone Landscape & Smaller */
+@media screen and (max-width: 480px) {
+  #sidebar {
+    width: 0%;
+  }
+
+  #content {
+    width: 100%;
+    left: 0;
+  }
+
+  #content nav .nav-link {
+    display: none;
+  }
+  .profile-text {
+    font-size: 1rem;
+    padding: 0.5rem 0rem 0rem 0rem;
+  }
+
+  .profile-text {
+    display: none;
+  }
+  .profile-icon {
+    display: block;
+    font-size: 2rem;
+    border: var(--dark) solid 2px;
+    border-radius: 50%;
+  }
 }
