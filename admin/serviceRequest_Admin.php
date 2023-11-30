@@ -16,6 +16,12 @@ include 'includes/header.php';
   <link rel="stylesheet" href="Styles/style.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <!-- Add these lines in the <head> section of your HTML -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
   <title><?php echo PAGE ?></title>
 
@@ -120,7 +126,7 @@ include 'includes/header.php';
 
     /* Start of Assigned work order CSS */
 
-
+    
     .col-sm-5 {
       float: right;
       width: 50%;
@@ -158,6 +164,7 @@ include 'includes/header.php';
 
     .form-group {
       margin-bottom: 5px;
+      
     }
 
     label {
@@ -249,6 +256,15 @@ include 'includes/header.php';
     input-search:hover {
       outline: 1px solid lightgrey;
     }
+        
+    #assignColumn {
+    display: none;
+  }
+  .modal-dialog{
+    max-width: 750px;
+  }
+
+  
   </style>
 </head>
 
@@ -301,7 +317,19 @@ include 'includes/header.php';
 
       <!-- Start of 1st column -->
 
-      <div class="col-sm-4">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>Equipment No.</th>
+            <th>Priority Level</th>
+            <th>Type of Request</th>
+            <th>Request Date</th>
+            <!-- Add more columns as needed -->
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
         <?php
 
         // Define the mapSortValueToString function
@@ -359,69 +387,65 @@ include 'includes/header.php';
 
         $result = $conn->query($sql);
 
-        if ($result->num_rows > 0) {
-          while ($row = $result->fetch_assoc()) {
-            echo '<div class="card mt-2 mx-2 mb-15">';
-            echo '<div class="card-header">';
-            echo 'Reqeust ID: ' . $row['SERVICE_REQUEST_ID'];
-            echo '</div>';
-            echo '<div class="card-body">';
-            echo '<div class="row">';
-            echo '<div class="col-md-8">';
-            echo '<div class="card-title">Equipment No. : ' . $row['asset_code'] . '</div>';
-
-            // Convert sort_value to priority string
-            $priorityString = mapSortValueToString($row['sort_value']);
-
-            echo '<div class="card-text">Priority Level: ' . $priorityString . '</div>';
-            echo '<p class="card-text">' . $row['type_of_request'] . '</p>';
-            echo '<p class="card-text">Request Date: ' . $row['date_of_request'] . '</p>';
-            echo '</div>';
-            echo '<div class="col-md-4 text-right">';
-            echo '<form action="" method="POST">';
-            echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
-            echo '<button class="btn btn-danger view-bot" 
-        onclick="fillForm('
-              . $row["SERVICE_REQUEST_ID"] . ', \''
-              . $row["requestor"] . '\', \''
-              . $row["date_of_request"] . '\', \''
-              . $row["mobile_or_phone_no"] . '\', \''
-              . $row["address"] . '\', \''
-              . $row["business_unit"] . '\', \''
-              . $row["cust_project_name"] . '\', \''
-              . $row["asset_code"] . '\', \''
-              . $row["model"] . '\', \''
-              . $row["serial_no"] . '\', \''
-              . $row["equip_desc"] . '\', \''
-              . $row["brand"] . '\', \''
-              . $row["service_meter_reading"] . '\', \''
-              . $row["type_of_request"] . '\', \''
-              . $row["additional_option"] . '\', \''
-              . $row["charging"] . '\', \''
-              . $row["unit_problem"] . '\', \''
-              . $row["others"] . '\', \''
-              . $row["unit_operational"] . '\', \''
-              . $row["specific_requirement"] . '\', \''
-              . $row["onsite_contact_person"] . '\', \''
-              . $row["fax_no"] . '\')">
-          VIEW</button>';
-            echo '</form>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
-          }
+        while ($row = $result->fetch_assoc()) {
+          echo '<tr>';
+          echo '<td>' . $row['SERVICE_REQUEST_ID'] . '</td>';
+          echo '<td>' . $row['asset_code'] . '</td>';
+          echo '<td>' . mapSortValueToString($row['sort_value']) . '</td>';
+          echo '<td>' . $row['type_of_request'] . '</td>';
+          echo '<td>' . $row['date_of_request'] . '</td>';
+          // Add more columns as needed
+          echo '<td>';
+          echo '<form action="" method="POST">';
+          echo '<input type="hidden" name="id" value=' . $row["SERVICE_REQUEST_ID"] . '>';
+          echo '<button class="btn btn-danger view-bot" data-toggle="modal" data-target="#assignModal"
+  onclick="fillAssignModal(' . $row["SERVICE_REQUEST_ID"] . ', \''
+            . $row["requestor"] . '\', \''
+            . $row["date_of_request"] . '\', \''
+            . $row["mobile_or_phone_no"] . '\', \''
+            . $row["address"] . '\', \''
+            . $row["business_unit"] . '\', \''
+            . $row["cust_project_name"] . '\', \''
+            . $row["asset_code"] . '\', \''
+            . $row["model"] . '\', \''
+            . $row["serial_no"] . '\', \''
+            . $row["equip_desc"] . '\', \''
+            . $row["brand"] . '\', \''
+            . $row["service_meter_reading"] . '\', \''
+            . $row["type_of_request"] . '\', \''
+            . $row["additional_option"] . '\', \''
+            . $row["charging"] . '\', \''
+            . $row["unit_problem"] . '\', \''
+            . $row["others"] . '\', \''
+            . $row["unit_operational"] . '\', \''
+            . $row["specific_requirement"] . '\', \''
+            . $row["onsite_contact_person"] . '\', \''
+            . $row["fax_no"] . '\')">
+            VIEW
+          </button>';
+          echo '</form>';
+          echo '</td>';
+          echo '</tr>';
         }
-        ?>
-      </div>
+      
+      ?>
+    </tbody>
+  </table>
       <!-- End of 1st column -->
 
 
 
       <!-- Start of assigned column -->
-      <div class="col-sm-5 mt-5 jumbotron">
-        <form action="serviceRequest_Admin.php" method="POST" id="assignForm">
-          <h5 class="text-center" id="formTitle">Assign Work Order Request</h5>
+      <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="assignModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="assignModalLabel">Assign Work Order Request</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
           <div class="form-group">
             <label for="SERVICE_REQUEST_ID">REQUEST ID</label>
             <input type="text" class="form-control" id="SERVICE_REQUEST_ID" name="SERVICE_REQUEST_ID" readonly>
@@ -451,63 +475,63 @@ include 'includes/header.php';
               <label for="cust_project_name">CUST./PROJECT NAME</label>
               <input type="text" class="form-control" id="cust_project_name" name="cust_project_name">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="asset_code">ASSET CODE</label>
               <input type="text" class="form-control" id="asset_code" name="asset_code">
             </div>
-            <div class="form-group col -md-4">
+            <div class="form-group">
               <label for="model">MODEL</label>
               <input type="text" class="form-control" id="model" name="model">
             </div>
-            <div class="form-group col -md-4">
+            <div class="form-group">
               <label for="serial_no">SERIAL NO.</label>
               <input type="text" class="form-control" id="serial_no" name="serial_no">
             </div>
-            <div class="form-group col -md-4">
+            <div class="form-group">
               <label for="equip_desc">EQUIP DESC</label>
               <input type="text" class="form-control" id="equip_desc" name="equip_desc">
             </div>
-            <div class="form-group col -md-8">
+            <div class="form-group col -md-6">
               <label for="brand">BRAND</label>
               <input type="text" class="form-control" id="brand" name="brand">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="service_meter_reading">SERVICE METER READING</label>
               <input type="text" class="form-control" id="service_meter_reading" name="service_meter_reading">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="type_of_request">TYPE OF REQUEST</label>
               <input type="text" class="form-control" id="type_of_request" name="type_of_request">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="additional_option">ADDITONAL OPTION</label>
               <input type="text" class="form-control" id="additional_option" name="additional_option">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="other_service_request">OTHER SERVICE REQUEST</label>
               <input type="text" class="form-control" id="other_service_request" name="other_service_request">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="charging">CHARGING</label>
               <input type="text" class="form-control" id="charging" name="charging">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="unit_problem">UNIT PROBLEM</label>
               <input type="text" class="form-control" id="unit_problem" name="unit_problem">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="others">OTHERS</label>
               <input type="text" class="form-control" id="others" name="others">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="unit_operational">UNIT OPERATIONAL</label>
               <input type="text" class="form-control" id="unit_operational" name="unit_operational">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="specific_requirement">SPECIFIC REQUIREMENT</label>
               <input type="text" class="form-control" id="specific_requirement" name="specific_requirement">
             </div>
-            <div class="form-group col -md-6">
+            <div class="form-group">
               <label for="onsite_contact_person">ONSITE CONTACT PERSON</label>
               <input type="text" class="form-control" id="onsite_contact_person" name="onsite_contact_person">
             </div>
@@ -556,7 +580,7 @@ include 'includes/header.php';
 
 
       <script>
-        function fillForm(requestId, requester, requestDate, contactNumber, Address, business_Unit,
+        function fillAssignModal(requestId, requester, requestDate, contactNumber, Address, business_Unit,
           projectName, asset_Code, requesterModel, serialNumber, equip_Desc, requestBrand,
           service_meter, requestType, additional_Option, requestCharging,
           unit_Problem, Others, unit_Operational, specific_Requirement, onsiteContact, faxNumber) {
@@ -587,6 +611,11 @@ include 'includes/header.php';
           document.getElementById("formTitle").scrollIntoView({
             behavior: 'smooth'
           });
+
+          function responsiveNavbar() {
+    var x = document.getElementById("myNavbar");
+    // Add the logic for responsiveNavbar function as needed
+  }
 
         }
       </script>
