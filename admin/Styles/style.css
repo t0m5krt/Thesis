@@ -500,17 +500,13 @@ body {
 /* End of Calendar */
 
 /* Map */
-.map-container {
-  height: 400px;
-  width: 100%;
+#map-container {
+  margin-top: 1rem;
 }
-
-#map {
-  height: 100%;
-  width: 100%;
-  margin: 2rem 0rem 0rem 0rem;
+#map-container a {
+  background-color: var(--red);
+  margin-top: 2rem;
 }
-
 /* End of Map */
 
 /* Table */

@@ -152,7 +152,6 @@ $conn->close();
 
       <!-- End of Calendar -->
       <div id="map-container">
-
         <a href="adminViewMap.php" class="btn btn-success">View Admin Map</a>
       </div>
     </main>
