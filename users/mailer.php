@@ -28,7 +28,7 @@ try {
     $mail->Port = 587; // Use the SSL port (465 for SMTPS)
 
     // Recipients
-    $mail->setFrom('celsemail@megawidecels-rmms.online ', 'noreply');
+    $mail->setFrom('verify@kissedbynature.online ', 'noreply');
     $mail->addAddress("$email");
 
     // Content
