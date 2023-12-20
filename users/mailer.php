@@ -18,16 +18,13 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.hostinger.com'; // Use your hosting provider's SMTP server
     $mail->SMTPAuth = true;
-    $mail->Username = 'celsmanagement@megawidecels-rmms.online'; // Use your email address
+    $mail->Username = 'celsemail@megawidecels-rmms.online'; // Use your email address
     $mail->Password = '1234.Thesis'; // Use your email password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Use TLS encryption
-    $mail->Port = 587; // Use the TLS port
-
-    // Additional settings
-    $mail->SMTPAutoTLS = false; // D
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use SSL encryption
+    $mail->Port = 465; // Use the SSL port (465 for SMTPS)
 
     // Recipients
-    $mail->setFrom('celsmanagement@megawidecels-rmms.online ', 'noreply');
+    $mail->setFrom('celsemail@megawidecels-rmms.online ', 'noreply');
     $mail->addAddress("$email");
 
     // Content
