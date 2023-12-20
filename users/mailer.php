@@ -20,8 +20,8 @@ try {
     $mail->SMTPAuth = true;
     $mail->Username = 'celsemail@megawidecels-rmms.online'; // Use your email address
     $mail->Password = '1234.Thesis'; // Use your email password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use SSL encryption
-    $mail->Port = 465; // Use the SSL port (465 for SMTPS)
+    $mail->SMTPSecure = 'tls'; // or 'ssl'
+    $mail->Port = 587; // Use the SSL port (465 for SMTPS)
 
     // Recipients
     $mail->setFrom('celsemail@megawidecels-rmms.online ', 'noreply');
