@@ -30,7 +30,7 @@ try {
     // Content
     $mail->isHTML(true);
     $mail->Subject = 'Account Activation';
-    $mail->Body = 'Please click <a href="http://localhost/1Thesis-updated/users/account_activation.php?email=' . $email . '">here</a> to activate your email.';
+    $mail->Body = 'Please click <a href="https://megawidecels-rmms.online/users/account_activation.php?email=' . $email . '">here</a> to activate your email.';
 
     // Avoiding spam complaints
     $mail->AddCustomHeader('List-Unsubscribe: <mailto:unsubscribe@example.com>');
