@@ -13,22 +13,19 @@ $email = $_SESSION["email"];
 $mail = new PHPMailer(true);
 
 try {
+
     // Server settings
     $mail->SMTPDebug = SMTP::DEBUG_OFF; // Disable verbose debug output
     $mail->isSMTP();
-    // $mail->Host = 'smtp.hostinger.com'; // Use your hosting provider's SMTP server
-    // $mail->SMTPAuth = true;
-    // $mail->Username = 'celsemail@megawidecels-rmms.online'; // Use your email address
-    // $mail->Password = '1234.Thesis'; // Use your email password
-    $mail->Host = 'server1.kissedbynature.online'; // Use your hosting provider's SMTP server
+    $mail->Host = 'smtp.hostinger.com'; // Use your hosting provider's SMTP server
     $mail->SMTPAuth = true;
-    $mail->Username = 'verify@kissedbynature.online'; // Use your email address
-    $mail->Password = 'KENKENken0011@'; // Use your email password
-    $mail->SMTPSecure = 'tls'; // or 'ssl'
-    $mail->Port = 587; // Use the SSL port (465 for SMTPS)
+    $mail->Username = 'celsemail@megawidecels-rmms.online'; // Use your email address
+    $mail->Password = '1234.Thesis'; // Use your email password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use SSL encryption
+    $mail->Port = 465; // Use the SSL port (465 for SMTPS)
 
     // Recipients
-    $mail->setFrom('verify@kissedbynature.online ', 'noreply');
+    $mail->setFrom('celsemail@megawidecels-rmms.online', 'noreply');
     $mail->addAddress("$email");
 
     // Content
