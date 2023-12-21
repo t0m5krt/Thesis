@@ -1,4 +1,44 @@
+<?php
+session_start();
+
+
+$activation_token = bin2hex(random_bytes(16));
+
+$activation_token_hash = hash("sha256", $activation_token);
+
+$mysqli = include 'includes/connection.php';
+
+// $stmt = $mysqli->stmt_init();
+// $sql = "SELECT * FROM user_accounts
+//         WHERE account_activation_hash = ?";
+// if (!$stmt->prepare($sql)) {
+
+//     die("SQL error: " . $mysqli->error);
+// }
+
+// $stmt->bind_param(
+//     "ssss",
+//     $_POST["firstname"],
+//     $_POST["lastname"],
+//     $_POST["email"],
+//     $hashed_password,
+//     $activation_token_hash
+// );
+
+// if ($stmt->execute()) {
+
+//     $mail = require __DIR__ . "/mailer.php";
+
+//     if ($mysqli->errno === 1062) {
+//         die("email already taken");
+//     } else {
+//         die($mysqli->error . " " . $mysqli->errno);
+//     }
+// }
+
+?>
 <!DOCTYPE html>
+
 <html lang="en" dir="ltr">
 
 <head>
@@ -160,8 +200,8 @@ if (isset($_POST['submit'])) {
     $hashed_password = password_hash($pass_word, PASSWORD_DEFAULT);
 
     // Insert data into the database
-    $sql = "INSERT INTO user_accounts (firstname, lastname, companyname, projectname, email, contactnumber, password) 
-        VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$email', '$contactnumber', '$hashed_password')";
+    $sql = "INSERT INTO user_accounts (firstname, lastname, companyname, projectname, email, contactnumber, password, account_activation_hash) 
+        VALUES ('$firstname', '$lastname', '$companyname', '$projectname', '$email', '$contactnumber', '$hashed_password','$activation_token_hash')";
     if (mysqli_query($conn, $sql)) {
     ?>
         <script>
@@ -176,6 +216,14 @@ if (isset($_POST['submit'])) {
             })
         </script>
 <?php
+        $_SESSION["email"] = $email;
+        $mail = require __DIR__ . "/mailer.php";
+
+        // if ($mysqli->errno === 1062) {
+        //     die("email already taken");
+        // } else {
+        //     die($mysqli->error . " " . $mysqli->errno);
+        // }
     } else {
         echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }

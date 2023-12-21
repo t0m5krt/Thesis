@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+
+require 'includes/connection.php';
+?>
 
 <head>
   <meta charset="UTF-8">
@@ -10,6 +12,61 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="icon" type="image/x-icon" href="users/img/favicon.png">
 </head>
+<?php
+require 'includes/connection.php';
+$is_invalid = false;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
+  $email = $_POST["email"];
+  $sql = "SELECT * FROM user_accounts WHERE email = '$email'";
+  $result = $conn->query($sql);
+
+  if ($result) {
+    // Fetch user data
+    $user = $result->fetch_assoc();
+    $string = 'user';
+    // Check if user was found and account is activated
+    // $hashed_password1 = ;
+    if (!isset($user["account_activation_hash"])) {
+    }
+    //
+    else if ($user && strlen($user["account_activation_hash"]) === 0) {
+      // Verify the password
+      $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+      if (password_verify($_POST['password'], $user["password"])) {
+        // if (password_verify($_POST["$hashedPassword"], $user["password"])) {
+        // Password is correct
+        // Start a new session
+        session_start();
+        // Regenerate session ID to enhance security
+        session_regenerate_id();
+
+        // Store user ID in the session
+        $_SESSION["user_ID"] = $user["id"];
+
+        // Redirect to the dashboard
+        header("Location: dashboard.php");
+        exit;
+      } else {
+        // Password is incorrect
+        echo "Incorrect password";
+      }
+    } else {
+      // Account activation hash is not empty or user not found
+      echo "Account not activated or user not found";
+      return;
+    }
+  } else {
+    // SQL query failed
+    echo "Database error: " . $conn->error;
+  }
+
+  $is_invalid = true;
+}
+
+?>
 
 <body>
   <div class="center">
@@ -84,6 +141,7 @@ if (isset($_POST['submit'])) {
 
       // Redirect to the dashboard
 ?>
+
       <script>
         Swal.fire({
           icon: 'success',
@@ -115,7 +173,6 @@ if (isset($_POST['submit'])) {
     <?php
     }
     ?>
-
     <?php
   } else {
     $username = mysqli_real_escape_string($conn, $_POST['email']);
