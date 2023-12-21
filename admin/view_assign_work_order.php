@@ -251,10 +251,34 @@ session_start();
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Assigned Technician</td>
+                                        <td>Assigned Lead</td>
                                         <td>
                                             <?php if (isset($row['assign_tech'])) {
                                                 echo $row['assign_tech'];
+                                            } ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Assigned Mechanics</td>
+                                        <td>
+                                            <?php if (isset($row['assigned_mechanics'])) {
+                                                echo $row['assigned_mechanics'];
+                                            } ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Assigned Electrician</td>
+                                        <td>
+                                            <?php if (isset($row['assigned_electricians'])) {
+                                                echo $row['assigned_electricians'];
+                                            } ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Assigned Driver</td>
+                                        <td>
+                                            <?php if (isset($row['assigned_driver'])) {
+                                                echo $row['assigned_driver'];
                                             } ?>
                                         </td>
                                     </tr>

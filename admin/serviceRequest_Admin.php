@@ -622,10 +622,13 @@ include 'includes/header.php';
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-center" id="assignModalLabel">Assign Work Order Request</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+              <form action="" method="post">
+
+
+                <h5 class="modal-title text-center" id="assignModalLabel">Assign Work Order Request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
               <div class="form-group">
@@ -717,11 +720,11 @@ include 'includes/header.php';
                   <label for="onsite_contact_person">ONSITE CONTACT PERSON</label>
                   <input type="text" class="form-control" id="onsite_contact_person" name="onsite_contact_person">
                 </div>
-                <div class="form-group col -md-6">
+                <div class="form-group col-md-6">
                   <label for="fax_no">CONTACT NO.</label>
                   <input type="text" class="form-control" id="fax_no" name="fax_no">
                 </div>
-                <div class="form-group col -md-6">
+                <div class="form-group col-md-6">
                   <label for="assign_tech">ASSIGN TO</label>
                   <select class="form-control" id="assign_tech" name="assign_tech">
                     <?php
@@ -746,62 +749,149 @@ include 'includes/header.php';
                   </select>
                 </div>
 
+                <div class="form-group">
+                  <label for="assign_team">Team</label>
+                  <!-- Mechanic FieldSet -->
+                  <fieldset>
+                    <legend>Mechanics:</legend>
+                    <select name="mechanic" id="mechanic">
+                      <option value="" disabled>-- Select Mechanic --</option>
+                      <?php
+                      // Retrieve mechanics data from the database
+                      $query = "SELECT * FROM employee_lists WHERE Employee_Position = 'Diesel Mechanic' AND Employee_Status != 'Not Available';";
+                      $result = $conn->query($query);
+
+                      if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                          $mechanicId = $row['Employee_ID'];
+                          $mechanicName = $row['Employee_Name'];
+
+                          // Check if the mechanic is selected
+                          $selected = '';
+                          if (isset($_POST['mechanic']) && $_POST['mechanic'] == $mechanicName) {
+                            $selected = 'selected';
+                          }
+
+                          echo "<option value='$mechanicName' $selected>$mechanicName (Mechanic)</option>";
+                        }
+                      }
+                      ?>
+                    </select>
+                  </fieldset>
+
+
+                  <!-- Electrician FieldSet -->
+                  <fieldset>
+                    <legend>Electricians:</legend>
+                    <select name="electrician" id="electrician">
+                      <option value="" disabled>-- Select Electrician --</option>
+                      <?php
+                      // Retrieve electrician data from the database
+                      $query = "SELECT *FROM employee_lists WHERE Employee_Position IN ('AUTO ELECTRICIAN', 'INDUSTRIAL ELECTRICIAN') AND Employee_Status != 'Not Available';";
+                      $result = $conn->query($query);
+
+                      if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                          $electricianId = $row['Employee_ID'];
+                          $electricianName = $row['Employee_Name'];
+
+                          // Check if the electrician is selected
+                          $selected = '';
+                          if (isset($_POST['electrician']) && $_POST['electrician'] == $electricianName) {
+                            $selected = 'selected';
+                          }
+
+                          echo "<option value='$electricianName' $selected>$electricianName (Electrician)</option>";
+                        }
+                      }
+                      ?>
+                    </select>
+                  </fieldset>
+
+
+                  <!-- Driver FieldSet -->
+                  <fieldset>
+                    <legend>Driver:</legend>
+                    <select id="driver" name="driver">
+                      <option value="" disabled>-- Select Driver --</option>
+                      <?php
+                      // Retrieve driver data from the database
+                      $query = "SELECT * FROM employee_lists WHERE Employee_Position = '6 WHEELER / 4 WHEELER TRUCK DRIVER' AND Employee_Status != 'Not Available';";
+                      $result = $conn->query($query);
+
+                      if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                          $driverId = $row['Employee_ID'];
+                          $driverName = $row['Employee_Name'];
+
+                          // Check if the driver is selected
+                          $selected = '';
+                          if (isset($_POST['driver']) && $_POST['driver'] == $driverName) {
+                            $selected = 'selected';
+                          }
+
+                          echo "<option value='$driverName' $selected>$driverName (Driver)</option>";
+                        }
+                      }
+                      ?>
+                    </select>
+                  </fieldset>
+                </div>
+
                 <div class="form-group col-md-6">
                   <label for="assignDate">ASSIGN DATE</label>
                   <input type="date" class="form-control" id="assignDate" name="assignDate" min="<?php echo date('Y-m-d'); ?>">
                 </div>
+                <div class="float-left">
+                  <button type="submit" class="btn btn-success" id="assignBtn" name="assign">Assign</button>
+                </div>
+                </form>
               </div>
 
-              <div class="float-left">
-                <button type="submit" class="btn btn-success" id="assignBtn" name="assign">Assign</button>
-              </div>
-              </form>
-            </div>
+
+              <!-- End Assigned Work column -->
 
 
-            <!-- End Assigned Work column -->
+              <script>
+                function fillAssignModal(requestId, requester, requestDate, contactNumber, Address, business_Unit,
+                  projectName, asset_Code, requesterModel, serialNumber, equip_Desc, requestBrand,
+                  service_meter, requestType, additional_Option, requestCharging,
+                  unit_Problem, Others, unit_Operational, specific_Requirement, onsiteContact, faxNumber) {
+                  event.preventDefault(); // Prevent default form submission
+                  document.getElementById('SERVICE_REQUEST_ID').value = requestId;
+                  document.getElementById('requestor').value = requester;
+                  document.getElementById('date_of_request').value = requestDate;
+                  document.getElementById('mobile_or_phone_no').value = contactNumber;
+                  document.getElementById('address').value = Address;
+                  document.getElementById('business_unit').value = business_Unit;
+                  document.getElementById('cust_project_name').value = projectName;
+                  document.getElementById('asset_code').value = asset_Code;
+                  document.getElementById('model').value = requesterModel;
+                  document.getElementById('serial_no').value = serialNumber;
+                  document.getElementById('equip_desc').value = equip_Desc;
+                  document.getElementById('brand').value = requestBrand;
+                  document.getElementById('service_meter_reading').value = service_meter;
+                  document.getElementById('type_of_request').value = requestType;
+                  document.getElementById('additional_option').value = additional_Option;
+                  document.getElementById('charging').value = requestCharging;
+                  document.getElementById('unit_problem').value = unit_Problem;
+                  document.getElementById('others').value = Others;
+                  document.getElementById('unit_operational').value = unit_Operational;
+                  document.getElementById('specific_requirement').value = specific_Requirement;
+                  document.getElementById('onsite_contact_person').value = onsiteContact;
+                  document.getElementById('fax_no').value = faxNumber;
 
+                  document.getElementById("formTitle").scrollIntoView({
+                    behavior: 'smooth'
+                  });
 
-            <script>
-              function fillAssignModal(requestId, requester, requestDate, contactNumber, Address, business_Unit,
-                projectName, asset_Code, requesterModel, serialNumber, equip_Desc, requestBrand,
-                service_meter, requestType, additional_Option, requestCharging,
-                unit_Problem, Others, unit_Operational, specific_Requirement, onsiteContact, faxNumber) {
-                event.preventDefault(); // Prevent default form submission
-                document.getElementById('SERVICE_REQUEST_ID').value = requestId;
-                document.getElementById('requestor').value = requester;
-                document.getElementById('date_of_request').value = requestDate;
-                document.getElementById('mobile_or_phone_no').value = contactNumber;
-                document.getElementById('address').value = Address;
-                document.getElementById('business_unit').value = business_Unit;
-                document.getElementById('cust_project_name').value = projectName;
-                document.getElementById('asset_code').value = asset_Code;
-                document.getElementById('model').value = requesterModel;
-                document.getElementById('serial_no').value = serialNumber;
-                document.getElementById('equip_desc').value = equip_Desc;
-                document.getElementById('brand').value = requestBrand;
-                document.getElementById('service_meter_reading').value = service_meter;
-                document.getElementById('type_of_request').value = requestType;
-                document.getElementById('additional_option').value = additional_Option;
-                document.getElementById('charging').value = requestCharging;
-                document.getElementById('unit_problem').value = unit_Problem;
-                document.getElementById('others').value = Others;
-                document.getElementById('unit_operational').value = unit_Operational;
-                document.getElementById('specific_requirement').value = specific_Requirement;
-                document.getElementById('onsite_contact_person').value = onsiteContact;
-                document.getElementById('fax_no').value = faxNumber;
+                  function responsiveNavbar() {
+                    var x = document.getElementById("myNavbar");
+                    // Add the logic for responsiveNavbar function as needed
+                  }
 
-                document.getElementById("formTitle").scrollIntoView({
-                  behavior: 'smooth'
-                });
-
-                function responsiveNavbar() {
-                  var x = document.getElementById("myNavbar");
-                  // Add the logic for responsiveNavbar function as needed
                 }
-
-              }
-            </script>
+              </script>
 
 
     </main>
@@ -840,28 +930,50 @@ include 'includes/header.php';
         cancelButtonText: "No"
       }).then((result) => {
         if (result.isConfirmed) {
-          var form = document.getElementById("assignForm");
-          var inputs = form.getElementsByTagName("input");
-          var empty = false;
-          var missingFields = [];
+          // Get the form data
+          var formData = new FormData(document.getElementById("assignForm"));
 
-          for (var i = 0; i < inputs.length; i++) {
-            // Exclude specific fields from the check
-            if (inputs[i].value === "" && inputs[i].id !== "additional_option" && inputs[i].id !== "other_service_request") {
-              empty = true;
-              missingFields.push(inputs[i].id);
-            }
-          }
+          // Append additional parameters as needed
+          formData.append("assign", true);
 
-          if (empty) {
-            Swal.fire({
-              title: "Missing Fields",
-              text: "Please fill in all the required fields: " + missingFields.join(", "),
-              icon: "warning"
+          // Perform asynchronous request to your server
+          fetch('serviceRequest_Admin.php', {
+              method: 'POST',
+              body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                var techInfo = data.techInfo;
+
+                // Access technician information if needed
+                var firstname = techInfo.firstname;
+                var lastname = techInfo.lastname;
+
+                Swal.fire({
+                  title: "Assigning Successful",
+                  text: `Technician: ${firstname} ${lastname}`,
+                  icon: "success"
+                }).then(() => {
+                  // Redirect or perform additional actions as needed
+                  window.location = "workOrder_Admin.php";
+                });
+              } else {
+                Swal.fire({
+                  title: "Assigning Failed",
+                  text: data.message || "An error occurred while assigning.",
+                  icon: "error"
+                });
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              Swal.fire({
+                title: "Error",
+                text: "An error occurred while processing your request.",
+                icon: "error"
+              });
             });
-          } else {
-            form.submit();
-          }
         }
       });
     };
@@ -926,18 +1038,52 @@ include 'includes/header.php';
 
 </html>
 
-
 <!-- Test Query -->
-
 <?php
 include 'includes/connection.php';
+
+
+
 if (isset($_REQUEST['assign'])) {
+  if (isset($_POST['electrician']) && !empty($_POST['electrician'])) {
+    $electricianName = $_POST['electrician'];
+  } else {
+    echo "Please select an electrician";
+  }
+  if (isset($_POST['mechanic']) && !empty($_POST['mechanic'])) {
+    $mechanicName = $_POST['mechanic'];
+  } else {
+    echo "Please select an electrician";
+  }
+  if (isset($_POST['driver']) && !empty($_POST['driver'])) {
+    $driverName = $_POST['driver'];
+  } else {
+    echo "Please select an electrician";
+  }
+  if (isset($_POST['assignDate']) && !empty($_POST['assignDate'])) {
+    $assignDate = $_POST['assignDate'];
+  } else {
+    echo "Please select an electrician";
+  }
+  if (isset($_POST['assign_tech']) && !empty($_POST['assign_tech'])) {
+    $assign_tech_id = $_POST['assign_tech'];
+  } else {
+    echo "Please select an electrician";
+  }
+
+
+
 
   $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
   $requestor = $_POST['requestor'];
   $date_of_request = $_POST['date_of_request'];
   $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
-  $assign_tech_id = $_POST['assign_tech']; // Assuming assign_tech is the registration ID
+  // $assign_date = $_POST['assign_date'];
+  // $assign_tech_id = $_POST['assign_tech']; // Assuming assign_tech is the registration ID
+  // Retrieve selected mechanics, electricians, and driver
+  // $assignedMechanics = isset($_POST['mechanic']) ? implode(', ', $_POST['mechanic']) : '';
+  // $assignedElectricians = isset($_POST['electrician']) ? implode(', ', $_POST['electrician']) : '';
+  // $assignedDriver = isset($_POST['driver']) ? $_POST['driver'] : '';
 
   // Retrieve the firstname and lastname of the assigned technician
   $queryTechInfo = "SELECT firstname, lastname FROM office_accounts WHERE REGISTRATION_ID = '$assign_tech_id'";
@@ -948,8 +1094,8 @@ if (isset($_REQUEST['assign'])) {
     $assign_tech_name = $rowTechInfo['firstname'] . ' ' . $rowTechInfo['lastname'];
 
     // Insert into the work_order table
-    $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no, assign_tech, assign_date)
-            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech_name', '$assign_date')";
+    $sqlAssignTech = "UPDATE work_order SET assign_tech = '$assign_tech_name', assign_date = '$assignDate', assigned_mechanics = '$mechanicName', assigned_electricians = '$electricianName', assigned_driver = '$driverName' WHERE requestor = '$requestor'";
+    $resultSqlAssignTech = $conn->query($sqlAssignTech);
 
     // Update service_request_status
     $sqlServiceRequest = "UPDATE submit_requests, service_request_status 
@@ -961,11 +1107,34 @@ if (isset($_REQUEST['assign'])) {
     $sqlUpdateAvailability = "UPDATE office_accounts 
                               SET availability = 'Not Available' 
                               WHERE REGISTRATION_ID = '$assign_tech_id'";
+    $conn->query($sqlUpdateAvailability);
+
+    $sqlUpdateMechanicAvailability = "UPDATE employee_lists 
+                                        SET Employee_Status = 'Not Available' 
+                                        WHERE Employee_Name = '$mechanicName'";
+    $conn->query($sqlUpdateMechanicAvailability);
+
+    $sqlUpdateElectricianAvailability = "UPDATE employee_lists 
+                                          SET Employee_Status = 'Not Available' 
+                                          WHERE Employee_Name = '$electricianName'";
+    $conn->query($sqlUpdateElectricianAvailability);
+
+
+    // Update availability for assigned driver
+    $sqlUpdateDriverAvailability = "UPDATE employee_lists 
+                                    SET Employee_Status = 'Not Available' 
+                                    WHERE Employee_Name = '$driverName'";
+    $conn->query($sqlUpdateDriverAvailability);
+
+    // Insert a default value into live_location_tb
+    $sqlInsertLiveLocation = "INSERT INTO live_location_tb (SERVICE_REQUEST_ID, longitude, latitude, timestamp_column)
+                              VALUES ('$SERVICE_REQUEST_ID', 0, 0, '1970-01-01 00:00:00')";
 
     if (
-      $conn->query($sql) === TRUE &&
+      $conn->query($sqlAssignTech) === TRUE &&
       $conn->query($sqlServiceRequest) === TRUE &&
-      $conn->query($sqlUpdateAvailability) === TRUE
+      $conn->query($sqlUpdateAvailability) === TRUE &&
+      $conn->query($sqlInsertLiveLocation) === TRUE
     ) {
       // Your success handling code here
 ?>
@@ -985,53 +1154,10 @@ if (isset($_REQUEST['assign'])) {
         exit();
       </script>
 
-    <?php
-
-    }
-  } else {
-    // Handle the case where the technician information couldn't be retrieved
-
-    // Insert into the work_order table
-    $sql = "INSERT INTO work_order (SERVICE_REQUEST_ID, requestor, date_of_request, mobile_or_phone_no, assign_tech, assign_date)
-            VALUES ('$SERVICE_REQUEST_ID', '$requestor', '$date_of_request', '$mobile_or_phone_no', '$assign_tech_id', '$assign_date')";
-    // Update service_request_status
-    $sqlServiceRequest = "UPDATE submit_requests, service_request_status 
-                        SET submit_requests.isDelete = 1, service_request_status.STATUS_VALUE = 'In Progress' 
-                        WHERE submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'
-                        AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
-    if ($conn->query($sql) === TRUE && $conn->query($sqlServiceRequest) === TRUE) {
-      // Your success handling code here
-    ?>
-      <script>
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'Assigning Successful',
-          showConfirmButton: true,
-        }).then(function() {
-          window.location = "workOrder_Admin.php";
-          exit();
-        });
-      </script>
-    <?php
-
-    } else {
-      // Handle the case where the queries failed
-    ?>
-      <script>
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Assigning Failed',
-          showConfirmButton: true,
-        }).then(function() {
-          window.location = "serviceRequest_Admin.php";
-          exit();
-        });
-      </script>
 <?php
 
     }
+  } else {
   }
 }
 ?>

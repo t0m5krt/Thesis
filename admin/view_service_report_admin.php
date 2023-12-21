@@ -47,7 +47,7 @@ include('config/db.php');
                             </tr>
                         </thead>
                         <tbody>
-                            <td><?php echo $row['work_order_no']; ?></td>
+                            <td><?php echo $row['work_order_ID']; ?></td>
                             <td><?php echo $row['date_of_report']; ?></td>
                             <td><?php echo $row['project_site']; ?></td>
                             </tr>
@@ -122,7 +122,7 @@ include('config/db.php');
                     <h2>Job Repair Status</h2>
 
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" disabled name="repair_status" value="complete" id="complete" <?php echo ($row['equipment_status'] == 'complete') ? 'checked' : ''; ?>>
+                        <input class="form-check-input" type="radio" readonly name="repair_status" value="complete" id="complete" <?php echo ($row['equipment_status'] == 'complete') ? 'checked' : ''; ?>>
                         <label class="form-check-label" for="complete">
                             Complete
                         </label>

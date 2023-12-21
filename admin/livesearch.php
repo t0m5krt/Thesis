@@ -31,7 +31,13 @@ if (isset($_POST['input']) && isset($_POST['sortarray'])) {
         $query = "SELECT DISTINCT a.*
         FROM `submit_requests` AS a
         JOIN service_request_status AS b
-        WHERE a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND a.isDelete = 0 AND (a.SERVICE_REQUEST_ID LIKE '%{$input}%')
+        WHERE 
+            a.SERVICE_REQUEST_ID IN (SELECT SERVICE_REQUEST_ID FROM service_request_status) AND
+            a.isDelete = 0 AND 
+            (
+                a.SERVICE_REQUEST_ID LIKE '%{$input}%' OR
+                a.requestor LIKE '%{$input}%'
+            )
         ;";
     }
 
@@ -90,7 +96,7 @@ if (isset($_POST['input']) && isset($_POST['sortarray'])) {
             <thead>
                 <tr>
                     <th>RequestID</th>
-                    <th>Equipment No.</th>
+                    <th>Requestor</th>
                     <th>Priority Level</th>
                     <th>Type of Request</th>
                     <th>Request Date</th>
@@ -170,7 +176,7 @@ if (isset($_POST['input']) && isset($_POST['sortarray'])) {
 
                 echo '<tr>';
                 echo '<td>' . $row['SERVICE_REQUEST_ID'] . '</td>';
-                echo '<td>' . $row['asset_code'] . '</td>';
+                echo '<td>' . $row['requestor'] . '</td>';
                 echo '<td>' . mapSortValueToString($row['sort_value']) . '</td>';
                 echo '<td>' . $row['type_of_request'] . '</td>';
                 echo '<td>' . $row['date_of_request'] . '</td>';
