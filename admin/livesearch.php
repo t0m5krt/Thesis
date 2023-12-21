@@ -203,11 +203,16 @@ if (isset($_POST['input']) && isset($_POST['sortarray'])) {
                     . $row["fax_no"] . '\')">
                         VIEW
                         </button>';
+                        echo '
+                        <button class="btn">
+                            <a href="quotation.php?SERVICE_REQUEST_ID='. $row["SERVICE_REQUEST_ID"] .'">Quotation</a>
+                        </button>';
                 echo '</form>';
                 echo '</td>';
                 echo '</tr>';
             }
         }
+        
 
             ?>
             </tr>
