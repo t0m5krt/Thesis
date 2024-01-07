@@ -51,12 +51,30 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit;
       } else {
         // Password is incorrect
-        echo "Incorrect password";
+        echo "<div class='alert alert-danger'>
+                <strong>Sorry!</strong> Wrong password, Please try again.
+              </div>
+      
+              <script>
+                setTimeout(function(){
+                  window.location.href = 'login.php';
+                }, 3000);
+              </script>
+        ";
       }
     } else {
       // Account activation hash is not empty or user not found
-      echo "Account not activated or user not found";
-      return;
+      echo "<div class='alert alert-danger'>
+              <strong>Oops!</strong> Account not activated or user not found.
+            </div>
+            
+            <script>
+              setTimeout(function(){
+                window.location.href = 'login.php';
+              }, 3000);
+              </script>
+              ";
+      exit;
     }
   } else {
     // SQL query failed
