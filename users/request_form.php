@@ -9,6 +9,7 @@ if (!isset($_SESSION['email'])) {
   exit();
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -20,6 +21,31 @@ if (!isset($_SESSION['email'])) {
   <title>Service Request Form</title>
   <link rel="stylesheet" href="styles/service-request-design.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <script>
+  function redirectToAdditionalForm() {
+    window.location = "additional_form.php";
+  }
+  function addBrandRow() {
+    var selectElement = document.getElementById("brand");
+    var clone = selectElement.cloneNode(true);
+    selectElement.parentNode.appendChild(clone);
+}
+function removeBrandRow(button) {
+    var selectElement = button.parentNode.querySelector("select");
+    selectElement.parentNode.removeChild(selectElement);
+}
+
+function addUnitProblemRow() {
+    var selectElement = document.getElementById("unit_problem");
+    var clone = selectElement.cloneNode(true);
+    selectElement.parentNode.appendChild(clone);
+}
+function removeUnitProblemRow(button) {
+    var selectElement = button.parentNode.querySelector("select");
+    selectElement.parentNode.removeChild(selectElement);
+}
+
+</script>
 </head>
 
 <body>
@@ -27,7 +53,6 @@ if (!isset($_SESSION['email'])) {
   <div class="loader">
     <div class="custom-loader"></div>
   </div>
-  <form action="request_form.php" method="post">
     <div class="form-title">
       <h3>Service Request Form</h3>
       <p>Enter your concern details to a service request</p>
@@ -69,22 +94,12 @@ if (!isset($_SESSION['email'])) {
       <label for="cust_project_name">CUST./PROJECT NAME</label>
       <input type="text" id="cust_project_name" name="cust_project_name" required />
     </div>
-    <div class="form-group">
-      <label for="asset_code">ASSET CODE</label>
-      <input type="text" id="asset_code" name="asset_code" maxlength="20" />
-    </div>
+   
     <div class="form-group">
       <label for="model">MODEL</label>
       <input type="text" id="model" name="model" required />
     </div>
-    <div class="form-group">
-      <label for="serial_no">SERIAL NO.</label>
-      <input type="text" id="serial_no" name="serial_no" maxlength="50" required />
-    </div>
-    <div class="form-group">
-      <label for="equip_desc">EQUIPMENT DESCRIPTION</label>
-      <input type="text" id="equip_desc" name="equip_desc" required />
-    </div>
+   
     <div class="form-group">
       <label for="brand">BRAND</label>
       <select id="brand" name="brand" required>
@@ -101,10 +116,10 @@ if (!isset($_SESSION['email'])) {
         <option value="SANY">SANY</option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="name">SERVICE METER READING</label>
-      <input type="text" id="service_meter_reading" name="service_meter_reading" required />
-    </div>
+    
+    <button type="button" onclick="addBrandRow()">Add Brand</button>
+    <button type="button" class="remove-btn" onclick="removeBrandRow(this)">Remove</button>
+  
     <div class="form-group">
       <label for="type_of_request">TYPE OF REQUEST</label>
       <select id="type_of_request" name="type_of_request" required>
@@ -131,15 +146,7 @@ if (!isset($_SESSION['email'])) {
         <input type="text" id="other_service_request," name="other_service_request," placeholder="Specify Here:" />
       </div>
 
-      <div class="form-group">
-        <label for="charging">CHARGING </label>
-        <select id="charging" name="charging" required>
-          <option value="" disabled selected>Select option</option>
-          <option value="Lease">Lease (Buyback)</option>
-          <option value="Rental">Rental</option>
-          <option value="Warranty">Warranty</option>
-        </select>
-      </div>
+    
     </div>
 
     <br />
@@ -161,10 +168,9 @@ if (!isset($_SESSION['email'])) {
         <option value="Others">Others</option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="others">OTHERS P/N</label>
-      <input type="text" id="others" name="others" />
-    </div>
+    <button type="button" onclick="addUnitProblemRow()">Add Unit Problem</button>
+    <button type="button" class="remove-btn" onclick="removeBrandRow(this)">Remove</button>
+   
     <div class="form-group">
       <label for="unit_operational">UNIT OPERATIONAL</label>
       <select id="unit_operational" name="unit_operational" required>
@@ -173,18 +179,8 @@ if (!isset($_SESSION['email'])) {
         <option value="No">No</option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="specific_requirement">SPECIFIC REQUIREMENT</label>
-      <input type="text" id="specific_requirement" name="specific_requirement" />
-    </div>
-    <div class="form-group">
-      <label for="onsite_contact_person">ONSITE CONTACT PERSON</label>
-      <input type="text" id="onsite_contact_person" name="onsite_contact_person" />
-    </div>
-    <div class="form-group">
-      <label for="fax_no">FAX NO.</label>
-      <input type="text" id="fax_no" name="fax_no" />
-    </div>
+   
+  
     <button type="submit">Submit</button>
   </form>
 
@@ -251,6 +247,7 @@ if (!isset($_SESSION['email'])) {
 
 </html>
 <?php
+
 
 function handleFormSubmission()
 {
@@ -411,7 +408,11 @@ VALUES (
       window.location = "dashboard.php";
       exit();
     });
+
+    
   </script>
+  
+
 <?php
 }
 
