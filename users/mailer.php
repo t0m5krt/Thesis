@@ -2,10 +2,11 @@
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
+date_default_timezone_set('Etc/UTC');
 require "vendor/autoload.php";
 
 $email = $_SESSION["email"];
@@ -21,8 +22,8 @@ try {
     $mail->SMTPAuth = true;
     $mail->Username = 'celsemail@megawidecels-rmms.online'; // Use your email address
     $mail->Password = '1234.Thesis'; // Use your email password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use SSL encryption
-    $mail->Port = 465; // Use the SSL port (465 for SMTPS)
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587; // Use the SSL port (465 for SMTPS)
 
     // Recipients
     $mail->setFrom('celsemail@megawidecels-rmms.online', 'noreply');
@@ -35,7 +36,9 @@ try {
 
     // Avoiding spam complaints
     $mail->AddCustomHeader('List-Unsubscribe: <mailto:unsubscribe@example.com>');
-
+    if (mail($to, $subject, $message, $headers, $additional_params)) {
+        echo 'Message has been sent';
+    }
     $mail->send();
     echo 'Message has been sent';
 } catch (Exception $e) {
