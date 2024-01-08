@@ -53,6 +53,7 @@ function removeUnitProblemRow(button) {
   <div class="loader">
     <div class="custom-loader"></div>
   </div>
+  <form action="request_form.php" method="post">
     <div class="form-title">
       <h3>Service Request Form</h3>
       <p>Enter your concern details to a service request</p>
@@ -271,6 +272,7 @@ function handleFormSubmission()
   $type_of_request = $_POST['type_of_request'];
   $additional_option = "";
   $other_service_request = "";
+  
 
   // Check if additional_option should be set
   if ($type_of_request === 'Service Request') {
