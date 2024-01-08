@@ -207,8 +207,8 @@ if (isset($_POST['submit'])) {
         <script>
             Swal.fire({
                 icon: 'success',
-                title: 'Your Account Has Been Created',
-                text: 'Please Login to Continue',
+                title: 'Your account is pending for activation',
+                text: 'Please check your email to activate your account',
                 showConfirmButton: true,
             }).then(function() {
                 window.location = "login.php";

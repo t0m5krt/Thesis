@@ -60,10 +60,11 @@ session_start();
                 <?php
 
                 $sql = "SELECT a.*, c.*
-                    FROM submit_requests AS a JOIN service_request_status AS b
-                    JOIN work_order AS c ON b.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
-                    WHERE a.SERVICE_REQUEST_ID = '$id'
-                    GROUP BY a.SERVICE_REQUEST_ID;";
+                FROM submit_requests AS a
+                JOIN service_request_status AS b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
+                JOIN work_order AS c ON a.SERVICE_REQUEST_ID = c.SERVICE_REQUEST_ID
+                WHERE a.SERVICE_REQUEST_ID = '$id'
+                GROUP BY a.SERVICE_REQUEST_ID";
 
                 $result = $conn->query($sql);
 
