@@ -25,20 +25,53 @@ if (!isset($_SESSION['email'])) {
   function redirectToAdditionalForm() {
     window.location = "additional_form.php";
   }
+
+  
+var var2 = 0;
+
   function addBrandRow() {
     var selectElement = document.getElementById("brand");
-    var clone = selectElement.cloneNode(true);
+
+  // Clone the element
+  var clone = selectElement.cloneNode(true);
+
+  // Extract the current ID
+  var currentId = clone.name;
+
+  // Increment the ID (you can customize the logic here)
+  var newId = currentId + var2;
+
+  // Set the new ID for the cloned element
+  clone.name = newId;
+
     selectElement.parentNode.appendChild(clone);
+    var2++;
 }
 function removeBrandRow(button) {
     var selectElement = button.parentNode.querySelector("select");
     selectElement.parentNode.removeChild(selectElement);
 }
 
+var var1 = 0;
+
 function addUnitProblemRow() {
-    var selectElement = document.getElementById("unit_problem");
-    var clone = selectElement.cloneNode(true);
-    selectElement.parentNode.appendChild(clone);
+var selectElement = document.getElementById("unit_problem");
+
+// Clone the element
+var clone = selectElement.cloneNode(true);
+
+// Extract the current ID
+var currentId = clone.name;
+
+// Increment the ID (you can customize the logic here)
+var newId = currentId + var1;
+
+// Set the new ID for the cloned element
+clone.name = newId;
+
+// Append the cloned element to the parent node
+selectElement.parentNode.appendChild(clone);
+var1++;
 }
 function removeUnitProblemRow(button) {
     var selectElement = button.parentNode.querySelector("select");
@@ -263,12 +296,18 @@ function handleFormSubmission()
   $address = $_POST['address'];
   $business_unit = $_POST['business_unit'];
   $cust_project_name = $_POST['cust_project_name'];
-  $asset_code = $_POST['asset_code'];
   $model = $_POST['model'];
-  $serial_no = $_POST['serial_no'];
-  $equip_desc = $_POST['equip_desc'];
   $brand = $_POST['brand'];
-  $service_meter_reading = $_POST['service_meter_reading'];
+
+  for($i = 0; $i < 999; $i++){
+    if(isset($_POST['brand' . $i])){
+      $brand = $brand . '-' . $_POST['brand' . $i];
+    }else
+      break;
+  }
+
+
+  
   $type_of_request = $_POST['type_of_request'];
   $additional_option = "";
   $other_service_request = "";
@@ -288,13 +327,17 @@ function handleFormSubmission()
     $other_service_request = ''; // Set a default value when not applicable
   }
 
-  $charging = $_POST['charging'];
   $unit_problem = $_POST['unit_problem'];
-  $others = $_POST['others'];
+
+
+  for($i = 0; $i < 999; $i++){
+    if(isset($_POST['unit_problem' . $i])){
+      $unit_problem = $unit_problem . '-' . $_POST['unit_problem' . $i];
+    }else
+      break;
+  }
+
   $unit_operational = $_POST['unit_operational'];
-  $specific_requirement = $_POST['specific_requirement'];
-  $onsite_contact_person = $_POST['onsite_contact_person'];
-  $fax_no = $_POST['fax_no'];
 
   // Define the priority based on type_of_request
   if ($type_of_request === 'Quotation - Major Repair' || $type_of_request === 'Technical Evaluation Request') {
@@ -330,22 +373,13 @@ function handleFormSubmission()
     address,
     business_unit,
     cust_project_name,
-    asset_code,
     model,
-    serial_no,
-    equip_desc,
     brand,
-    service_meter_reading,
     type_of_request,
     additional_option,
     other_service_request,
-    charging,
     unit_problem,
-    others,
     unit_operational,
-    specific_requirement,
-    onsite_contact_person,
-    fax_no,
     user_id
 )
 VALUES (
@@ -356,22 +390,13 @@ VALUES (
     '$address',
     '$business_unit',
     '$cust_project_name',
-    '$asset_code',
     '$model',
-    '$serial_no',
-    '$equip_desc',
     '$brand',
-    '$service_meter_reading',
     '$type_of_request',
     '$additional_option',
     '$other_service_request',
-    '$charging',
     '$unit_problem',
-    '$others',
     '$unit_operational',
-    '$specific_requirement',
-    '$onsite_contact_person',
-    '$fax_no',
     '$userID'
 )";
 
