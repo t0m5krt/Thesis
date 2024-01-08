@@ -84,13 +84,67 @@ if (!isset($_SESSION['email'])) {
                         </div>
             <?php
                     }
+                } else {
+                    echo "<div class='alert alert-info'>
+                            No data found.
+                        </div>";
+
+                    // Include your database connection file
+                    include 'includes/connection.php';
+
+                    // Check if the service request ID is set in the URL
+                    if (isset($_GET['SERVICE_REQUEST_ID'])) {
+                        $serviceRequestID = $_GET['SERVICE_REQUEST_ID'];
+
+                        // Fetch customer details based on the service request ID
+                        $customerQuery = "SELECT * FROM submit_requests WHERE SERVICE_REQUEST_ID = '$serviceRequestID'";
+                        $customerResult = $conn->query($customerQuery);
+
+                        if ($customerResult->num_rows > 0) {
+                            $customer = $customerResult->fetch_assoc();
+
+                            // Fetch quotations for the customer based on the service request ID
+                            $quotationsQuery = "SELECT * FROM quotation_tb WHERE ServiceRequestID = '$serviceRequestID'";
+                            $quotationsResult = $conn->query($quotationsQuery);
+                            // Display quotations
+                            if ($quotationsResult->num_rows > 0) {
+                                echo '<h2>Quotations</h2>';
+                                echo '<ul>';
+                                while ($quotation = $quotationsResult->fetch_assoc()) {
+                                    echo '<li>';
+                                    echo 'Quotation Number: ' . $quotation['QuotationNumber'] . '<br>';
+                                    echo 'Date Prepared: ' . $quotation['DatePrepared'] . '<br>';
+                                    // Display other quotation details...
+                                    echo '</li>';
+                                }
+                                echo '</ul>';
+                            } else {
+                                echo "<div class='alert alert-info'>No quotations yet for this request.</div>";
+                            }
+                        } else {
+                            echo '<p>Customer not found for the provided service request ID.</p>';
+                        }
+                    } else {
+                        echo '<p>Service Request ID not provided in the URL.</p>';
+                    }
+
+                    // Close the database connection
+                    $conn->close();
                 }
             }
 
             ?>
+
+            <?php
+
+            ?>
+
+
+
             <button class="btn btn-primary">
                 <a href="mapViewer.php?SERVICE_REQUEST_ID=<?php echo $SRID; ?>" style="color: #fff">View Shared Location</a>
             </button>
+
         </main>
     </section>
 
