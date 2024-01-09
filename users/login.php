@@ -131,9 +131,9 @@ if (isset($_POST['submit'])) {
 
   // Query the database to retrieve hashed password
   $query = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname
-            FROM user_accounts WHERE email = ? AND status = 0";
+            FROM user_accounts WHERE email = ?";
   $queryIfLogin = "SELECT password,user_ID,firstname,lastname,contactnumber,companyname,projectname
-  FROM user_accounts WHERE email = ? AND status = 1 ";
+  FROM user_accounts WHERE email = ? ";
 
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "s", $email);
@@ -155,7 +155,7 @@ if (isset($_POST['submit'])) {
       $_SESSION['companyname'] = $userCompanyName;
       $_SESSION['projectname'] = $userProjectName;
       $_SESSION['account_type'] = 'user';
-      $_SESSION['status'] = "1";
+      // $_SESSION['status'] = "1";
 
       // Redirect to the dashboard
 ?>

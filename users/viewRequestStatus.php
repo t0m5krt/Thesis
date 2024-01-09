@@ -18,6 +18,8 @@ if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
+
+$SRN = $_GET['SERVICE_REQUEST_ID'];
 ?>
 
 <?php include 'includes/header.php'; ?>
@@ -38,11 +40,12 @@ if (!isset($_SESSION['email'])) {
                 Go Back
             </button>
 
+            <button class="btn btn-primary">
+                <a href="mapViewer.php?SERVICE_REQUEST_ID=<?php echo $SRN; ?>" style="color: #fff">View Shared Location</a>
+            </button>
+
             <?php
             include_once 'includes/connection.php';
-
-
-
 
             if (isset($_GET) & !empty($_GET)) {
                 $SRID = $_GET['SERVICE_REQUEST_ID'];
@@ -58,6 +61,7 @@ if (!isset($_SESSION['email'])) {
                                 <h2>Status: <span class="data-output"><?php echo $row['STATUS_VALUE'] ?></span></h2>
                                 <p>Assigned to: <span class="data-output"><?php echo $row['assign_tech'] ?></span></p>
                             </div>
+
 
                             <div class="service-details">
                                 <h2>Service Request Details</h2>
@@ -82,69 +86,103 @@ if (!isset($_SESSION['email'])) {
                                 <p>Onsite Contact No: <span class="data-output"><?php echo $row['fax_no'] ?></span></p>
                             </div>
                         </div>
+
             <?php
                     }
                 } else {
                     echo "<div class='alert alert-info'>
-                            No data found.
-                        </div>";
+                    Your request is currently pending processing. Please check back for details once the request has been processed.
+                        </div>
+                        ";
+                }
 
-                    // Include your database connection file
-                    include 'includes/connection.php';
+                // Include your database connection file
+                include 'includes/connection.php';
 
-                    // Check if the service request ID is set in the URL
-                    if (isset($_GET['SERVICE_REQUEST_ID'])) {
-                        $serviceRequestID = $_GET['SERVICE_REQUEST_ID'];
+                // Check if the service request ID is set in the URL
+                if (isset($_GET['SERVICE_REQUEST_ID'])) {
+                    $serviceRequestID = $_GET['SERVICE_REQUEST_ID'];
 
-                        // Fetch customer details based on the service request ID
-                        $customerQuery = "SELECT * FROM submit_requests WHERE SERVICE_REQUEST_ID = '$serviceRequestID'";
-                        $customerResult = $conn->query($customerQuery);
+                    // Fetch customer details based on the service request ID
+                    $customerQuery = "SELECT * FROM submit_requests WHERE SERVICE_REQUEST_ID = '$serviceRequestID'";
+                    $customerResult = $conn->query($customerQuery);
 
-                        if ($customerResult->num_rows > 0) {
-                            $customer = $customerResult->fetch_assoc();
+                    if ($customerResult->num_rows > 0) {
+                        $customer = $customerResult->fetch_assoc();
 
-                            // Fetch quotations for the customer based on the service request ID
-                            $quotationsQuery = "SELECT * FROM quotation_tb WHERE ServiceRequestID = '$serviceRequestID'";
-                            $quotationsResult = $conn->query($quotationsQuery);
-                            // Display quotations
-                            if ($quotationsResult->num_rows > 0) {
-                                echo '<h2>Quotations</h2>';
-                                echo '<ul>';
-                                while ($quotation = $quotationsResult->fetch_assoc()) {
-                                    echo '<li>';
-                                    echo 'Quotation Number: ' . $quotation['QuotationNumber'] . '<br>';
-                                    echo 'Date Prepared: ' . $quotation['DatePrepared'] . '<br>';
-                                    // Display other quotation details...
-                                    echo '</li>';
+                        // Fetch quotations for the customer based on the service request ID
+                        $quotationsQuery = "SELECT * FROM quotation_tb WHERE ServiceRequestID = '$serviceRequestID'";
+                        $quotationsResult = $conn->query($quotationsQuery);
+
+                        // Display quotations
+                        if ($quotationsResult->num_rows > 0) {
+                            echo '<div class="card-container">
+                                    <div class="service-details">
+                                    <h2>Quotations</h2>';
+                            echo '<ul>';
+                            while ($quotationsQuery = $quotationsResult->fetch_assoc()) {
+                                echo '<li>';
+                                echo 'Quotation Number: <strong>' . $quotationsQuery['QuotationNumber'] . ' </strong><br>';
+                                echo 'Date Prepared: <strong>' . $quotationsQuery['DatePrepared'] . '</strong><br>';
+                                echo 'Prepared By: <strong>' . $quotationsQuery['PreparedBy'] . '</strong><br>
+                                </div>';
+
+                                // Fetch quotation parts for the quotation
+                                $quotationID = $quotationsQuery['QuotationNumber'];
+
+                                $quotationPartsQuery = "SELECT * FROM quotation_parts_tb WHERE QuotationNumber = '$quotationID' AND ServiceRequestID = '$serviceRequestID'";
+                                $quotationPartsResult = $conn->query($quotationPartsQuery);
+
+                                // Display quotation parts in a table
+                                if ($quotationPartsResult->num_rows > 0) {
+                                    echo '<table>';
+                                    echo '<tr>
+                                            <th>Part Name</th>
+                                            <th>Quantity</th>
+                                            <th>Unit Price</th>
+                                            <th>Subtotal Price</th>
+                                        </tr>';
+
+                                    $totalUnitPrice = 0.00;
+                                    $totalTotalPrice = 0.00;
+
+                                    while ($quotationPart = $quotationPartsResult->fetch_assoc()) {
+                                        echo '<tr>';
+                                        echo '<td>' . $quotationPart['PartDescription'] . '</td>';
+                                        echo '<td>' . $quotationPart['Quantity'] . '</td>';
+                                        echo '<td>' . $quotationPart['UnitPrice'] . '</td>';
+                                        echo '<td>' . $quotationPart['TotalPrice'] . '</td>';
+                                        echo '</tr>';
+
+                                        // Calculate the total unit price and total price
+                                        $totalUnitPrice += $quotationPart['UnitPrice'];
+                                        $totalTotalPrice += $quotationPart['TotalPrice'];
+                                    }
+
+                                    echo '<tr>
+                                            <td colspan="3"><strong>Total</strong></td>
+                                            <td><strong>' . number_format($totalTotalPrice, 2) . '</strong></td>
+                                        </tr>';
+                                    echo '</table>';
+                                } else {
+                                    echo '<p>No quotation parts found for this quotation.</p>';
                                 }
-                                echo '</ul>';
-                            } else {
-                                echo "<div class='alert alert-info'>No quotations yet for this request.</div>";
+
+                                echo '<br></li>';
                             }
+                            echo '</ul>';
                         } else {
-                            echo '<p>Customer not found for the provided service request ID.</p>';
+                            echo "<div class='alert alert-info'>No quotations yet for this request.</div>";
                         }
                     } else {
-                        echo '<p>Service Request ID not provided in the URL.</p>';
+                        echo '<p>Customer not found for the provided service request ID.</p>';
                     }
-
-                    // Close the database connection
-                    $conn->close();
+                } else {
+                    echo '<p>Service Request ID not provided in the URL.</p>';
                 }
             }
 
             ?>
-
-            <?php
-
-            ?>
-
-
-
-            <button class="btn btn-primary">
-                <a href="mapViewer.php?SERVICE_REQUEST_ID=<?php echo $SRID; ?>" style="color: #fff">View Shared Location</a>
-            </button>
-
         </main>
     </section>
 

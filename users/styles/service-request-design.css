@@ -92,7 +92,8 @@ label {
 }
 
 input[type="text"],
-input[type="date"],
+input[type="datetime-local"],
+input[type="number"],
 textarea,
 select {
   padding: 1rem;
@@ -113,6 +114,10 @@ button[type="submit"] {
   margin-top: 1.5rem;
   cursor: pointer;
   width: -webkit-fill-available;
+}
+
+.btn-danger {
+  margin: 0rem 0rem 0.5rem 0rem;
 }
 
 @media only screen and (min-width: 768px) {
@@ -147,7 +152,6 @@ button[type="submit"] {
 button {
   display: inline-block;
   width: calc(50% - 0.5rem);
-  /* subtract margin from width */
   vertical-align: top;
   background-color: var(--red) !important;
 }
