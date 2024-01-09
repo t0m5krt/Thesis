@@ -296,18 +296,28 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                     }
 
                     function generateQuotationNumber() {
-                        var currentDate = new Date();
-                        var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                        var day = currentDate.getDate().toString().padStart(2, '0');
-                        var year = currentDate.getFullYear().toString().slice(-2);
-                        var hours = currentDate.getHours().toString().padStart(2, '0');
-                        var minutes = currentDate.getMinutes().toString().padStart(2, '0');
-                        var seconds = currentDate.getSeconds().toString().padStart(2, '0');
+                        // var currentDate = new Date();
+                        // var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                        // var day = currentDate.getDate().toString().padStart(2, '0');
+                        // var year = currentDate.getFullYear().toString().slice(-2);
+                        // var hours = currentDate.getHours().toString().padStart(2, '0');
+                        // var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+                        // var seconds = currentDate.getSeconds().toString().padStart(2, '0');
 
-                        var formattedDate = month + day + year;
-                        var formattedTime = hours + minutes + seconds;
+                        // var formattedDate = month + day + year;
+                        // var formattedTime = hours + minutes + seconds;
 
-                        return formattedDate + formattedTime;
+                        // return formattedDate + formattedTime;
+
+                        var characters = '0123456789';
+                        var quotationNumber = '';
+
+                        for (var i = 0; i < 5; i++) {
+                            var randomIndex = Math.floor(Math.random() * characters.length);
+                            quotationNumber += characters.charAt(randomIndex);
+                        }
+
+                        return quotationNumber;
                     }
 
 
@@ -364,8 +374,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $unitPrice = $_POST["part_price"][$index];
                 $totalPrice = $quantity * $unitPrice;
 
-                $partInsertQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, PartDescription, Quantity, UnitPrice, TotalPrice) 
-                                    VALUES ('$quotationNumber', '$partDescription', '$quantity', '$unitPrice', '$totalPrice')";
+                $partInsertQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, PartDescription, Quantity, UnitPrice, TotalPrice, ServiceRequestID) 
+                                    VALUES ('$quotationNumber', '$partDescription', '$quantity', '$unitPrice', '$totalPrice', '$serviceRequestId')";
 
                 if (!$conn->query($partInsertQuery)) {
                     echo "<script>alert('Error inserting part: " . $conn->error . "');</script>";
