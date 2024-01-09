@@ -9,7 +9,7 @@ if ($conn->connect_error) {
 }
 
 // Query to get the count of service requests
-$sql = "SELECT COUNT(*) AS request_count FROM submit_requests";
+$sql = "SELECT COUNT(*) AS request_count FROM work_order";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

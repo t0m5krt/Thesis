@@ -1,6 +1,6 @@
 <?php
 include('includes/connection.php');
-
+include('includes/header.php');
 
 ?>
 <!DOCTYPE html>
@@ -54,7 +54,10 @@ include('includes/connection.php');
           <tbody>
 
             <?php
-            $sql = "SELECT * FROM work_order";
+            if (session_status() === PHP_SESSION_NONE)
+              session_start();
+            $regID_ =  $_SESSION['REGISTRATION_ID'];
+            $sql = "SELECT * FROM work_order WHERE isDelete = '0' AND assign_tech IN (SELECT CONCAT(firstname, ' ', lastname) FROM office_accounts WHERE REGISTRATION_ID = '$regID_');";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
 
