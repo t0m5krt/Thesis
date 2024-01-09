@@ -216,7 +216,7 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                         <input type="text" id="subtotal" name="subtotal" readonly>
 
                         <button type="button" onclick="calculateTotal()" class="btn btn-secondary">Calculate Total</button>
-                        <button name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
+                        <button id="submitButton" name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
                     </div>
 
                 </form>
@@ -332,6 +332,16 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                     // JavaScript code to redirect to admin dashboard
                     document.getElementById('buttonFloat').onclick = function() {
                         window.location.href = "serviceRequest_Admin.php";
+                    };
+
+                    // JavaScript code to redirect to admin dashboard
+                    document.getElementById('submitButton').onclick = function() {
+                        var confirmation = confirm("Are you sure you want to submit?");
+                        if (confirmation) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     };
                 </script>
 

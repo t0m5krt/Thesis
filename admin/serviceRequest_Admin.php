@@ -637,7 +637,7 @@ include 'includes/header.php';
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label for="requestor">REQUESTER</label>
+                  <label for="requestor">REQUESTOR</label>
                   <input type="text" class="form-control" id="requestor" name="requestor">
                 </div>
                 <div class="form-group">
@@ -666,7 +666,7 @@ include 'includes/header.php';
                 </div>
                 <div class="form-group">
                   <label for="model">MODEL</label>
-                  <input type="text" class="form-control" id="model" name="model">
+                  <input type="text" class="form-control" id="model" name="model" value="<?php echo "brand"; ?>">
                 </div>
                 <div class="form-group">
                   <label for="serial_no">SERIAL NO.</label>
@@ -1071,15 +1071,24 @@ if (isset($_REQUEST['assign'])) {
     echo "Please select an electrician";
   }
 
-
-
-
   $SERVICE_REQUEST_ID = $_POST['SERVICE_REQUEST_ID'];
   $requestor = $_POST['requestor'];
   $date_of_request = $_POST['date_of_request'];
   $mobile_or_phone_no = $_POST['mobile_or_phone_no'];
-  // $assign_date = $_POST['assign_date'];
-  // $assign_tech_id = $_POST['assign_tech']; // Assuming assign_tech is the registration ID
+  $address = $_POST['address'];
+  $business_unit = $_POST['business_unit'];
+  $cust_project_name = $_POST['cust_project_name'];
+  $asset_code = $_POST['asset_code'];
+  $serial_no = $_POST['serial_no'];
+  $equip_desc = $_POST['equip_desc'];
+  $service_meter_reading = $_POST['service_meter_reading'];
+  $charging = $_POST['charging'];
+  $specific_requirement = $_POST['specific_requirement'];
+  $onsite_contact_person = $_POST['onsite_contact_person'];
+  $fax_no = $_POST['fax_no'];
+
+  $assign_date = $_POST['assign_date'];
+  $assign_tech_id = $_POST['assign_tech']; // Assuming assign_tech is the registration ID
   // Retrieve selected mechanics, electricians, and driver
   // $assignedMechanics = isset($_POST['mechanic']) ? implode(', ', $_POST['mechanic']) : '';
   // $assignedElectricians = isset($_POST['electrician']) ? implode(', ', $_POST['electrician']) : '';
@@ -1094,14 +1103,25 @@ if (isset($_REQUEST['assign'])) {
     $assign_tech_name = $rowTechInfo['firstname'] . ' ' . $rowTechInfo['lastname'];
 
     // Insert into the work_order table
-    $sqlAssignTech = "UPDATE work_order SET assign_tech = '$assign_tech_name', assign_date = '$assignDate', assigned_mechanics = '$mechanicName', assigned_electricians = '$electricianName', assigned_driver = '$driverName' WHERE requestor = '$requestor'";
+    $sqlAssignTech = "INSERT INTO work_order (SERVICE_REQUEST_ID,date_of_request,assign_tech, assign_date, assigned_mechanics, assigned_electricians, assigned_driver, requestor, isDelete) 
+    VALUES ('$SERVICE_REQUEST_ID','$date_of_request','$mobile_or_phone_no','$assign_tech_name', '$assignDate', '$mechanicName', '$electricianName', '$driverName', '$requestor', '0')";
     $resultSqlAssignTech = $conn->query($sqlAssignTech);
 
     // Update service_request_status
     $sqlServiceRequest = "UPDATE submit_requests, service_request_status 
-                        SET submit_requests.isDelete = 1, service_request_status.STATUS_VALUE = 'In Progress' 
+                        SET submit_requests.isDelete = 1,
+                            service_request_status.STATUS_VALUE = 'In Progress' , 
+                            submit_requests.address = '$address',
+                            submit_requests.asset_code = '$asset_code',
+                            submit_requests.equip_desc ='$equip_desc',
+                            submit_requests.service_meter_reading ='$service_meter_reading',
+                            submit_requests.charging ='$charging',
+                            submit_requests.specific_requirement ='$specific_requirement',
+                            submit_requests.onsite_contact_person ='$onsite_contact_person'
                         WHERE submit_requests.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'
-                        AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID';";
+                        AND service_request_status.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'";
+
+    $conn->query($sqlServiceRequest);
 
     // Update availability in office_accounts
     $sqlUpdateAvailability = "UPDATE office_accounts 

@@ -84,7 +84,7 @@ include('config/db.php');
                     </form>
                     <form action="done.php?id=<?php echo $row['SERVICE_REQUEST_ID']; ?>&assign_tech=<?php echo $row['assign_tech'] ?>" method="POST" class="d-inline">
                       <input type="hidden" name="id" value='. $row["ID"] .'>
-                      <button type="submit" class="btn btn-success" name="done" id="done" value="done">Done
+                      <button type="submit" class="btn btn-success" name="done" id="doneButton" value="done">Done
                         <i class="fa-solid fa-square-check"></i>
                       </button>
                     </form>
