@@ -7,9 +7,9 @@ include('includes/header.php');
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
+$regID_ =  $_SESSION['REGISTRATION_ID'];
 // Query to get the count of service requests
-$sql = "SELECT COUNT(*) AS request_count FROM work_order";
+$sql = "SELECT COUNT(*) AS request_count FROM work_order WHERE isDelete = '0' AND assign_tech IN (SELECT CONCAT(firstname, ' ', lastname) FROM office_accounts WHERE REGISTRATION_ID = '$regID_');";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

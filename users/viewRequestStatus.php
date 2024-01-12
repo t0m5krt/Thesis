@@ -116,7 +116,8 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
 
                         // Display quotations
                         if ($quotationsResult->num_rows > 0) {
-                            echo '<div class="card-container">
+                            echo ' <form method="post">
+                            <div class="card-container">
                                     <div class="service-details">
                                     <h2>Quotations</h2>';
                             echo '<ul>';
@@ -124,8 +125,9 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
                                 echo '<li>';
                                 echo 'Quotation Number: <strong>' . $quotationsQuery['QuotationNumber'] . ' </strong><br>';
                                 echo 'Date Prepared: <strong>' . $quotationsQuery['DatePrepared'] . '</strong><br>';
-                                echo 'Prepared By: <strong>' . $quotationsQuery['PreparedBy'] . '</strong><br>
-                                </div>';
+                                echo 'Prepared By: <strong>' . $quotationsQuery['PreparedBy'] . '</strong><br>';
+                                echo 'Quotation Response: <strong>' . $quotationsQuery['quote_response'] . '</strong><br>';
+                                echo '</div>';
 
                                 // Fetch quotation parts for the quotation
                                 $quotationID = $quotationsQuery['QuotationNumber'];
@@ -164,10 +166,17 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
                                             <td><strong>' . number_format($totalTotalPrice, 2) . '</strong></td>
                                         </tr>';
                                     echo '</table>';
+
+                                    echo '<br>';
+
+                                    echo '<button type="submit" class="btn btn-success" name="AcceptButton">Accept Quotation</button>
+                                    <button type="submit" class="btn btn-danger" name="DeclineButton">Decline Quotation</button>
+                                ';
+
+                                    echo '</form>';
                                 } else {
                                     echo '<p>No quotation parts found for this quotation.</p>';
                                 }
-
                                 echo '<br></li>';
                             }
                             echo '</ul>';
@@ -201,7 +210,177 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
 </body>
 
 </html>
-
 <?php
+// Add a php script to accept or decline the quotation
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['AcceptButton'])) {
+        // Check if the quotation has already been accepted
+        $sqlCheckAcceptance = "SELECT quote_response FROM quotation_tb WHERE ServiceRequestID = '$serviceRequestID' AND QuotationNumber = '$quotationID'";
+        $resultCheckAcceptance = mysqli_query($conn, $sqlCheckAcceptance);
+        $rowCheckAcceptance = mysqli_fetch_assoc($resultCheckAcceptance);
 
+        if ($rowCheckAcceptance['quote_response'] === 'Accepted') {
+            // Display a SweetAlert message indicating that the quotation has already been accepted
+?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Quotation Already Accepted',
+                    text: 'This quotation has already been accepted.',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    window.location.href = 'history.php';
+                });
+            </script>
+            <?php
+        } else {
+            // Handle accepting the quotation
+            $sqlAccept = "UPDATE quotation_tb
+            SET quote_response = 'Accepted'
+            WHERE ServiceRequestID = '$serviceRequestID' AND QuotationNumber = '$quotationID'";
+            $resultAccept = mysqli_query($conn, $sqlAccept);
+
+            if ($resultAccept) {
+            ?>
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Quotation Accepted Successfully!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = 'history.php';
+                    });
+                </script>
+            <?php
+            } else {
+                // Display a SweetAlert message indicating that the quotation acceptance failed
+            ?>
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Quotation Acceptance Failed!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = 'viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $serviceRequestID; ?>';
+                    });
+                </script>
+            <?php
+            }
+        }
+    }
+
+    if (isset($_POST['DeclineButton'])) {
+        // Handle declining the quotation
+        $sqlCheckDecline = "SELECT quote_response FROM quotation_tb WHERE ServiceRequestID = '$serviceRequestID' AND QuotationNumber = '$quotationID'";
+        $resultCheckDecline = mysqli_query($conn, $sqlCheckDecline);
+        $rowCheckDecline = mysqli_fetch_assoc($resultCheckDecline);
+
+        if ($rowCheckDecline['quote_response'] === 'Pending') {
+            // Display a SweetAlert message with options for voiding or editing the quotation
+            ?>
+            <script>
+                Swal.fire({
+                    icon: 'question',
+                    title: 'What would you like to do with the quotation?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Void',
+                    cancelButtonText: 'Edit'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Ask for confirmation before voiding the quotation
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Are you sure you want to void this quotation?',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes, void it',
+                            cancelButtonText: 'Cancel'
+                        }).then((confirmationResult) => {
+                            if (confirmationResult.isConfirmed) {
+                                // Update quote_response to 'Voided'
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'updateQuotation.php', // Create a separate PHP file to handle the update
+                                    data: {
+                                        serviceRequestID: '<?php echo $serviceRequestID; ?>',
+                                        quotationID: '<?php echo $quotationID; ?>'
+                                    },
+                                    success: function(response) {
+                                        // Display success message and redirect
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Quotation Voided Successfully!',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                        }).then(() => {
+                                            window.location.href = 'history.php';
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        // Redirect to the quotation editing page
+                        swal.fire({
+                            icon: 'info',
+                            title: 'Redirecting...',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then(() => {
+                            window.location.href = 'editQuotation.php?QuotationNumber=<?php echo $quotationID; ?>&SERVICE_REQUEST_ID=<?php echo $serviceRequestID; ?>';
+                        });
+                    }
+                });
+            </script>
+        <?php
+        } elseif ($rowCheckDecline['quote_response'] === 'Voided') {
+            // Display a SweetAlert message indicating that the quotation has already been voided
+        ?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Quotation Already Voided',
+                    text: 'This quotation has already been voided.',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location.href = 'history.php';
+                });
+            </script>
+        <?php
+        } elseif ($rowCheckDecline['quote_response'] === 'Conditionally Accepted') {
+            // Display a SweetAlert message indicating that the quotation has already been conditionally accepted
+        ?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Quotation Already Conditionally Accepted',
+                    text: 'This quotation has already been processed.',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then(() => {
+                    window.location.href = 'viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $serviceRequestID; ?>';
+                });
+            </script>
+        <?php
+        } else {
+            // Display a SweetAlert message indicating that the quote_response is not 'Pending'
+        ?>
+            <script>
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Quotation Processing',
+                    text: 'This quotation is already being processed and cannot be edited or voided at the moment.',
+                    showConfirmButton: false,
+                    timer: 3000
+                }).then(() => {
+                    window.location.href = 'viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $serviceRequestID; ?>';
+                });
+            </script>
+<?php
+        }
+    }
+}
 ?>

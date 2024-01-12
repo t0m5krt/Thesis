@@ -83,7 +83,15 @@ include('includes/header.php');
 
                 </tr>
 
-            <?php       }
+
+              <?php
+              }
+            } else {
+              ?>
+              <tr>
+                <td colspan="5">No Work Order Assigned Yet</td>
+              </tr>
+            <?php
             }
 
             ?>

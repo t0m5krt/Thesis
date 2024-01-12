@@ -61,4 +61,8 @@ if (isset($_GET['hello'])) {
     ul {
         padding-left: 0rem;
     }
+
+    p {
+        margin-bottom: 0rem;
+    }
 </style>
