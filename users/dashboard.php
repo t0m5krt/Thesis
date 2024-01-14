@@ -72,7 +72,7 @@ $loginSetResult = mysqli_query($conn, $loginSet);
 
       <ul class="box-info">
         <li>
-          <a class="text" href="#">
+          <a class="text" href="history.php">
             <p>In Process</p>
 
             <?php

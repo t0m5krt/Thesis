@@ -75,6 +75,7 @@ if (!isset($_SESSION['email'])) {
                                     <td>
                                         <a href="viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> View Quotation</a>
                                         <a href="edit_request_form.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> Edit</a>
+                                        <a href="view_service_request.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> View Service Request</a>
 
                                     </td>
                             <?php

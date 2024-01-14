@@ -5,7 +5,7 @@ if (isset($_GET['id'])) {
 
     $SERVICE_REQUEST_ID = $_GET['id'];
     // Let's not check if the database query was successful; we trust it!
-    $sql = "SELECT * FROM submit_requests WHERE id ='$REGISTRATION_ID'";
+    $sql = "SELECT * FROM submit_requests WHERE id ='$SERVICE_REQUEST_ID'";
 
     $result = $conn->query($sql);
 
@@ -72,71 +72,73 @@ if ($result && mysqli_num_rows($result) > 0) {
                 window.location = "additional_form.php";
             }
 
+            var var1 = 0;
 
-            var var2 = 0;
+            function addUnitProblemRow() {
+                // Clone the brand element
+                var selectElementBrand = document.getElementById("brand");
+                var cloneBrand = selectElementBrand.cloneNode(true);
+                var currentIdBrand = cloneBrand.id;
+                var newIdBrand = currentIdBrand + var1;
+                cloneBrand.id = newIdBrand;
+                cloneBrand.name = newIdBrand; // Make sure to update the name attribute
+                cloneBrand.value = "";
+                cloneBrand.style.display = "inline-block";
 
-            function addBrandRow() {
-                var selectElement = document.getElementById("brand");
+                // Create a new label for the cloned brand element
+                var labelBrand = document.createElement("label");
+                labelBrand.for = newIdBrand;
+                labelBrand.textContent = "Brand & Unit Problem " + (var1 + 1); // Dynamic label text
+                labelBrand.style.display = "block";
 
-                // Clone the element
-                var clone = selectElement.cloneNode(true);
+                // Clone the unit problem element
+                var selectElementProblem = document.getElementById("unit_problem");
+                var cloneProblem = selectElementProblem.cloneNode(true);
+                var currentIdProblem = cloneProblem.id;
+                var newIdProblem = currentIdProblem + var1;
+                cloneProblem.id = newIdProblem;
+                cloneProblem.name = newIdProblem; // Make sure to update the name attribute
+                cloneProblem.value = "";
+                cloneProblem.style.display = "inline-block";
 
-                // Extract the current ID
-                var currentId = clone.name;
+                // Create a new label for the cloned unit problem element
+                var labelProblem = document.createElement("label");
+                labelProblem.for = newIdProblem;
+                labelProblem.textContent = ""; // Add label text if needed
+                labelProblem.style.display = "block";
 
-                // Increment the ID starting from 1
-                var newId = currentId + (var2 + 1);
+                // Append the labels and cloned elements to the parent node
+                selectElementBrand.parentNode.appendChild(labelBrand);
+                selectElementBrand.parentNode.appendChild(cloneBrand);
+                selectElementProblem.parentNode.appendChild(labelProblem);
+                selectElementProblem.parentNode.appendChild(cloneProblem);
 
-                // Set the new ID for the cloned element
-                clone.name = newId;
+                var1++;
 
-                selectElement.parentNode.appendChild(clone);
-                var2++;
-
-                console.log(selectElement.parentNode.children.length);
+                redisplayBrandUnitProblem(); // Call the function to redisplay the elements
             }
 
 
             function removeBrandRow(button) {
                 var selectElement = button.parentNode.querySelector("select");
-                var parentElement = selectElement.parentNode;
+                var brandId = selectElement.id;
+                var problemId = brandId.replace("brand", "unit_problem");
 
-                // Check if there is only one row left
-                if (parentElement.children.length > 1) {
-                    parentElement.removeChild(parentElement.lastChild);
-                    console.log(parentElement.children.length);
-                } else {
-                    console.log("Cannot remove the last row. At least one row must remain.");
-                }
-            }
-
-            var var1 = 0;
-
-            function addUnitProblemRow() {
-                var selectElement = document.getElementById("unit_problem");
-
-                // Clone the element
-                var clone = selectElement.cloneNode(true);
-
-                // Extract the current ID
-                var currentId = clone.name;
-
-                // Increment the ID (you can customize the logic here)
-                var newId = currentId + var1;
-
-                // Set the new ID for the cloned element
-                clone.name = newId;
-
-                // Append the cloned element to the parent node
-                selectElement.parentNode.appendChild(clone);
-                var1++;
-
-                console.log(selectElement.parentNode.querySelectorAll('select').length);
-            }
-
-            function removeUnitProblemRow(button) {
-                var selectElement = button.parentNode.querySelector("select");
                 selectElement.parentNode.removeChild(selectElement.parentNode.lastChild);
+                document.getElementById(problemId).parentNode.removeChild(document.getElementById(problemId));
+            }
+
+            function redisplayBrandUnitProblem() {
+                var brandSelects = document.querySelectorAll("[id^='brand']");
+                var problemSelects = document.querySelectorAll("[id^='unit_problem']");
+
+                brandSelects.forEach(function(select) {
+                    select.style.display = "inline-block";
+                });
+
+                problemSelects.forEach(function(select) {
+                    select.style.display = "inline-block";
+                });
             }
         </script>
     </head>
@@ -144,7 +146,9 @@ if ($result && mysqli_num_rows($result) > 0) {
     <body>
 
         <div class="loader">
-            <div class="custom-loader"></div>
+            <div class="custom-loader">
+
+            </div>
         </div>
         <form action="edit_request_form.php?SERVICE_REQUEST_ID=<?php $SERVICE_REQUEST_ID = $_GET['SERVICE_REQUEST_ID'];
                                                                 echo $SERVICE_REQUEST_ID ?>" method="post">
@@ -236,9 +240,9 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
 
             <div class="form-group">
-                <label for="brand">BRAND <span style="color: red;">*</span></label>
+                <label for="brand">BRAND & UNIT PROBLEM<span style="color: red;">*</span></label>
                 <select id="brand" name="brand" required>
-                    <option value="" disabled <?php if ($brand === "") echo 'selected'; ?>>Select option</option>
+                    <option value="" disabled <?php if ($brand === "") echo 'selected'; ?>>Select Brand option</option>
                     <optgroup label="Earthmoving Equipment">
                     <optgroup label="Dozers">
                         <option value="caterpillar-dozer" <?php if ($brand === "caterpillar-dozer") echo 'selected'; ?>>Caterpillar</option>
@@ -414,14 +418,10 @@ if ($result && mysqli_num_rows($result) > 0) {
                 </select>
 
 
-            </div>
 
-            <button type="button" onclick="addBrandRow()" class="btn btn-danger">Add Brand</button>
-            <button type="button" class="btn btn-danger" onclick="removeBrandRow(this)">Remove</button>
-            <div class="form-group">
-                <label for="unit_problem">UNIT PROBLEM <span style="color: red;">*</span></label>
+
                 <select id="unit_problem" name="unit_problem" required>
-                    <option value="" disabled selected>Select option</option>
+                    <option value="" disabled selected>Select Unit Problem option</option>
                     <option value="Engine failure" <?php if ($unit_problem === "Engine failure") echo 'selected'; ?>>Engine failure</option>
                     <option value="Hydraulic leaks" <?php if ($unit_problem === "Hydraulic leaks") echo 'selected'; ?>>Hydraulic leaks</option>
                     <option value="Electrical malfunctions" <?php if ($unit_problem === "Electrical malfunctions") echo 'selected'; ?>>Electrical malfunctions</option>
@@ -432,7 +432,7 @@ if ($result && mysqli_num_rows($result) > 0) {
                     <option value="Others" <?php if ($unit_problem === "Others") echo 'selected'; ?>>Others</option>
                 </select>
             </div>
-            <button type="button" onclick="addUnitProblemRow()" class="btn btn-danger">Add Unit Problem</button>
+            <button type="button" onclick="addUnitProblemRow()" class="btn btn-danger">Add Brand & Unit Problem</button>
             <button type="button" class="btn btn-danger" onclick="removeBrandRow(this)">Remove</button>
 
             <div class="form-group">
@@ -620,12 +620,12 @@ if ($result && mysqli_num_rows($result) > 0) {
         <script>
             swal.fire({
                 icon: 'success',
-                title: 'Service Request Submitted Successfully',
-                html: 'Service Request ID: <b><?php echo $request_ID ?></b>',
+                title: 'Service Request Edited Successfully',
+                html: 'Service Request ID: <b><?php echo $SERVICE_REQUEST_ID ?></b>',
                 showConfirmButton: false,
                 timer: 1500,
             }).then(function() {
-                window.location = "dashboard.php";
+                window.location = "history.php";
                 exit();
             });
         </script>
