@@ -62,7 +62,7 @@ if (!isset($_SESSION['email'])) {
                             $sql = "SELECT a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE 
                             FROM submit_requests a
                             JOIN service_request_status b ON a.SERVICE_REQUEST_ID = b.SERVICE_REQUEST_ID
-                            WHERE a.user_id = '$user_id'
+                            WHERE a.user_id = '$user_id' AND a.isDelete = '0'
                             GROUP BY a.SERVICE_REQUEST_ID, a.date_of_request, b.STATUS_VALUE;";
                             $result = mysqli_query($conn, $sql);
                             if (mysqli_num_rows($result) > 0) {
@@ -74,8 +74,8 @@ if (!isset($_SESSION['email'])) {
                             ?>
                                     <td>
                                         <a href="viewRequestStatus.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> View Quotation</a>
-                                        <a href="edit_request_form.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> Edit</a>
-                                        <a href="view_service_request.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-secondary btn-xs"><i class="fas fa-eye"></i> View Service Request</a>
+                                        <a href="edit_request_form.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-info btn-xs"><i class="fas fa-eye"></i> Edit</a>
+                                        <a href="view_service_request.php?SERVICE_REQUEST_ID=<?php echo $row['SERVICE_REQUEST_ID']; ?>" class="btn btn-danger btn-xs"><i class="fas fa-eye"></i> View Service Request</a>
 
                                     </td>
                             <?php

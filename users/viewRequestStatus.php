@@ -351,8 +351,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     type: 'POST',
                                     url: 'updateQuotation.php', // Create a separate PHP file to handle the update
                                     data: {
-                                        serviceRequestID: '<?php echo $serviceRequestID; ?>',
-                                        quotationID: '<?php echo $quotationID; ?>'
+                                        serviceRequestID: '<?php echo $serviceRequestID; ?>', // Pass the service request ID to the PHP file
+                                        quotationID: '<?php echo $quotationID; ?>' // Pass the quotation ID to the PHP file
                                     },
                                     success: function(response) {
                                         // Display success message and redirect

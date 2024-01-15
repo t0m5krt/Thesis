@@ -377,8 +377,6 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                         return quotationNumber;
                     }
 
-
-
                     // JavaScript or jQuery code to dynamically update quotationNumber and serviceRequestId
                     document.getElementById('QuotationNumber').value = generateQuotationNumber();
                     document.getElementById('QuoteServiceRequestId').value = <?php echo $SRN; ?>;

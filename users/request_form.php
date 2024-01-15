@@ -47,74 +47,72 @@ if ($result && mysqli_num_rows($result) > 0) {
 
       var var1 = 0;
 
-function addUnitProblemRow() {
-  // Clone the brand element
-  var selectElementBrand = document.getElementById("brand");
-  var cloneBrand = selectElementBrand.cloneNode(true);
-  var currentIdBrand = cloneBrand.id;
-  var newIdBrand = currentIdBrand + var1;
-  cloneBrand.id = newIdBrand;
-  cloneBrand.name = newIdBrand; // Make sure to update the name attribute
-  cloneBrand.value = "";
-  cloneBrand.style.display = "inline-block";
+      function addUnitProblemRow() {
+        // Clone the brand element
+        var selectElementBrand = document.getElementById("brand");
+        var cloneBrand = selectElementBrand.cloneNode(true);
+        var currentIdBrand = cloneBrand.id;
+        var newIdBrand = currentIdBrand + var1;
+        cloneBrand.id = newIdBrand;
+        cloneBrand.name = newIdBrand; // Make sure to update the name attribute
+        cloneBrand.value = "";
+        cloneBrand.style.display = "inline-block";
 
-  // Create a new label for the cloned brand element
-  var labelBrand = document.createElement("label");
-  labelBrand.for = newIdBrand;
-  labelBrand.textContent = "Brand & Unit Problem " + (var1 + 1); // Dynamic label text
-  labelBrand.style.display = "block";
+        // Create a new label for the cloned brand element
+        var labelBrand = document.createElement("label");
+        labelBrand.for = newIdBrand;
+        labelBrand.textContent = "Brand & Unit Problem " + (var1 + 1); // Dynamic label text
+        labelBrand.style.display = "block";
 
-  // Clone the unit problem element
-  var selectElementProblem = document.getElementById("unit_problem");
-  var cloneProblem = selectElementProblem.cloneNode(true);
-  var currentIdProblem = cloneProblem.id;
-  var newIdProblem = currentIdProblem + var1;
-  cloneProblem.id = newIdProblem;
-  cloneProblem.name = newIdProblem; // Make sure to update the name attribute
-  cloneProblem.value = "";
-  cloneProblem.style.display = "inline-block";
+        // Clone the unit problem element
+        var selectElementProblem = document.getElementById("unit_problem");
+        var cloneProblem = selectElementProblem.cloneNode(true);
+        var currentIdProblem = cloneProblem.id;
+        var newIdProblem = currentIdProblem + var1;
+        cloneProblem.id = newIdProblem;
+        cloneProblem.name = newIdProblem; // Make sure to update the name attribute
+        cloneProblem.value = "";
+        cloneProblem.style.display = "inline-block";
 
-  // Create a new label for the cloned unit problem element
-  var labelProblem = document.createElement("label");
-  labelProblem.for = newIdProblem;
-  labelProblem.textContent = ""; // Add label text if needed
-  labelProblem.style.display = "block";
+        // Create a new label for the cloned unit problem element
+        var labelProblem = document.createElement("label");
+        labelProblem.for = newIdProblem;
+        labelProblem.textContent = ""; // Add label text if needed
+        labelProblem.style.display = "block";
 
-  // Append the labels and cloned elements to the parent node
-  selectElementBrand.parentNode.appendChild(labelBrand);
-  selectElementBrand.parentNode.appendChild(cloneBrand);
-  selectElementProblem.parentNode.appendChild(labelProblem);
-  selectElementProblem.parentNode.appendChild(cloneProblem);
+        // Append the labels and cloned elements to the parent node
+        selectElementBrand.parentNode.appendChild(labelBrand);
+        selectElementBrand.parentNode.appendChild(cloneBrand);
+        selectElementProblem.parentNode.appendChild(labelProblem);
+        selectElementProblem.parentNode.appendChild(cloneProblem);
 
-  var1++;
+        var1++;
 
-  redisplayBrandUnitProblem(); // Call the function to redisplay the elements
-}
-
-
-function removeBrandRow(button) {
-  var selectElement = button.parentNode.querySelector("select");
-  var brandId = selectElement.id;
-  var problemId = brandId.replace("brand", "unit_problem");
-
-  selectElement.parentNode.removeChild(selectElement.parentNode.lastChild);
-  document.getElementById(problemId).parentNode.removeChild(document.getElementById(problemId));
-}
-
-function redisplayBrandUnitProblem() {
-  var brandSelects = document.querySelectorAll("[id^='brand']");
-  var problemSelects = document.querySelectorAll("[id^='unit_problem']");
-
-  brandSelects.forEach(function (select) {
-    select.style.display = "inline-block";
-  });
-
-  problemSelects.forEach(function (select) {
-    select.style.display = "inline-block";
-  });
-}
+        redisplayBrandUnitProblem(); // Call the function to redisplay the elements
+      }
 
 
+      function removeBrandRow(button) {
+        var selectElement = button.parentNode.querySelector("select");
+        var brandId = selectElement.id;
+        var problemId = brandId.replace("brand", "unit_problem");
+
+        selectElement.parentNode.removeChild(selectElement.parentNode.lastChild);
+        document.getElementById(problemId).parentNode.removeChild(document.getElementById(problemId));
+      }
+
+      function redisplayBrandUnitProblem() {
+        var brandSelects = document.querySelectorAll("[id^='brand']");
+        var problemSelects = document.querySelectorAll("[id^='unit_problem']");
+
+        brandSelects.forEach(function(select) {
+          select.style.display = "inline-block";
+        });
+
+        problemSelects.forEach(function(select) {
+          select.style.display = "inline-block";
+        });
+      }
     </script>
   </head>
 
@@ -204,7 +202,7 @@ function redisplayBrandUnitProblem() {
         <h3>Unit Details / Problem</h3>
       </div>
       <br />
-  
+
       <div class="form-group">
         <label for="model">MODEL <span style="color: red;">*</span></label>
         <input type="text" id="model" name="model" required />
@@ -505,14 +503,18 @@ function redisplayBrandUnitProblem() {
     $cust_project_name = $_POST['cust_project_name'];
     $model = $_POST['model'];
     $brand = $_POST['brand'];
+    $brand0 = isset($_POST['brand0']) ? $_POST['brand0'] : '';
+    $brand1 = isset($_POST['brand1']) ? $_POST['brand1'] : '';
+    $brand2 = isset($_POST['brand2']) ? $_POST['brand2'] : '';
+    $brand3 = isset($_POST['brand3']) ? $_POST['brand3'] : '';
 
-for ($i = 0; $i < 999; $i++) {
-  if (isset($_POST['brand' . $i])) {
-    $brand = $brand . '-' . $_POST['brand' . $i];
-  } else {
-    break;
-  }
-}
+    for ($i = 0; $i < 999; $i++) {
+      if (isset($_POST['brand' . $i])) {
+        $brand = $brand . '-' . $_POST['brand' . $i];
+      } else {
+        break;
+      }
+    }
 
 
 
@@ -537,13 +539,13 @@ for ($i = 0; $i < 999; $i++) {
 
     $unit_problem = $_POST['unit_problem'];
 
-for ($i = 0; $i < 999; $i++) {
-  if (isset($_POST['unit_problem' . $i])) {
-    $unit_problem = $unit_problem . '-' . $_POST['unit_problem' . $i];
-  } else {
-    break;
-  }
-}
+    for ($i = 0; $i < 999; $i++) {
+      if (isset($_POST['unit_problem' . $i])) {
+        $unit_problem = $unit_problem . '-' . $_POST['unit_problem' . $i];
+      } else {
+        break;
+      }
+    }
 
     $unit_operational = $_POST['unit_operational'];
 
@@ -647,6 +649,47 @@ VALUES (
 
 
   <?php
+  }
+
+  function handleFormSubmission2()
+  {
+    include 'includes/connection.php';
+
+    // ...
+
+    // Insert data into submit_requests table
+    // ...
+
+    // Get the ID of the newly inserted row
+    $request_ID = mysqli_insert_id($conn);
+
+    // Insert data into service_request_status table
+    // ...
+
+    // Insert data into unit_description table
+    $brands = explode(",", $brand);
+    $unitProblems = explode(",", $unit_problem);
+
+    $i = 1; // Initialize the incremental number
+
+    foreach ($brands as $brand) {
+      foreach ($unitProblems as $unitProblem) {
+        $unitDescSql = "INSERT INTO unit_description (SERVICE_REQUEST_ID, unit_brand, unit_problem) VALUES ('$request_ID', '$brand', '$unitProblem') ON DUPLICATE KEY UPDATE unit_problem = CONCAT(unit_problem, ' (', $i, ')')";
+        if (!mysqli_query($conn, $unitDescSql)) {
+          mysqli_rollback($conn);
+          echo "Error: " . $unitDescSql . "<br>" . mysqli_error($conn);
+          return;
+        }
+        $i++; // Increment the incremental number
+      }
+    }
+
+    // Commit transaction
+    mysqli_commit($conn);
+
+    mysqli_close($conn);
+
+    // ...
   }
 
   if ($_SERVER["REQUEST_METHOD"] == "POST") {

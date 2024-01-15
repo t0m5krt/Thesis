@@ -78,8 +78,9 @@ define('PAGE', 'Edit Quotation');
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="Styles/style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-</head>
+
 
 <body>
     <button type="button" class="btn btn-danger" id="buttonFloat">
@@ -154,7 +155,7 @@ define('PAGE', 'Edit Quotation');
                     </div>
 
                     <h1>Parts</h1>
-                    <table>
+                    <table id="quotationTable">
                         <tr>
                             <th>Part Description</th>
                             <th>Quantity</th>
@@ -189,147 +190,163 @@ define('PAGE', 'Edit Quotation');
 
                     <div class="functionContainer">
                         <!-- <button type="button" onclick="addRow()" class="btn btn-secondary-disabled">Add Part</button> -->
+
                         <label for="subtotal">Subtotal:</label>
                         <input type="text" id="subtotal" name="subtotal" readonly>
+
                         <button type="button" onclick="calculateTotal()" class="btn btn-secondary">Calculate Total</button>
                         <button id="submitButton" name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
                     </div>
 
 
+                </form>
+                <script>
+                    function addRow() {
+                        var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
+                        var newRow = table.insertRow(table.rows.length);
+                        var cols = 5; // Number of columns
 
-
-                    <script>
-                        function addRow() {
-                            var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
-                            var newRow = table.insertRow(table.rows.length);
-                            var cols = 5; // Number of columns
-
-                            for (var i = 0; i < cols; i++) {
-                                var cell = newRow.insertCell(i);
-                                if (i < cols - 1) {
-                                    var input = document.createElement("input");
-                                    input.type = "text";
-                                    if (i === 1) {
-                                        input.name = "part_quantity[]";
-                                        input.type = "number";
-                                        input.step = "1";
-                                        input.min = "0";
-                                        input.max = "999";
-                                    } else if (i === 2) {
-                                        input.name = "part_price[]";
-                                        input.type = "number";
-                                        input.step = "0.01";
-                                        input.min = "0";
-                                        input.max = "999999";
-                                    } else if (i === 3) {
-                                        input.name = "part_total[]";
-                                        input.readOnly = true;
-                                    } else {
-                                        input.name = "part_description[]";
-                                    }
-                                    input.required = true;
-                                    cell.appendChild(input);
+                        for (var i = 0; i < cols; i++) {
+                            var cell = newRow.insertCell(i);
+                            if (i < cols - 1) {
+                                var input = document.createElement("input");
+                                input.type = "text";
+                                if (i === 1) {
+                                    input.name = "part_quantity[]";
+                                    input.type = "number";
+                                    input.step = "1";
+                                    input.min = "0";
+                                    input.max = "999";
+                                } else if (i === 2) {
+                                    input.name = "part_price[]";
+                                    input.type = "number";
+                                    input.step = "0.01";
+                                    input.min = "0";
+                                    input.max = "999999";
+                                } else if (i === 3) {
+                                    input.name = "part_total[]";
+                                    input.readOnly = true;
                                 } else {
-                                    var button = document.createElement("button");
-                                    button.type = "button";
-                                    button.textContent = "Remove";
-                                    button.className = "btn btn-primary"; // Add the class "btn btn-primary"
-                                    button.onclick = function() {
-                                        removeRow(this);
-                                    };
-                                    cell.appendChild(button);
+                                    input.name = "part_description[]";
                                 }
+                                input.required = true;
+                                cell.appendChild(input);
+                            } else {
+                                var button = document.createElement("button");
+                                button.type = "button";
+                                button.textContent = "Remove";
+                                button.className = "btn btn-danger"; // Add the class "btn btn-primary"
+                                button.onclick = function() {
+                                    removeRow(this);
+                                };
+                                cell.appendChild(button);
                             }
                         }
+                    }
 
-                        function removeRow(button) {
-                            var row = button.parentNode.parentNode;
-                            Swal.fire({
-                                title: "Are you sure?",
-                                text: "You won't be able to revert this!",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#3085d6",
-                                cancelButtonColor: "#d33",
-                                confirmButtonText: "Yes, remove it!",
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    row.parentNode.removeChild(row);
-                                    calculateTotal();
-                                    Swal.fire("Removed!", "The item has been removed.", "success");
-                                }
-                            });
+                    function removeRow(button) {
+                        var row = button.parentNode.parentNode;
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "You won't be able to revert this!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, remove it!",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                row.parentNode.removeChild(row);
+                                calculateTotal();
+                                Swal.fire("Removed!", "The item has been removed.", "success");
+                            }
+                        });
 
-                            console.log(row);
-                        }
+                        console.log(row);
+                    }
 
-                        function calculateTotal() {
-                            var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
-                            var rows = table.getElementsByTagName('tr');
+                    function calculateTotal() {
+                        var table = document.getElementById("quotationTable");
+
+                        if (table && table.getElementsByTagName('tbody').length > 0) {
+                            var tbody = table.getElementsByTagName('tbody')[0];
+
+                            // Add a console log to check if tbody is defined
+                            console.log("tbody:", tbody);
+
+                            var rows = tbody.getElementsByTagName('tr');
                             var subtotal = 0;
 
                             for (var i = 0; i < rows.length; i++) {
                                 var cells = rows[i].getElementsByTagName('td');
-                                var quantity = parseFloat(cells[1].getElementsByTagName('input')[0].value);
-                                var price = parseFloat(cells[2].getElementsByTagName('input')[0].value);
-                                var total = quantity * price;
-                                subtotal += total;
-                                cells[3].getElementsByTagName('input')[0].value = total.toFixed(2);
+
+                                // Add a console log to check if cells is defined
+                                console.log("cells:", cells);
+
+                                if (cells.length >= 4) {
+                                    var quantityInput = cells[1].getElementsByTagName('input')[0];
+                                    var priceInput = cells[2].getElementsByTagName('input')[0];
+
+                                    // Add console logs to check if quantityInput and priceInput are defined
+                                    console.log("quantityInput:", quantityInput);
+                                    console.log("priceInput:", priceInput);
+
+                                    if (quantityInput && priceInput) {
+                                        var quantity = parseFloat(quantityInput.value);
+                                        var price = parseFloat(priceInput.value);
+
+                                        if (!isNaN(quantity) && !isNaN(price)) {
+                                            var total = quantity * price;
+                                            subtotal += total;
+
+                                            var totalInput = cells[3].getElementsByTagName('input')[0];
+                                            if (totalInput) {
+                                                totalInput.value = total.toFixed(2);
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
-                            document.getElementById("subtotal").value = subtotal.toFixed(2);
+                            var subtotalElement = document.getElementById("subtotal");
+
+                            // Add a console log to check if subtotalElement is defined
+                            console.log("subtotalElement:", subtotalElement);
+
+                            if (subtotalElement) {
+                                subtotalElement.value = subtotal.toFixed(2);
+                            }
+                        }
+                    }
+
+
+                    function generateQuotationNumber() {
+                        var characters = '0123456789';
+                        var quotationNumber = '';
+
+                        for (var i = 0; i < 5; i++) {
+                            var randomIndex = Math.floor(Math.random() * characters.length);
+                            quotationNumber += characters.charAt(randomIndex);
                         }
 
-                        function generateQuotationNumber() {
-                            // var currentDate = new Date();
-                            // var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                            // var day = currentDate.getDate().toString().padStart(2, '0');
-                            // var year = currentDate.getFullYear().toString().slice(-2);
-                            // var hours = currentDate.getHours().toString().padStart(2, '0');
-                            // var minutes = currentDate.getMinutes().toString().padStart(2, '0');
-                            // var seconds = currentDate.getSeconds().toString().padStart(2, '0');
+                        return quotationNumber;
+                    }
 
-                            // var formattedDate = month + day + year;
-                            // var formattedTime = hours + minutes + seconds;
+                    // JavaScript code to redirect to admin dashboard
+                    document.getElementById('buttonFloat').onclick = function() {
+                        window.location.href = "serviceRequest_Admin.php";
+                    };
 
-                            // return formattedDate + formattedTime;
-
-                            var characters = '0123456789';
-                            var quotationNumber = '';
-
-                            for (var i = 0; i < 5; i++) {
-                                var randomIndex = Math.floor(Math.random() * characters.length);
-                                quotationNumber += characters.charAt(randomIndex);
-                            }
-
-                            return quotationNumber;
+                    // JavaScript code to redirect to admin dashboard
+                    document.getElementById('submitButton').onclick = function() {
+                        var confirmation = confirm("Are you sure you want to submit?");
+                        if (confirmation) {
+                            return true;
+                        } else {
+                            return false;
                         }
-
-
-
-                        // JavaScript or jQuery code to dynamically update quotationNumber and serviceRequestId
-                        document.getElementById('QuotationNumber').value = generateQuotationNumber();
-                        document.getElementById('QuoteServiceRequestId').value = <?php echo $SR_Number; ?>;
-                        document.getElementById('ClientName').value = "<?php echo $row['requestor']; ?>";
-                        document.getElementById('projectName').value = "<?php echo $row['cust_project_name']; ?>";
-                        document.getElementById('PreparedBy').value = "<?php echo $row2['full_name']; ?>";
-
-                        // JavaScript code to redirect to admin dashboard
-                        document.getElementById('buttonFloat').onclick = function() {
-                            window.location.href = "serviceRequest_Admin.php";
-                        };
-
-                        // JavaScript code to redirect to admin dashboard
-                        document.getElementById('submitButton').onclick = function() {
-                            var confirmation = confirm("Are you sure you want to submit?");
-                            if (confirmation) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        };
-                    </script>
-                </form>
+                    };
+                </script>
                 <script src="js/favicon.js"></script>
 
     <?php
@@ -341,6 +358,10 @@ define('PAGE', 'Edit Quotation');
         // echo "<script>alert('No \'id\' parameter found in URL.');</script>";
     }
     ?>
+
+    <div class='alert alert-info'>
+        "Please note that, for processing your request, you can only adjust the quantity of your parts; removal or modification of parts is allowed."
+    </div>
 </body>
 
 </html>
@@ -348,66 +369,61 @@ define('PAGE', 'Edit Quotation');
 include 'includes/connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (!empty($_POST["part_description"]) && !empty($_POST["part_quantity"]) && !empty($_POST["part_price"])) {
-        $quotationNumber = $_GET["QuotationNumber"];
+    // Check if the required keys are set in $_POST
+    if (isset($_POST["part_description"], $_POST["part_quantity"], $_POST["part_price"])) {
+        // $clientName = $_POST["ClientName"];
+        // $preparedBy = $_POST["PreparedBy"];
+        // $datePrepared = $_POST["DatePrepared"];
+        // $quotationNumber = $_POST["QuotationNumber"];
+        // $serviceRequestId = $_POST["QuoteServiceRequestId"];
+        // $projectName = $_POST["ProjectName"];
 
-        // Insert the quotation information into the Quotation table
-        $quotationInsertQuery = "INSERT INTO quotation_tb (ClientName, PreparedBy, DatePrepared, QuotationNumber, ServiceRequestID, ProjectName) 
-                                VALUES ('$clientName', '$preparedBy', '$datePrepared', '$quotationNumber', '$serviceRequestId', '$projectName')";
+        // Update part information in the QuotationParts table
+        foreach ($_POST["part_description"] as $index => $partDescription) {
+            $quantity = $_POST["part_quantity"][$index];
+            $unitPrice = $_POST["part_price"][$index];
+            $totalPrice = $quantity * $unitPrice;
 
-        if ($conn->query($quotationInsertQuery) === TRUE) {
-            $quotationID = $conn->insert_id; // Get the ID of the last inserted row 
-
-            // Remove existing parts not present in the current form submission
-            $existingPartDescriptions = $_POST["existing_part_description"] ?? [];
-            $existingPartQuery = "DELETE FROM quotation_parts_tb WHERE QuotationNumber = '$quotationNumber' AND PartDescription NOT IN ('" . implode("','", $existingPartDescriptions) . "')";
-
-            if (!$conn->query($existingPartQuery)) {
-                echo "<script>alert('Error removing existing parts: " . $conn->error . "');</script>";
-            }
-
-            // Insert or update part information into the QuotationParts table
-            foreach ($_POST["part_description"] as $index => $partDescription) {
-                $quantity = $_POST["part_quantity"][$index];
-                $unitPrice = $_POST["part_price"][$index];
-                $totalPrice = $quantity * $unitPrice;
-
-                $partUpdateQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, ServiceRequestID, PartDescription, Quantity, UnitPrice, TotalPrice) 
-                                    VALUES ('$quotationNumber', '$serviceRequestId', '$partDescription', '$quantity', '$unitPrice', '$totalPrice') 
-                                    ON DUPLICATE KEY UPDATE Quantity = '$quantity', UnitPrice = '$unitPrice', TotalPrice = '$totalPrice'";
-
-                if (!$conn->query($partUpdateQuery)) {
-                    echo "<script>alert('Error updating/inserting part: " . $conn->error . "');</script>";
-                    // Add additional logging or debugging information
-                    echo "Quotation Number: " . $quotationNumber . "<br>";
-                    echo "Part Description: " . $partDescription . "<br>";
-                    echo "Quantity: " . $quantity . "<br>";
-                    echo "Unit Price: " . $unitPrice . "<br>";
-                    echo "Total Price: " . $totalPrice . "<br>";
-
-                    $requiredFields = array("part_description", "part_quantity", "part_price");
-                    $missingFields = array();
-
-                    foreach ($requiredFields as $field) {
-                        if (!isset($_POST[$field]) || empty($_POST[$field])) {
-                            $missingFields[] = ucfirst(str_replace("_", " ", $field));
-                        }
-                    }
-
-                    if (!empty($missingFields)) {
-                        echo "<script>alert('Missing required form fields: " . implode(", ", $missingFields) . "');</script>";
-                    }
-                }
+            // Update query for each part
+            $partUpdateQuery = "UPDATE quotation_parts_tb 
+                       SET Quantity = '$quantity', 
+                           UnitPrice = '$unitPrice', 
+                           TotalPrice = '$totalPrice'
+                       WHERE ServiceRequestID = '$SRN' AND QuotationNumber = '$quotationNumber' AND PartDescription = '$partDescription'";
+            if (!$conn->query($partUpdateQuery)) {
+                echo "<script>alert('Error updating part: " . $conn->error . "');</script>";
+                // Add additional logging or debugging information
+                echo "Quotation Number: " . $quotationNumber . "<br>";
+                echo "Part Description: " . $partDescription . "<br>";
+                echo "Quantity: " . $quantity . "<br>";
+                echo "Unit Price: " . $unitPrice . "<br>";
+                echo "Total Price: " . $totalPrice . "<br>";
             }
         }
 
-        echo "<script>alert('Quotation submitted successfully!');</script>";
-        header("Location: serviceRequest_Admin.php");
+        // Update quote_response in quotation_tb
+        $quoteResponseUpdateQuery = "UPDATE quotation_tb 
+                                     SET quote_response = 'Conditional accepted' 
+                                     WHERE QuotationNumber = '$quotationNumber'";
+
+        if (!$conn->query($quoteResponseUpdateQuery)) {
+            echo "<script>alert('Error updating quote response: " . $conn->error . "');</script>";
+            // Add additional logging or debugging information
+            echo "Quotation Number: " . $quotationNumber . "<br>";
+        }
+?>
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Quotation updated successfully!',
+                showConfirmButton: false,
+                timer: 1500
+            }).then(() => {
+                window.location.href = 'history.php';
+            });
+        </script>
+<?php
         exit();
-    } else {
-        echo "<script>alert('Error: Missing required form fields');</script>";
     }
-} else {
-    // echo "<script>alert('Error: Invalid request method');</script>";
 }
 ?>

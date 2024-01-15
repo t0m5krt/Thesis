@@ -10,8 +10,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         include_once 'includes/connection.php';
 
         // Update quote_response to 'Voided'
-        $sqlVoid = "UPDATE quotation_tb SET quote_response = 'Voided' WHERE ServiceRequestID = '$serviceRequestID' AND QuotationNumber = '$quotationID'";
-        $resultVoid = mysqli_query($conn, $sqlVoid);
+        $sqlVoid = "UPDATE quotation_tb AS qt
+        JOIN submit_requests AS sb ON qt.ServiceRequestID = sb.SERVICE_REQUEST_ID
+        SET qt.quote_response = 'Voided'
+        WHERE qt.ServiceRequestID = '$serviceRequestID'
+          AND qt.QuotationNumber = '$quotationID' 
+          AND sb.SERVICE_REQUEST_ID = '$serviceRequestID' 
+          AND sb.isDelete = '0';
+        
+        UPDATE submit_requests
+        SET isDelete = '1'
+        WHERE SERVICE_REQUEST_ID = '$serviceRequestID' AND isDelete = '0';";
+
+        $resultVoid = mysqli_multi_query($conn, $sqlVoid);
 
         if ($resultVoid) {
             // Return success message
