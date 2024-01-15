@@ -3,9 +3,6 @@ include 'includes/connection.php';
 // include 'includes/header.php';
 define('PAGE', 'Edit Quotation');
 
-// $adminID = $_SESSION['REGISTRATION_ID'];
-$SR_Number = $_GET['SERVICE_REQUEST_ID'];
-$quotationNumber = $_GET['QuotationNumber'];
 
 // $sql2 = "SELECT CONCAT(firstname, ' ', lastname) AS full_name FROM office_accounts WHERE REGISTRATION_ID = '$adminID'";
 // $result2 = mysqli_query($conn, $sql2);
@@ -94,7 +91,7 @@ $quotationNumber = $_GET['QuotationNumber'];
     if (isset($_GET['SERVICE_REQUEST_ID'])) {
         // Retrieve the value of 'id' from the URL
         $SRN = $_GET['SERVICE_REQUEST_ID'];
-
+        $quotationNumber = $_GET['QuotationNumber'];
 
         // Use the retrieved value in your SQL query
         $sql = "SELECT * FROM quotation_tb WHERE ServiceRequestID = '$SRN' AND QuotationNumber = '$quotationNumber'";
@@ -108,7 +105,7 @@ $quotationNumber = $_GET['QuotationNumber'];
                 <h1><?php echo PAGE ?></h1>
 
 
-                <form method="POST" action="editQuotation.php">
+                <form method="POST">
 
                     <div id="header">
 
@@ -135,7 +132,7 @@ $quotationNumber = $_GET['QuotationNumber'];
 
                             <div class="header-item">
                                 <label for="QuotationNumber">Quotation Number:</label>
-                                <input type="text" id="QuotationNumber" name="QuotationNumber" value="<?php echo $row['QuotationNumber']; ?>" readonly>
+                                <input type="text" id="QuotationNumber" name="QuotationNumber" value="<?php echo $quotationNumber; ?>" readonly>
                             </div>
 
                         </div>
@@ -145,7 +142,7 @@ $quotationNumber = $_GET['QuotationNumber'];
 
                             <div class="header-item">
                                 <label for="ServiceRequestId">Service Request ID:</label>
-                                <input type="text" id="QuoteServiceRequestId" name="QuoteServiceRequestId" value="<?php echo $row['ServiceRequestID']; ?>" readonly>
+                                <input type="text" id="QuoteServiceRequestId" name="QuoteServiceRequestId" value="<?php echo $SRN; ?>" readonly>
                             </div>
 
                             <div class="header-item">
@@ -157,168 +154,182 @@ $quotationNumber = $_GET['QuotationNumber'];
                     </div>
 
                     <h1>Parts</h1>
+                    <table>
+                        <tr>
+                            <th>Part Description</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                            <th>Action</th>
+                        </tr>
 
-                    <?php
-                    $quotationPartsQuery = "SELECT * FROM quotation_parts_tb WHERE QuotationNumber = '$quotationNumber' AND ServiceRequestID = '$SR_Number'";
-                    $quotationPartsResult = $conn->query($quotationPartsQuery);
+                        <?php
+                        $quotationPartsQuery = "SELECT * FROM quotation_parts_tb WHERE QuotationNumber = '$quotationNumber' AND ServiceRequestID = '$SRN'";
+                        $quotationPartsResult = $conn->query($quotationPartsQuery);
 
-                    // Display quotation parts in a table
-                    if ($quotationPartsResult->num_rows > 0) {
-                        while ($quotationPartsRow = $quotationPartsResult->fetch_assoc()) {
-                    ?>
-                            <table>
+                        // Display quotation parts in a table
+                        if ($quotationPartsResult->num_rows > 0) {
+                            while ($quotationPartsRow = $quotationPartsResult->fetch_assoc()) {
 
-
+                        ?>
                                 <tr>
                                     <td><input type="text" name="part_description[]" value="<?php echo $quotationPartsRow['PartDescription']; ?>" required></td>
                                     <td><input type="number" name="part_quantity[]" min="0" max="999" value="<?php echo $quotationPartsRow['Quantity']; ?>" required></td>
                                     <td><input type="number" name="part_price[]" min="0" max="999999" step="0.01" value="<?php echo $quotationPartsRow['UnitPrice']; ?>" required></td>
                                     <td><input type="text" name="part_total[]" value="<?php echo $quotationPartsRow['TotalPrice']; ?>" readonly></td>
-                                    <td><button type="button" onclick="removeRow(this)" class="btn btn-primary">Remove</button></td>
+                                    <td><button type="button" onclick="removeRow(this)" class="btn btn-danger">Remove</button></td>
                                 </tr>
-                            </table>
-                    <?php
+                        <?php
+                            }
+                        } else {
+                            echo "<p>No parts found.</p>";
                         }
-                    } else {
-                        echo "<p>No parts found.</p>";
-                    }
-                    ?>
+                        ?>
+                    </table>
 
                     <div class="functionContainer">
-                        <button type="button" onclick="addRow()" class="btn btn-secondary">Add Part</button>
-
+                        <!-- <button type="button" onclick="addRow()" class="btn btn-secondary-disabled">Add Part</button> -->
                         <label for="subtotal">Subtotal:</label>
                         <input type="text" id="subtotal" name="subtotal" readonly>
-
                         <button type="button" onclick="calculateTotal()" class="btn btn-secondary">Calculate Total</button>
                         <button id="submitButton" name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
                     </div>
 
-                </form>
-                <!-- <div id="disclaimer">
-                    <p><em>Note:</em> This quotation is subject to variations in rental fees and additional services that may be required to complete the service. The final costs may differ based on specific service needs and rental terms.</p>
-                </div> -->
 
-                <script>
-                    function addRow() {
-                        var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
-                        var newRow = table.insertRow(table.rows.length);
-                        var cols = 5; // Number of columns
 
-                        for (var i = 0; i < cols; i++) {
-                            var cell = newRow.insertCell(i);
-                            if (i < cols - 1) {
-                                var input = document.createElement("input");
-                                input.type = "text";
-                                if (i === 1) {
-                                    input.name = "part_quantity[]";
-                                    input.type = "number";
-                                    input.step = "1";
-                                    input.min = "0";
-                                    input.max = "999";
-                                } else if (i === 2) {
-                                    input.name = "part_price[]";
-                                    input.type = "number";
-                                    input.step = "0.01";
-                                    input.min = "0";
-                                    input.max = "999999";
-                                } else if (i === 3) {
-                                    input.name = "part_total[]";
-                                    input.readOnly = true;
+
+                    <script>
+                        function addRow() {
+                            var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
+                            var newRow = table.insertRow(table.rows.length);
+                            var cols = 5; // Number of columns
+
+                            for (var i = 0; i < cols; i++) {
+                                var cell = newRow.insertCell(i);
+                                if (i < cols - 1) {
+                                    var input = document.createElement("input");
+                                    input.type = "text";
+                                    if (i === 1) {
+                                        input.name = "part_quantity[]";
+                                        input.type = "number";
+                                        input.step = "1";
+                                        input.min = "0";
+                                        input.max = "999";
+                                    } else if (i === 2) {
+                                        input.name = "part_price[]";
+                                        input.type = "number";
+                                        input.step = "0.01";
+                                        input.min = "0";
+                                        input.max = "999999";
+                                    } else if (i === 3) {
+                                        input.name = "part_total[]";
+                                        input.readOnly = true;
+                                    } else {
+                                        input.name = "part_description[]";
+                                    }
+                                    input.required = true;
+                                    cell.appendChild(input);
                                 } else {
-                                    input.name = "part_description[]";
+                                    var button = document.createElement("button");
+                                    button.type = "button";
+                                    button.textContent = "Remove";
+                                    button.className = "btn btn-primary"; // Add the class "btn btn-primary"
+                                    button.onclick = function() {
+                                        removeRow(this);
+                                    };
+                                    cell.appendChild(button);
                                 }
-                                input.required = true;
-                                cell.appendChild(input);
-                            } else {
-                                var button = document.createElement("button");
-                                button.type = "button";
-                                button.textContent = "Remove";
-                                button.className = "btn btn-primary"; // Add the class "btn btn-primary"
-                                button.onclick = function() {
-                                    removeRow(this);
-                                };
-                                cell.appendChild(button);
                             }
                         }
-                    }
 
-                    function removeRow(button) {
-                        var row = button.parentNode.parentNode;
-                        var confirmation = confirm("Are you sure you want to remove this?");
-                        if (confirmation) {
-                            row.parentNode.removeChild(row);
-                            calculateTotal();
-                        }
-                    }
+                        function removeRow(button) {
+                            var row = button.parentNode.parentNode;
+                            Swal.fire({
+                                title: "Are you sure?",
+                                text: "You won't be able to revert this!",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Yes, remove it!",
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    row.parentNode.removeChild(row);
+                                    calculateTotal();
+                                    Swal.fire("Removed!", "The item has been removed.", "success");
+                                }
+                            });
 
-                    function calculateTotal() {
-                        var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
-                        var rows = table.getElementsByTagName('tr');
-                        var subtotal = 0;
-
-                        for (var i = 0; i < rows.length; i++) {
-                            var cells = rows[i].getElementsByTagName('td');
-                            var quantity = parseFloat(cells[1].getElementsByTagName('input')[0].value);
-                            var price = parseFloat(cells[2].getElementsByTagName('input')[0].value);
-                            var total = quantity * price;
-                            subtotal += total;
-                            cells[3].getElementsByTagName('input')[0].value = total.toFixed(2);
+                            console.log(row);
                         }
 
-                        document.getElementById("subtotal").value = subtotal.toFixed(2);
-                    }
+                        function calculateTotal() {
+                            var table = document.getElementById("quotationTable").getElementsByTagName('tbody')[0];
+                            var rows = table.getElementsByTagName('tr');
+                            var subtotal = 0;
 
-                    function generateQuotationNumber() {
-                        // var currentDate = new Date();
-                        // var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                        // var day = currentDate.getDate().toString().padStart(2, '0');
-                        // var year = currentDate.getFullYear().toString().slice(-2);
-                        // var hours = currentDate.getHours().toString().padStart(2, '0');
-                        // var minutes = currentDate.getMinutes().toString().padStart(2, '0');
-                        // var seconds = currentDate.getSeconds().toString().padStart(2, '0');
+                            for (var i = 0; i < rows.length; i++) {
+                                var cells = rows[i].getElementsByTagName('td');
+                                var quantity = parseFloat(cells[1].getElementsByTagName('input')[0].value);
+                                var price = parseFloat(cells[2].getElementsByTagName('input')[0].value);
+                                var total = quantity * price;
+                                subtotal += total;
+                                cells[3].getElementsByTagName('input')[0].value = total.toFixed(2);
+                            }
 
-                        // var formattedDate = month + day + year;
-                        // var formattedTime = hours + minutes + seconds;
-
-                        // return formattedDate + formattedTime;
-
-                        var characters = '0123456789';
-                        var quotationNumber = '';
-
-                        for (var i = 0; i < 5; i++) {
-                            var randomIndex = Math.floor(Math.random() * characters.length);
-                            quotationNumber += characters.charAt(randomIndex);
+                            document.getElementById("subtotal").value = subtotal.toFixed(2);
                         }
 
-                        return quotationNumber;
-                    }
+                        function generateQuotationNumber() {
+                            // var currentDate = new Date();
+                            // var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                            // var day = currentDate.getDate().toString().padStart(2, '0');
+                            // var year = currentDate.getFullYear().toString().slice(-2);
+                            // var hours = currentDate.getHours().toString().padStart(2, '0');
+                            // var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+                            // var seconds = currentDate.getSeconds().toString().padStart(2, '0');
 
+                            // var formattedDate = month + day + year;
+                            // var formattedTime = hours + minutes + seconds;
 
+                            // return formattedDate + formattedTime;
 
-                    // JavaScript or jQuery code to dynamically update quotationNumber and serviceRequestId
-                    document.getElementById('QuotationNumber').value = generateQuotationNumber();
-                    document.getElementById('QuoteServiceRequestId').value = <?php echo $SR_Number; ?>;
-                    document.getElementById('ClientName').value = "<?php echo $row['requestor']; ?>";
-                    document.getElementById('projectName').value = "<?php echo $row['cust_project_name']; ?>";
-                    document.getElementById('PreparedBy').value = "<?php echo $row2['full_name']; ?>";
+                            var characters = '0123456789';
+                            var quotationNumber = '';
 
-                    // JavaScript code to redirect to admin dashboard
-                    document.getElementById('buttonFloat').onclick = function() {
-                        window.location.href = "serviceRequest_Admin.php";
-                    };
+                            for (var i = 0; i < 5; i++) {
+                                var randomIndex = Math.floor(Math.random() * characters.length);
+                                quotationNumber += characters.charAt(randomIndex);
+                            }
 
-                    // JavaScript code to redirect to admin dashboard
-                    document.getElementById('submitButton').onclick = function() {
-                        var confirmation = confirm("Are you sure you want to submit?");
-                        if (confirmation) {
-                            return true;
-                        } else {
-                            return false;
+                            return quotationNumber;
                         }
-                    };
-                </script>
 
+
+
+                        // JavaScript or jQuery code to dynamically update quotationNumber and serviceRequestId
+                        document.getElementById('QuotationNumber').value = generateQuotationNumber();
+                        document.getElementById('QuoteServiceRequestId').value = <?php echo $SR_Number; ?>;
+                        document.getElementById('ClientName').value = "<?php echo $row['requestor']; ?>";
+                        document.getElementById('projectName').value = "<?php echo $row['cust_project_name']; ?>";
+                        document.getElementById('PreparedBy').value = "<?php echo $row2['full_name']; ?>";
+
+                        // JavaScript code to redirect to admin dashboard
+                        document.getElementById('buttonFloat').onclick = function() {
+                            window.location.href = "serviceRequest_Admin.php";
+                        };
+
+                        // JavaScript code to redirect to admin dashboard
+                        document.getElementById('submitButton').onclick = function() {
+                            var confirmation = confirm("Are you sure you want to submit?");
+                            if (confirmation) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        };
+                    </script>
+                </form>
                 <script src="js/favicon.js"></script>
 
     <?php
@@ -333,17 +344,12 @@ $quotationNumber = $_GET['QuotationNumber'];
 </body>
 
 </html>
-
 <?php
+include 'includes/connection.php';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Check if the required keys are set in $_POST
-    if (isset($_POST["ClientName"], $_POST["PreparedBy"], $_POST["DatePrepared"], $_POST["ProjectName"], $_POST["QuotationNumber"])) {
-        $clientName = $_POST["ClientName"];
-        $preparedBy = $_POST["PreparedBy"];
-        $datePrepared = $_POST["DatePrepared"];
-        $quotationNumber = $_POST["QuotationNumber"];
-        $serviceRequestId = $_POST["QuoteServiceRequestId"];
-        $projectName = $_POST["ProjectName"];
+    if (!empty($_POST["part_description"]) && !empty($_POST["part_quantity"]) && !empty($_POST["part_price"])) {
+        $quotationNumber = $_GET["QuotationNumber"];
 
         // Insert the quotation information into the Quotation table
         $quotationInsertQuery = "INSERT INTO quotation_tb (ClientName, PreparedBy, DatePrepared, QuotationNumber, ServiceRequestID, ProjectName) 
@@ -352,22 +358,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($conn->query($quotationInsertQuery) === TRUE) {
             $quotationID = $conn->insert_id; // Get the ID of the last inserted row 
 
-            // Insert part information into the QuotationParts table
+            // Remove existing parts not present in the current form submission
+            $existingPartDescriptions = $_POST["existing_part_description"] ?? [];
+            $existingPartQuery = "DELETE FROM quotation_parts_tb WHERE QuotationNumber = '$quotationNumber' AND PartDescription NOT IN ('" . implode("','", $existingPartDescriptions) . "')";
+
+            if (!$conn->query($existingPartQuery)) {
+                echo "<script>alert('Error removing existing parts: " . $conn->error . "');</script>";
+            }
+
+            // Insert or update part information into the QuotationParts table
             foreach ($_POST["part_description"] as $index => $partDescription) {
                 $quantity = $_POST["part_quantity"][$index];
                 $unitPrice = $_POST["part_price"][$index];
                 $totalPrice = $quantity * $unitPrice;
 
-                $partUpdateQuery = "UPDATE quotation_parts_tb SET Quantity = '$quantity', UnitPrice = '$unitPrice', TotalPrice = '$totalPrice' WHERE QuotationNumber = '$quotationNumber' AND PartDescription = '$partDescription'";
+                $partUpdateQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, ServiceRequestID, PartDescription, Quantity, UnitPrice, TotalPrice) 
+                                    VALUES ('$quotationNumber', '$serviceRequestId', '$partDescription', '$quantity', '$unitPrice', '$totalPrice') 
+                                    ON DUPLICATE KEY UPDATE Quantity = '$quantity', UnitPrice = '$unitPrice', TotalPrice = '$totalPrice'";
 
                 if (!$conn->query($partUpdateQuery)) {
-                    echo "<script>alert('Error updating part: " . $conn->error . "');</script>";
+                    echo "<script>alert('Error updating/inserting part: " . $conn->error . "');</script>";
                     // Add additional logging or debugging information
                     echo "Quotation Number: " . $quotationNumber . "<br>";
                     echo "Part Description: " . $partDescription . "<br>";
                     echo "Quantity: " . $quantity . "<br>";
                     echo "Unit Price: " . $unitPrice . "<br>";
                     echo "Total Price: " . $totalPrice . "<br>";
+
+                    $requiredFields = array("part_description", "part_quantity", "part_price");
+                    $missingFields = array();
+
+                    foreach ($requiredFields as $field) {
+                        if (!isset($_POST[$field]) || empty($_POST[$field])) {
+                            $missingFields[] = ucfirst(str_replace("_", " ", $field));
+                        }
+                    }
+
+                    if (!empty($missingFields)) {
+                        echo "<script>alert('Missing required form fields: " . implode(", ", $missingFields) . "');</script>";
+                    }
                 }
             }
         }
@@ -376,9 +405,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         header("Location: serviceRequest_Admin.php");
         exit();
     } else {
-        echo "<script>alert('Error: " . $quotationInsertQuery . "\\n" . $conn->error . "');</script>";
+        echo "<script>alert('Error: Missing required form fields');</script>";
     }
 } else {
-    echo "<script>alert('Missing required form fields.');</script>";
+    // echo "<script>alert('Error: Invalid request method');</script>";
 }
 ?>
