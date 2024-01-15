@@ -87,13 +87,58 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
                             </div>
                         </div>
 
-            <?php
+                        <?php
                     }
                 } else {
-                    echo "<div class='alert alert-info'>
-                    Your request is currently pending processing. Please check back for details once the request has been processed.
-                        </div>
-                        ";
+                    // Run the second query if the first query doesn't return any results
+                    $sqlFirst = "SELECT * FROM submit_requests a, service_request_status b 
+                                WHERE a.SERVICE_REQUEST_ID = $SRID AND b.SERVICE_REQUEST_ID = $SRID";
+                    $sqlFirstResult = mysqli_query($conn, $sqlFirst);
+
+                    if (mysqli_num_rows($sqlFirstResult) > 0) {
+                        while ($ResultRow = mysqli_fetch_assoc($sqlFirstResult)) {
+                            // Display details from the second query
+                            // ...
+                        ?>
+                            <div class="card-container">
+                                <div class="profile-info">
+                                    <div class="alert alert-success">Status: <span class="data-output"><?php echo $ResultRow['STATUS_VALUE'] ?></span></div>
+                                </div>
+
+
+                                <div class="service-details">
+                                    <h2>Service Request Details</h2>
+                                    <p>Request ID: <span class="data-output"><?php echo $ResultRow['SERVICE_REQUEST_ID'] ?></span></p>
+                                    <p>Requestor: <span class="data-output"><?php echo $ResultRow['requestor'] ?></span></p>
+                                    <p>Date Requested: <span class="data-output"><?php echo $ResultRow['date_of_request'] ?></span></p>
+                                    <p>Contact No: <span class="data-output"><?php echo $ResultRow['mobile_or_phone_no'] ?></span></p>
+                                    <p>Address: <span class="data-output"><?php echo $ResultRow['address'] ?></span></p>
+                                    <p>Business Unit: <span class="data-output"><?php echo $ResultRow['business_unit'] ?></span></p>
+                                    <p>Project Name: <span class="data-output"><?php echo $ResultRow['cust_project_name'] ?></span></p>
+                                    <p>Asset Code: <span class="data-output"><?php echo $ResultRow['asset_code'] ?></span></p>
+                                    <p>Model: <span class="data-output"><?php echo $ResultRow['model'] ?></span></p>
+                                    <p>Equipment Description: <span class="data-output"><?php echo $ResultRow['equip_desc'] ?></span></p>
+                                    <p>Equipment Brand: <span class="data-output"><?php echo $ResultRow['brand'] ?></span></p>
+                                    <p>Service Meter Reading: <span class="data-output"><?php echo $ResultRow['service_meter_reading'] ?></span></p>
+                                    <p>Type of Request: <span class="data-output"><?php echo $ResultRow['type_of_request'] ?></span></p>
+                                    <p>Charging: <span class="data-output"><?php echo $ResultRow['charging'] ?></span></p>
+                                    <p>Unit Problem: <span class="data-output"><?php echo $ResultRow['unit_problem'] ?></span></p>
+                                    <p>Unit Operational: <span class="data-output"><?php echo $ResultRow['unit_operational'] ?></span></p>
+                                    <p>Specific Requirement: <span class="data-output"><?php echo $ResultRow['specific_requirement'] ?></span></p>
+                                    <p>Onsite Contact Person: <span class="data-output"><?php echo $ResultRow['onsite_contact_person'] ?></span></p>
+                                    <p>Onsite Contact No: <span class="data-output"><?php echo $ResultRow['fax_no'] ?></span></p>
+                                </div>
+
+                                <div class='alert alert-info'>
+                                    Your request is currently pending processing. Please check back for details once the request has been processed.
+                                </div>
+                            </div>
+            <?php
+                        }
+                    } else {
+                        // Handle the case when both queries don't return any results
+                        echo 'No results found for the given SERVICE_REQUEST_ID.';
+                    }
                 }
 
                 // Include your database connection file
@@ -169,7 +214,7 @@ $SRN = $_GET['SERVICE_REQUEST_ID'];
 
                                     echo '<br>';
 
-                                    echo '<button type="submit" class="btn btn-success" name="AcceptButton">Accept Quotation</button>
+                                    echo '<button type="submit" class="btn btn-success" name="AcceptButton" id="acceptButton">Accept Quotation</button>
                                     <button type="submit" class="btn btn-danger" name="DeclineButton">Decline Quotation</button>
                                 ';
 
@@ -219,14 +264,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $resultCheckAcceptance = mysqli_query($conn, $sqlCheckAcceptance);
         $rowCheckAcceptance = mysqli_fetch_assoc($resultCheckAcceptance);
 
-        if ($rowCheckAcceptance['quote_response'] === 'Accepted') {
+
+
+        if ($rowCheckAcceptance['quote_response'] !== 'Pending') {
             // Display a SweetAlert message indicating that the quotation has already been accepted
 ?>
             <script>
                 Swal.fire({
                     icon: 'info',
-                    title: 'Quotation Already Accepted',
-                    text: 'This quotation has already been accepted.',
+                    title: 'Oops...',
+                    text: 'This quotation has already been processed.',
                     showConfirmButton: false,
                     timer: 1500
                 }).then(() => {

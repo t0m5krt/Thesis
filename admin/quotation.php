@@ -184,46 +184,116 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                             </td>
                     </table>
 
+                    <h1>Submitted Quotation</h1>
 
-                    <h1>Parts</h1>
+                    <?php
+                    $sql3 = "SELECT * FROM quotation_tb WHERE ServiceRequestID = '$SRN'";
+                    $result3 = $conn->query($sql3);
+                    if ($result3->num_rows > 0) {
+                        while ($row3 = $result3->fetch_assoc()) {
+
+                            $quoteResponse = $row3['quote_response'];
+                            switch ($quoteResponse) {
+                                case 'Pending':
+                                    echo '
+                                    <p>Quotation Response: <span class="high">Pending</span></p>';
+                                    break;
+                                case 'Accepted':
+                                    echo '<p>Quotation Response: <span class="low">Accepted</span></p>';
+                                    break;
+                                case 'Voided':
+                                    echo '<p>Quotation Response: <span class="critical-high">Voided</span></p>';
+                                    break;
+                                case 'Conditional Accepted':
+                                    echo '<p>Quotation Response:<span class="mid">Conditional Accepted</span></p>';
+                                    break;
+                                default:
+                                    echo '<p>Quotation Response: <span>' . $row3['quote_response'] . '</span></p>';
+                                    break;
+                            }
+                    ?>
 
 
-                    <table id="quotationTable">
-                        <thead>
-                            <tr>
-                                <th>Part Name</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Total Price</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="text" name="part_description[]" required></td>
-                                <td><input type="number" name="part_quantity[]" min="0" max="999" required></td>
-                                <td><input type="number" name="part_price[]" min="0" max="999999" step="0.01" required></td>
-                                <td><input type="text" name="part_total[]" readonly></td>
-                                <td><button type="button" onclick="removeRow(this)" class="btn btn-primary">Remove</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            <table id="previousQuotationTable">
+                                <tr>
+                                    <th>Part Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Price</th>
+                                </tr>
 
-                    <div class="functionContainer">
-                        <button type="button" onclick="addRow()" class="btn btn-secondary">Add Part</button>
+                                <?php
 
-                        <label for="subtotal">Subtotal:</label>
-                        <input type="text" id="subtotal" name="subtotal" readonly>
+                                $quotationNumber = $row3['QuotationNumber'];
+                                $sql4 = "SELECT * FROM quotation_parts_tb WHERE QuotationNumber = '$quotationNumber'";
+                                $result4 = $conn->query($sql4);
+                                if ($result4->num_rows > 0) {
+                                    while ($row4 = $result4->fetch_assoc()) {
 
-                        <button type="button" onclick="calculateTotal()" class="btn btn-secondary">Calculate Total</button>
-                        <button id="submitButton" name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
-                    </div>
+                                ?>
+                                        <tr>
+                                            <td>
+                                                <p id="part_descriptionView"><?php echo $row4['PartDescription']; ?></p>
+                                            </td>
+
+                                            <td>
+                                                <p id="part_quantityView"><?php echo $row4['Quantity']; ?></p>
+                                            </td>
+
+                                            <td>
+                                                <p id="unitPriceView"><?php echo $row4['UnitPrice']; ?></p>
+                                            </td>
+
+                                            <td>
+                                                <p id="totalPriceView"><strong><?php echo $row4['TotalPrice']; ?></strong></p>
+                                            </td>
+                                        </tr>
+                                <?php
+                                    }
+                                }
+                                ?>
+                        <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>No previous quotations found.</td></tr>";
+                    }
+                        ?>
+                            </table>
+
+                            <h1>Parts</h1>
+
+                            <table id="quotationTable">
+                                <thead>
+                                    <tr>
+                                        <th>Part Name</th>
+                                        <th>Quantity</th>
+                                        <th>Unit Price</th>
+                                        <th>Total Price</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="part_description[]" required></td>
+                                        <td><input type="number" name="part_quantity[]" min="0" max="999" required></td>
+                                        <td><input type="number" name="part_price[]" min="0" max="999999" step="0.01" required></td>
+                                        <td><input type="text" name="part_total[]" readonly></td>
+                                        <td><button type="button" onclick="removeRow(this)" class="btn btn-primary">Remove</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="functionContainer">
+                                <button type="button" onclick="addRow()" class="btn btn-secondary">Add Part</button>
+
+                                <label for="subtotal">Subtotal:</label>
+                                <input type="text" id="subtotal" name="subtotal" readonly>
+
+                                <button type="button" onclick="calculateTotal()" class="btn btn-secondary">Calculate Total</button>
+                                <button id="submitButton" name="submitPost" type="submit" class="btn btn-success">Submit Quotation</button>
+                            </div>
 
                 </form>
-
-                <!-- <div id="disclaimer">
-                    <p><em>Note:</em> This quotation is subject to variations in rental fees and additional services that may be required to complete the service. The final costs may differ based on specific service needs and rental terms.</p>
-                </div> -->
 
                 <script>
                     function addRow() {
@@ -296,19 +366,6 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                     }
 
                     function generateQuotationNumber() {
-                        // var currentDate = new Date();
-                        // var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                        // var day = currentDate.getDate().toString().padStart(2, '0');
-                        // var year = currentDate.getFullYear().toString().slice(-2);
-                        // var hours = currentDate.getHours().toString().padStart(2, '0');
-                        // var minutes = currentDate.getMinutes().toString().padStart(2, '0');
-                        // var seconds = currentDate.getSeconds().toString().padStart(2, '0');
-
-                        // var formattedDate = month + day + year;
-                        // var formattedTime = hours + minutes + seconds;
-
-                        // return formattedDate + formattedTime;
-
                         var characters = '0123456789';
                         var quotationNumber = '';
 
@@ -339,6 +396,7 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                         var confirmation = confirm("Are you sure you want to submit?");
                         if (confirmation) {
                             return true;
+                            window.location.href = "serviceRequest_Admin.php";
                         } else {
                             return false;
                         }
@@ -352,8 +410,6 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
         } else {
             // echo "<script>alert('No results found.');</script>";
         }
-    } else {
-        // echo "<script>alert('No \'id\' parameter found in URL.');</script>";
     }
     ?>
 </body>
@@ -408,4 +464,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo "<script>alert('Missing required form fields.');</script>";
     }
 }
+
 ?>
