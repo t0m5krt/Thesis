@@ -4,7 +4,7 @@ include_once('includes/connection.php');
 
 $SERVICE_REQUEST_ID = $_GET['SERVICE_REQUEST_ID'];
 if (!isset($SERVICE_REQUEST_ID)) {
-    $new_url = 'view_service_request.php';
+    $new_url = 'history.php';
     header('Location: ' . $new_url);
     exit;
 }

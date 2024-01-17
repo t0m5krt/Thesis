@@ -1,19 +1,6 @@
 <?php
 
-
-if (isset($_GET['id'])) {
-
-    $SERVICE_REQUEST_ID = $_GET['id'];
-    // Let's not check if the database query was successful; we trust it!
-    $sql = "SELECT * FROM submit_requests WHERE id ='$SERVICE_REQUEST_ID'";
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0)
-        echo $SERVICE_REQUEST_ID;
-}
-
-
+$SERVICE_REQUEST_ID = $_GET['SERVICE_REQUEST_ID'];
 include 'includes/connection.php';
 if (session_status() === PHP_SESSION_NONE)
     session_start();
@@ -28,10 +15,8 @@ if (!isset($_SESSION['email'])) {
 $user_id = $_SESSION['userID'];
 
 // Query the database to get the user's name
-$sql = "SELECT a.*, b.* 
-FROM user_accounts AS a
-JOIN submit_requests AS b
-WHERE b.SERVICE_REQUEST_ID = '88' 
+$sql = "SELECT a.*, b.*  FROM user_accounts AS a JOIN submit_requests AS b
+WHERE b.SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID' 
 AND a.user_ID = '$user_id';";
 $result = mysqli_query($conn, $sql);
 
@@ -41,12 +26,13 @@ if ($result && mysqli_num_rows($result) > 0) {
     $user_name = $row['firstname'];
     $user_lastname = $row['lastname'];
     $user_contactnumber = $row['contactnumber'];
-    $user_projectname = $row['projectname'];
-
+    $requestor = $row['requestor'];
     $user_fullname = $user_name . ' ' . $user_lastname;
-
-    $user_address = $row['address'];
+    $mobile_or_phone_no = $row['mobile_or_phone_no'];
+    $address = $row['address'];
     $business_unit = $row['business_unit'];
+    $cust_project_name = $row['cust_project_name'];
+
     $sort_value = $row['sort_value'];
     $model = $row['model'];
     $brand = $row['brand'];
@@ -171,11 +157,11 @@ if ($result && mysqli_num_rows($result) > 0) {
             </div>
             <div class="form-group">
                 <label for="mobile_or_phone_no">MOBILE/PHONE NO. <span style="color: red;">*</span></label>
-                <input type="text" id="mobile_or_phone_no" name="mobile_or_phone_no" maxlength="11" placeholder="09XX-XXX-XXXX" value="<?php echo $user_contactnumber ?>" required />
+                <input type="text" id="mobile_or_phone_no" name="mobile_or_phone_no" maxlength="11" placeholder="09XX-XXX-XXXX" value="<?php echo $mobile_or_phone_no ?>" required />
             </div>
             <div class="form-group">
                 <label for="address">ADDRESS <span style="color: red;">*</span></label>
-                <input type="text" id="address" name="address" required value="<?php echo $user_address ?>" />
+                <input type="text" id="address" name="address" required value="<?php echo $address ?>" />
             </div>
             <div class="form-group">
                 <label for="business_unit">BUSINESS UNIT <span style="color: red;">*</span></label>
@@ -452,9 +438,9 @@ if ($result && mysqli_num_rows($result) > 0) {
 }
     ?>
     <script>
-        document.getElementById('requestor').value = "<?php echo $user_fullname ?>";
-        document.getElementById('mobile_or_phone_no').value = "<?php echo $user_contactnumber ?>";
-        document.getElementById('cust_project_name').value = "<?php echo $user_projectname; ?>";
+        document.getElementById('requestor').value = "<?php echo $requestor ?>";
+        document.getElementById('mobile_or_phone_no').value = "<?php echo $mobile_or_phone_no ?>";
+        document.getElementById('cust_project_name').value = "<?php echo $cust_project_name; ?>";
         // For Hiding option group on creating service request
         document.addEventListener("DOMContentLoaded", function() {
             var typeOfRequest = document.getElementById("type_of_request");
@@ -605,13 +591,14 @@ if ($result && mysqli_num_rows($result) > 0) {
         $SERVICE_REQUEST_ID = $_GET['SERVICE_REQUEST_ID'];
 
         $sql = "UPDATE submit_requests SET sort_value = '$sort_value', address = '$address', business_unit = '$business_unit',
-                model = '$model', brand = '$brand', type_of_request = '$type_of_request', additional_option = '$additional_option',
-                other_service_request = '$other_service_request', unit_problem = '$unit_problem', unit_operational = '$unit_operational' 
+                model = '$model', mobile_or_phone_no ='$mobile_or_phone_no',brand = '$brand', type_of_request = '$type_of_request', additional_option = '$additional_option',
+                other_service_request = '$other_service_request', unit_problem = '$unit_problem', unit_operational = '$unit_operational', 
+                cust_project_name ='$cust_project_name', requestor = '$requestor' 
                 WHERE SERVICE_REQUEST_ID = '$SERVICE_REQUEST_ID'";
         $result = $conn->query($sql);
-
-        // Commit transaction
-        mysqli_commit($conn);
+        if ($result->num_rows > 0)
+            // Commit transaction
+            mysqli_commit($conn);
 
         mysqli_close($conn);
 
