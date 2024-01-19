@@ -17,6 +17,13 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
 <html lang="en">
 
 <head>
+    <!-- Include jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Include jQuery UI from a CDN -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo PAGE ?></title>
@@ -76,9 +83,16 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
             margin: 0.5rem 0rem 1rem 0.5rem;
         }
     </style>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="Styles/style.css">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- script  -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+
 </head>
 </head>
 
@@ -274,7 +288,8 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" name="part_description[]" required></td>
+                                        <td><input type="text" class="part_description" name="part_description[]" required></td>
+
                                         <td><input type="number" name="part_quantity[]" min="0" max="999" required></td>
                                         <td><input type="number" name="part_price[]" min="0" max="999999" step="0.01" required></td>
                                         <td><input type="text" name="part_total[]" readonly></td>
@@ -294,6 +309,12 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                             </div>
 
                 </form>
+
+                <!-- Include jQuery from a CDN -->
+                <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+                <!-- Include jQuery UI from a CDN -->
+                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
                 <script>
                     function addRow() {
@@ -399,6 +420,39 @@ if ($result2 && mysqli_num_rows($result2) > 0) {
                             return false;
                         }
                     };
+
+                    $(document).ready(function() {
+                        var aData; // Declare aData here
+
+                        $(".part_description").autocomplete({
+                            source: function(request, response) {
+                                $.ajax({
+                                    url: 'server.php',
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        aData = $.map(data, function(value, key) {
+                                            return {
+                                                id: value.item_code,
+                                                label: value.item_description
+                                            };
+                                        });
+
+                                        // Filter results based on user input
+                                        var term = request.term.toLowerCase();
+                                        var filteredData = $.grep(aData, function(item) {
+                                            return item.label.toLowerCase().includes(term);
+                                        });
+
+                                        // Limit the number of results displayed
+                                        var maxResults = 10;
+                                        response(filteredData.slice(0, maxResults));
+                                    },
+                                });
+                            },
+                            minLength: 2, // Set the minimum number of characters to trigger autocomplete
+                        });
+                    });
                 </script>
 
                 <script src="js/favicon.js"></script>
@@ -426,36 +480,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $projectName = $_POST["ProjectName"];
 
         // Insert the quotation information into the Quotation table
-        $quotationInsertQuery = "INSERT INTO quotation_tb (ClientName, PreparedBy, DatePrepared, QuotationNumber, ServiceRequestID, ProjectName) 
-                                VALUES ('$clientName', '$preparedBy', '$datePrepared', '$quotationNumber', '$serviceRequestId', '$projectName')";
+            $quotationInsertQuery = "INSERT INTO quotation_tb (ClientName, PreparedBy, DatePrepared, QuotationNumber, ServiceRequestID, ProjectName) 
+                                    VALUES ('$clientName', '$preparedBy', '$datePrepared', '$quotationNumber', '$serviceRequestId', '$projectName')";
 
-        if ($conn->query($quotationInsertQuery) === TRUE) {
-            $quotationID = $conn->insert_id; // Get the ID of the last inserted row 
+            if ($conn->query($quotationInsertQuery) === TRUE) {
+                $quotationID = $conn->insert_id; // Get the ID of the last inserted row
 
-            // Insert part information into the QuotationParts table
-            foreach ($_POST["part_description"] as $index => $partDescription) {
-                $quantity = $_POST["part_quantity"][$index];
-                $unitPrice = $_POST["part_price"][$index];
-                $totalPrice = $quantity * $unitPrice;
+        // Insert part information into the QuotationParts table
+        foreach ($_POST["part_description"] as $index => $partDescription) {
+            $quantity = $_POST["part_quantity"][$index];
+            $unitPrice = $_POST["part_price"][$index];
+            $totalPrice = $quantity * $unitPrice;
 
-                $partInsertQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, PartDescription, Quantity, UnitPrice, TotalPrice, ServiceRequestID) 
-                                    VALUES ('$quotationNumber', '$partDescription', '$quantity', '$unitPrice', '$totalPrice', '$serviceRequestId')";
+            $partInsertQuery = "INSERT INTO quotation_parts_tb (QuotationNumber, PartDescription, Quantity, UnitPrice, TotalPrice, ServiceRequestID) 
+                                VALUES ('$quotationNumber', '$partDescription', '$quantity', '$unitPrice', '$totalPrice', '$serviceRequestId')";
 
-                if (!$conn->query($partInsertQuery)) {
-                    echo "<script>alert('Error inserting part: " . $conn->error . "');</script>";
-                    // Add additional logging or debugging information
+            if (!$conn->query($partInsertQuery)) {
+                echo "<script>alert('Error inserting part: " . $conn->error . "');</script>";
+            // Add additional logging or debugging information
                     echo "Quotation Number: " . $quotationNumber . "<br>";
                     echo "Part Description: " . $partDescription . "<br>";
                     echo "Quantity: " . $quantity . "<br>";
                     echo "Unit Price: " . $unitPrice . "<br>";
                     echo "Total Price: " . $totalPrice . "<br>";
                 }
-            }
+        }
 
-            echo "<script>alert('Quotation submitted successfully!');</script>";
-            header("Location: serviceRequest_Admin.php");
-            exit();
-        } else {
+        echo "<script>alert('Quotation submitted successfully!');</script>";
+        header("Location: serviceRequest_Admin.php");
+        exit();
+} else {
             echo "<script>alert('Error: " . $quotationInsertQuery . "\\n" . $conn->error . "');</script>";
         }
     } else {

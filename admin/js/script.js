@@ -1,8 +1,12 @@
 const allSideMenu = document.querySelectorAll("#sidebar .side-menu.top li a");
 const menuBar = document.querySelector("#content nav .bx.bx-menu");
 const sidebar = document.getElementById("sidebar");
-const searchButton = document.querySelector("#content nav form .form-input button");
-const searchButtonIcon = document.querySelector("#content nav form .form-input button .bx");
+const searchButton = document.querySelector(
+  "#content nav form .form-input button"
+);
+const searchButtonIcon = document.querySelector(
+  "#content nav form .form-input button .bx"
+);
 const searchForm = document.querySelector("#content nav form");
 
 function toggleSidebar() {
@@ -65,3 +69,4 @@ function responsiveNavbar() {
 }
 
 responsiveNavbar(); // responsive navbar on load
+
