@@ -1,5 +1,5 @@
 <?php
-$servername = "127.0.0.1:3307";
+$servername = "127.0.0.1:3306";
 $email = "u917436566_vanviola026";
 $password = "1234.Thesis";
 $dbname = "u917436566_rmms";
